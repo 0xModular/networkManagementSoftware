@@ -4,16 +4,16 @@
  *  Created on: Oct 24, 2023
  *      Author: Light
  */
-
-#ifndef FILES_LOGIN_H_
-#define FILES_LOGIN_H_
-
 #include <string>
 #include "Account.h"
+
+#ifndef LOGIN_H_
+#define LOGIN_H_
 
 class Login{
 
 	public:
+	
 		static Account displayLogin();
 
 	private:
@@ -25,8 +25,8 @@ class Login{
 		void sendLoginInfo();
 		void waitforResponse(); //handles wrong password and account doesn't exist errors
 
-		string username;
-		string password;
+		std::string username;
+		std::string password;
 		int loginAttempts;
 
 

@@ -4,11 +4,11 @@
  *  Created on: Oct 24, 2023
  *      Author: Light
  */
-
-#ifndef FILES_ACCOUNT_H_
-#define FILES_ACCOUNT_H_
-
+#include <vector>
 #include "Device.h"
+
+#ifndef ACCOUNT_H_
+#define ACCOUNT_H_
 
 class Account{
 
@@ -42,12 +42,12 @@ class Account{
 
 
 	//variables
-		String type; //should not be changed after Account created
-		String userName;
+		std::string type; //should not be changed after Account created
+		std::string userName;
 		std::vector<Device> linkedDevices;
 
-		Account();
-		Account~();
+		Account::Account();
+		Account::Account~();
 
 
 };

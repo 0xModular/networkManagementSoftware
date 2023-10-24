@@ -1,7 +1,7 @@
-#ifndef FILES_DEVICE_H_
-#define FILES_DEVICE_H_
-
 #include <string>
+
+#ifndef DEVICE_H_
+#define DEVICE_H_
 
 class Device{
 
@@ -16,12 +16,12 @@ class Device{
 		void validateDeviceDetailInputs();
 
 
-		string localIpv4;
-		string localIpv6;
-		string defaultGateway;
-		string connectionType;
-		string[] privacyFlags;
-		int[] openPorts;
+		std::string localIpv4;
+		std::string localIpv6;
+		std::string defaultGateway;
+		std::string connectionType;
+		std::vector<std::string> privacyFlags;
+		std::vector<int> openPorts;
 		bool staticIp;
 };
 

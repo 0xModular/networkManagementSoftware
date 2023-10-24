@@ -8,7 +8,7 @@
 #ifndef FILES_NETWORK_H_
 #define FILES_NETWORK_H_
 
-#include
+#include "Account.h"
 
 class Network{
 
