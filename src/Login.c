@@ -2,26 +2,7 @@
 #define SRC_LOGIN_I_
 
 #include "src/Login.h"
-	
-		Login::static Account displayLogin(){
-
-            while(true){
-
-                currentLogin = new Login();
-
-                encryptLoginInfo();
-                sendLoginInfo();
-                account a = waitforResponse();
-
-                if (a == null){
-                    currentlogin
-                    continue;
-                }
-                else if (strcmp(currentLogin.type, "admin") == 0){
-                    
-                }
-            }
-        }
+#include <string>
 
 
         //constructor
@@ -32,6 +13,9 @@
             this.type = t;
             this.loginAttempts = 0;
 
+            encryptLoginInfo();
+            sendLoginInfo();
+            waitforResponse();
         }
 
 		Login::~Login();

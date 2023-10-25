@@ -5,7 +5,7 @@
  *      Author: Light
  */
 #include <string>
-#include "Account.h"
+#include "src/Account.h"
 
 #ifndef SRC_USERINTERFACE_H_
 #define SRC_USERINTERFACE_H_
@@ -14,11 +14,15 @@ class UserInterface{
 
 	public:
 
-        UserInterface();
+        UserInterface(std::string type);
+        UserInterface(std::string type, Account a);
         ~UserInterface();
 
 	private:
 
+        networkAdminTools();
+        networkEngineerTools();
+        checkAuthorization();
 		std::string interfaceType;
         Account userAccount;
 

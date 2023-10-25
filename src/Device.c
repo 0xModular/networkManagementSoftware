@@ -1,7 +1,7 @@
 #ifndef SRC_DEVICE_I_
 #define SRC_DEVICE_I_
 
-#include "Device.h"
+#include "src/Device.h"
 #include <string>
 //add
 Device::Device()

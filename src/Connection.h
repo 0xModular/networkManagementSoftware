@@ -8,19 +8,21 @@
 #ifndef SRC_CONNECTION_H_
 #define SRC_CONNECTION_H_
 
+#include "src/Device.h"
+#include <vector>
+
 class Connection{
 	
 	public:
 	
-		static std::vector<Connection> displayConnections();
+		Connection(Device d1, Device d2);
+        ~Connection();
 		
 		static bool testConnection(Device d1, Device d2);
-		static bool testConnection(Device d1, Device d2, string details);
-		
+		static bool testConnection(Device d1, Device d2, std::string *details);
+		std::vector<Device> getConnectionDevices();
+
 	private:
-		
-		Connection::Connection();
-		Connection::~Connection();
 		
 		Device device1;
 		Device device2;

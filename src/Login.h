@@ -14,12 +14,11 @@ class Login{
 
 	public:
 	
-		static Account displayLogin();
+		Login::Login(std::string type, std::string name, std::string password);
+		Login::~Login();
 
 	private:
 
-		Login::Login();
-		Login::~Login();
 
 		void encryptLoginInfo();
 		void sendLoginInfo();

@@ -6,6 +6,12 @@
 
 Device::Device(std::string type){
 
+    this.account = null;
+    this.type = interfaceType;
+
+    if(){
+
+    }
 
 }
 
@@ -20,19 +26,16 @@ Device::Device(std::string type, Account a){
 
 }
 
-//remove
-Device::~Device()
-{
+UserInterface::networkAdminTools(){
+    
+
+
 }
 
-//view
-getDeviceDetails()
-{
-}
+UserInterface::networkEngineerTools(){
 
-//edit (calls validateDeviceDetailInputs)
-setDeviceDetails()
-{
+
+
 }
 
 #endif

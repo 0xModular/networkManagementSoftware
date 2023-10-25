@@ -14,8 +14,8 @@ class Device{
 
 		//protected functions
 	protected:
-		void validateDeviceDetailInputs();
 
+		void validateDeviceDetailInputs();
 
 		std::string localIpv4;
 		std::string localIpv6;

@@ -14,12 +14,22 @@ class Network{
 
 	public:
 
-		static void displayNetwork(Account a);
+		Network();
+		void refresh();
 
 	private:
 
 		void getDevices();
 		void getGeneralNetworkDetails();
+		void getConnections();
+
+		void editDevices();
+		void editGeneralNetworkDetails();
+		void editConnections();
+
+		long long timeSinceRefresh();
+		std::vector<Device> deviceList;
+		std::vector<Device> connectionList;
 };
 
 
