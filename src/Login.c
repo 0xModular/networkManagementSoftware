@@ -42,7 +42,7 @@
             //response code
 
             switch(responseCode){
-                case 0; return a;
+                case 0: return a;
                 case 1: /*error message wrong password*/ return null;
                 case 2: /*error message account doesnt exist*/ return null;
             }
