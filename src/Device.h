@@ -1,7 +1,7 @@
 #include <string>
 
-#ifndef DEVICE_H_
-#define DEVICE_H_
+#ifndef SRC_DEVICE_H_
+#define SRC_DEVICE_H_
 
 class Device{
 

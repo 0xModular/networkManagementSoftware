@@ -5,8 +5,8 @@
  *      Author: Light
  */
 
-#ifndef FILES_LOCALNETWORKCHANGESLOG_H_
-#define FILES_LOCALNETWORKCHANGESLOG_H_
+#ifndef SRC_LOCALNETWORKCHANGESLOG_H_
+#define SRC_LOCALNETWORKCHANGESLOG_H_
 
 class LocalNetworkChangesLog{
 
@@ -25,4 +25,4 @@ class LocalNetworkChangesLog{
 
 
 
-#endif /* FILES_LOCALNETWORKCHANGESLOG_H_ */
+#endif /* SRC_LOCALNETWORKCHANGESLOG_H_ */

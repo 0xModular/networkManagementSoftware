@@ -7,8 +7,8 @@
 #include <string>
 #include "Account.h"
 
-#ifndef LOGIN_H_
-#define LOGIN_H_
+#ifndef SRC_LOGIN_H_
+#define SRC_LOGIN_H_
 
 class Login{
 
@@ -28,10 +28,11 @@ class Login{
 		std::string username;
 		std::string password;
 		int loginAttempts;
+		std::string type;
 
 
 
 };
 
 
-#endif /* FILES_LOGIN_H_ */
+#endif /* SRC_LOGIN_H_ */

@@ -8,8 +8,8 @@
 #include <vector>
 #include "Device.h"
 
-#ifndef ACCOUNT_H_
-#define ACCOUNT_H_
+#ifndef SRC_ACCOUNT_H_
+#define SRC_ACCOUNT_H_
 
 class Account{
 
@@ -56,4 +56,4 @@ class Account{
 
 
 
-#endif /* FILES_ACCOUNT_H_ */
+#endif /* SRC_ACCOUNT_H_ */

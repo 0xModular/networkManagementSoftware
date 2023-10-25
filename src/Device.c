@@ -1,5 +1,7 @@
-#include "Device.h"
+#ifndef SRC_DEVICE_I_
+#define SRC_DEVICE_I_
 
+#include "Device.h"
 #include <string>
 //add
 Device::Device()
@@ -20,3 +22,5 @@ getDeviceDetails()
 setDeviceDetails()
 {
 }
+
+#endif

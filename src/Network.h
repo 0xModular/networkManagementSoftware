@@ -5,8 +5,8 @@
  *      Author: Light
  */
 
-#ifndef NETWORK_H_
-#define NETWORK_H_
+#ifndef SRC_NETWORK_H_
+#define SRC_NETWORK_H_
 
 #include "Account.h"
 
@@ -24,4 +24,4 @@ class Network{
 
 
 
-#endif /* FILES_NETWORK_H_ */
+#endif /* SRC_NETWORK_H_ */
