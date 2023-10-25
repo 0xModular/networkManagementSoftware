@@ -4,6 +4,7 @@
  *  Created on: Oct 24, 2023
  *      Author: Light
  */
+
 #include <vector>
 #include "Device.h"
 
@@ -46,8 +47,8 @@ class Account{
 		std::string userName;
 		std::vector<Device> linkedDevices;
 
-		Account::Account();
-		Account::Account~();
+		Account();
+		~Account();
 
 
 };

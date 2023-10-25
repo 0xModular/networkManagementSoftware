@@ -6,8 +6,9 @@
 class Device{
 
 	public:
-		Device::Device();
-		Device::~Device();
+
+		Device();
+		~Device();
 		Device getDeviceDetails();
 		Device setDeviceDetails();
 

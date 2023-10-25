@@ -5,8 +5,8 @@
  *      Author: Light
  */
 
-#ifndef FILES_NETWORK_H_
-#define FILES_NETWORK_H_
+#ifndef NETWORK_H_
+#define NETWORK_H_
 
 #include "Account.h"
 
