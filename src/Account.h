@@ -32,6 +32,7 @@ class Account{
 	//protected functions
 	protected:
 
+		void sendDeviceLinkNotifications();
 		static Account getInfoFromDB(); //does not retieve password
 		static Account addAccountToBD(); //encrypt details before sending
 		static void checkIfAccountExists(); //encrypt details before sending
