@@ -9,7 +9,7 @@
 
 int main(){
 
-	displayNetwork(displayLogin());
+	ReferenceValidationMechanism("login");
 
 }
 

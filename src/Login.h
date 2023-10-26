@@ -14,12 +14,12 @@ class Login{
 
 	public:
 	
-		Login::Login(std::string type, std::string name, std::string password);
-		Login::~Login();
+		Login(std::string type, std::string name, std::string password);
+		~Login();
 
 	private:
 
-
+		Account createAccount();
 		void encryptLoginInfo();
 		void sendLoginInfo();
 		void waitforResponse(); //handles wrong password and account doesn't exist errors

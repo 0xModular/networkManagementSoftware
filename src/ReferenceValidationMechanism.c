@@ -1,10 +1,11 @@
 #ifndef SRC_USERINTERFACE_I_
 #define SRC_USERINTERFACE_I_
 
-#include "src/UserInterface.h"
+#include "src/ReferenceValidationMechanism.h"
 #include <string>
 
-Device::Device(std::string type){
+
+ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
 
     this.account = null;
     this.type = interfaceType;
@@ -15,7 +16,7 @@ Device::Device(std::string type){
 
 }
 
-Device::Device(std::string type, Account a){
+ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Account a){
 
     this.account = userAccount;
     this.type = interfaceType;
@@ -26,13 +27,13 @@ Device::Device(std::string type, Account a){
 
 }
 
-UserInterface::networkAdminTools(){
+ReferenceValidationMechanism::networkAdminTools(){
     
 
 
 }
 
-UserInterface::networkEngineerTools(){
+ReferenceValidationMechanism::networkEngineerTools(){
 
 
 

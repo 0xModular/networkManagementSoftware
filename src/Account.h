@@ -6,7 +6,8 @@
  */
 
 #include <vector>
-#include "Device.h"
+#include "src/Device.h"
+#include "src/ReferenceValidationMechanism.h"
 
 #ifndef SRC_ACCOUNT_H_
 #define SRC_ACCOUNT_H_
@@ -16,29 +17,25 @@ class Account{
 
 	public:
 
-		//public functions
-		Account addAccount(); //add Account
-		//Starts by calling contructor
-		//check if Account exists
+		//public static methods
+		static Account addAccount(std::string name, std::string type, std::string category); //add Account
+		static vector<Account> getManagableAccounts(ReferenceValidationMechanism *r) //gets accounts that an admin account can manage
 
-		Account removeAccount(); //remove Account, end with calling deconstructor
-		//check if Account exists
+		//public methods
+		void removeAccount(ReferenceValidationMechanism *r);
+		Account editAccount(ReferenceValidationMechanism *r);
+		Account linkDevice(Device d, ReferenceValidationMechanism *r);
+		Account unlinkDevice(Device d, ReferenceValidationMechanism *r);
+		void getAccountDetails(std::string *name, std::string *type, std::string *category, std::vector<Device> *linkedDevices);
+	private:
 
-		Account editAccount();
+		//private static methods
+		static void EncryptOutgoingInfo(std::string *d); //encrypt details before sending
+		static bool checkIfAccountExists(); //encrypt details before sending
 
-		Account linkDevice();
-		Account unlinkDevice();
+		//private function
+		bool sendDeviceLinkNotifications();
 
-	//protected functions
-	protected:
-
-		void sendDeviceLinkNotifications();
-		static Account getInfoFromDB(); //does not retieve password
-		static Account addAccountToBD(); //encrypt details before sending
-		static void checkIfAccountExists(); //encrypt details before sending
-
-
-		Account linkDevice(Device d);
 		Account overwriteAccountDetailsInDB(); //encrypt before sending
 		Account resetPassword(); //never read password from db, certain entities may overwrite it
 
@@ -47,6 +44,7 @@ class Account{
 		std::string type; //should not be changed after Account created
 		std::string userName;
 		std::vector<Device> linkedDevices;
+		std::string category; //should not be changed after Account created
 
 		Account();
 		~Account();
