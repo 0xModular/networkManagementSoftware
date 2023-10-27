@@ -18,9 +18,14 @@ class RemoteNetworkChangesLogEvent{
 
 	private:
 
-		//private static methods
+		//private methods
 		RemoteNetworkChangesLogEvent(std::string event, Account a, std::string networkCateory, int time)
 		void encryptOutgoingLog();
+
+		std::string logEvent;
+		Account eventActor;
+		std::string networkCateory
+		int time;
 
 };
 

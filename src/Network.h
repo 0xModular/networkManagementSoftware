@@ -9,7 +9,7 @@ class Network{
 
 		//public methods
 		Network(); //Calls getDevices, getGeneralNetworkDetails, and getConnections to get information needed for  the current network.
-		void refresh(); //get updated information for the network
+		void refresh(ReferenceValidationMechanism *r); //get updated information for the network
 
 	private:
 
@@ -20,11 +20,13 @@ class Network{
 		void editDevices(ReferenceValidationMechanism *r);
 		void editGeneralNetworkDetails(ReferenceValidationMechanism *r);
 		void editConnections(ReferenceValidationMechanism *r);
+		void validateDeviceDetailInputs(std::string gate, std::string DNS)
 
 		//networkdetailsvalidation
 
 		//members
 		std::string gateway;
+		std::string defaultDNS;
 		long long timeSinceRefresh();
 		std::vector<Device> deviceList;
 		std::vector<Device> connectionList;

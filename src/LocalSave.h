@@ -22,22 +22,20 @@ class LocalSave{
 	
 
 		//public methods
-		LocalSave(std::string ) //used for new save
+		LocalSave(std::string s) //used for new save
 		std::string readSave();
-		std::string overwriteSave();
-		void backupSave();
+		std::string overwriteSave(std::string s);
+		bool backupSave(std::string l);
 
 		
 		
 
 	private:
 
+		//private functions
 		LocalSave(file f); //used by getSaves to create objects for existing save files
-		static file checkForFile();
 
-		RemoteNetworkChangesLog getFileData();
-
-		static vector<file> localSaves;
+		//member
 		file f;
 
 
