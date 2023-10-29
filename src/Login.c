@@ -13,32 +13,31 @@
             this.type = t;
             this.loginAttempts = 0;
 
-            encryptLoginInfo();
-            sendLoginInfo();
-            waitforResponse();
+            
         }
 
 		Login::~Login();
 
 		Login::void encryptLoginInfo(){
 
-            this.userName
-            this.password
+            return;
 
             
         }
 
 		Login::void sendLoginInfo(){
         
-            //send code
-
-            waitforResponse()
+            return;
         }
 
-		Login::Account waitforResponse(){
+		Login::Account waitforResponse(std::string *type, std::string *category){
 
             int resposeCode = 0
-            Account a;
+            std::string t = "Admin";
+            std::string c = "Network1";
+            Account a = Account.addAccount("Bob1998", type, category);
+            *type = t*;
+            *category = c*;
             //response code
 
             switch(responseCode){

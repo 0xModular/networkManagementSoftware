@@ -16,7 +16,7 @@ class Login{
 		Account createAccount();
 		void encryptLoginInfo();
 		void sendLoginInfo();
-		void waitforResponse(); //handles wrong password and account doesn't exist errors
+		Account waitforResponse(); //handles wrong password and account doesn't exist errors
 
 		std::string username;
 		std::string password;

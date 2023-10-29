@@ -27,9 +27,38 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Acc
 
 }
 
+void accessLogin(){
+
+    Login l = new Login();
+    std::string accountType;
+    std::string accountCategory;
+
+    l.encryptLoginInfo();
+    l.sendLoginInfo();
+
+    Account a = l.waitforResponse(accountType, accountCategory);
+    this.userAccount = a;
+    this.type = accountType;
+
+    if(strcmp(this.type) == "Engineer"){
+
+        this.networkEngineerTools();
+
+    }
+    else if(strcmp(this.type) == "Admin"){
+
+        this.networkAdminTools();
+        
+    }
+    else
+        exit();
+
+
+}
+
 ReferenceValidationMechanism::networkAdminTools(){
     
-
+    Network n = new Network();
 
 }
 
