@@ -1,10 +1,3 @@
-/*
- * Connection.h
- *
- *  Created on: Oct 24, 2023
- *      Author: Light
- */
-
 #ifndef SRC_CONNECTION_H_
 #define SRC_CONNECTION_H_
 

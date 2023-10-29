@@ -1,9 +1,3 @@
-/*
- * Login.h
- *
- *  Created on: Oct 24, 2023
- *      Author: Light
- */
 #include <string>
 #include <vector>
 #include "Account.h"

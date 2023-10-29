@@ -1,10 +1,3 @@
-/*
- * Account.h
- *
- *  Created on: Oct 24, 2023
- *      Author: Light
- */
-
 #include <vector>
 #include "src/Device.h"
 #include "src/ReferenceValidationMechanism.h"
@@ -18,37 +11,36 @@ class Account{
 	public:
 
 		//public static methods
-		static Account addAccount(std::string name, std::string type, std::string category); //add Account
-		static vector<Account> getManagableAccounts(ReferenceValidationMechanism *r) //gets accounts that an admin account can manage
+		static Account addAccount(std::string name, std::string type, std::string category); //Creates a new account in the database.
+		static vector<Account> getManagableAccounts(ReferenceValidationMechanism *r) //Gets accounts that an admin account can manage.
 
 		//public methods
-		void removeAccount(ReferenceValidationMechanism *r);
+		void removeAccount(ReferenceValidationMechanism *r); //Sends a request to the database to remove an account. First it checks if that account exists in the database using checkIfAccountExists.
 		Account editAccount(ReferenceValidationMechanism *r);
 		Account linkDevice(Device d, ReferenceValidationMechanism *r);
 		Account unlinkDevice(Device d, ReferenceValidationMechanism *r);
 		void getAccountDetails(std::string *name, std::string *type, std::string *category, std::vector<Device> *linkedDevices);
+
 	private:
 
 		//private static methods
-		static void EncryptOutgoingInfo(std::string *d); //encrypt details before sending
-		static bool checkIfAccountExists(); //encrypt details before sending
+		static void EncryptOutgoingInfo(std::string *d); 
+		static bool checkIfAccountExists(); 
 
 		//private function
 		bool sendDeviceLinkNotifications();
-
-		Account overwriteAccountDetailsInDB(); //encrypt before sending
-		Account resetPassword(); //never read password from db, certain entities may overwrite it
-
-
-	//variables
-		std::string type; //should not be changed after Account created
-		std::string userName;
-		std::vector<Device> linkedDevices;
-		std::string category; //should not be changed after Account created
-
+		void notifyAccountandDevice(Device d);
+		Account overwriteAccountDetailsInDB(); 
+		Account resetPassword(); 
 		Account();
 		~Account();
 
+
+	//variables
+		std::string type; 
+		std::string userName;
+		std::vector<Device> linkedDevices;
+		std::string category; 
 
 };
 

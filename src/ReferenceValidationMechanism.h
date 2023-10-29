@@ -1,4 +1,3 @@
-//
 #include <string>
 #include "src/Account.h"
 
