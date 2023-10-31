@@ -4,7 +4,9 @@
 #include "src/Device.h"
 #include "src/Connection.h"
 #include <iostream>
+#include <winsock2.h>
 #include <string>
+#include <cstring>
 #include <vector>
 #include <regex>
 #include <cstdlib>
@@ -111,24 +113,50 @@ void editDevices(Device d, std::string requestType, std::string AdditionalData){
     }
 
 	
-    // Create a socket
-    int netManagerSocket = socket(AF_INET, SOCK_STREAM, 0);
+	std::string message;
+	
+	char cStringMessage[message.length() + 1]; 
 
-    if (netManagerSocket == -1) {
-        std::cerr << "Error creating socket" << std::endl;
-        //handle
+	strcpy(cStringMessage, message.c_str());
+	
+	
+	
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        std::cerr << "Failed to initialize Winsock." << std::endl;
+        return 1;
     }
-    
-    struct sockaddr_in serverAddr;
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(12345);  // Use the same port as the client
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    
-    if (connect(netManagerSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
-    	std::cerr << "Error connecting to network device" << std::endl;
-    	close(clientSocket);
-    	//handle error;
+
+    SOCKET clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (clientSocket == INVALID_SOCKET) {
+        std::cerr << "Failed to create client socket." << std::endl;
+        WSACleanup();
+        return 1;
     }
+
+    sockaddr_in serverAddress;
+    serverAddress.sin_family = AF_INET;
+    serverAddress.sin_addr.s_addr = inet_addr("127.0.0.1"); // Server IP address
+    serverAddress.sin_port = htons(12345); // Server port
+
+    if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == SOCKET_ERROR) {
+        std::cerr << "Connection to the server failed." << std::endl;
+        closesocket(clientSocket);
+        WSACleanup();
+        return 1;
+    }
+
+    std::cout << "Connected to the server." << std::endl;
+
+    char cStringMessage[] = "Hello, Server!";
+    send(clientSocket, cStringMessage, sizeof(cStringMessage), 0);
+
+    // In a real application, you can have a loop for sending/receiving data.
+
+    closesocket(clientSocket);
+    WSACleanup();
+    return 0;
+}
     
    
    send(clientSocket, message, strlen(message), 0);
