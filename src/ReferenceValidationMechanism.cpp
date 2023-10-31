@@ -3,6 +3,7 @@
 
 #include "src/ReferenceValidationMechanism.h"
 #include <string>
+#include <iostream>
 
 
 ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
@@ -29,7 +30,14 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Acc
 
 void accessLogin(){
 
-    Login l = new Login();
+    std::string type;
+    std::string name;
+    std::string password;
+    cin >> type;
+    cin >> name;
+    cin >> password;
+
+    Login l = new Login(type, name, password);
     std::string accountType;
     std::string accountCategory;
 
@@ -39,6 +47,7 @@ void accessLogin(){
     Account a = l.waitforResponse(accountType, accountCategory);
     this.userAccount = a;
     this.type = accountType;
+    l.~Login();
 
     if(strcmp(this.type) == "Engineer"){
 

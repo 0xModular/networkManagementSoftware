@@ -7,7 +7,7 @@
 
         //constructor
 		Login::Login(std::string name, std::string passphrase, std::string t){
-
+            
             this.userName = name;
             this.password = passphrase;
             this.type = t;

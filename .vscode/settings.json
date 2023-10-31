@@ -44,7 +44,17 @@
         "streambuf": "c",
         "typeinfo": "c",
         "cinttypes": "cpp",
-        "login.h": "c"
+        "login.h": "c",
+        "chrono": "c",
+        "ratio": "c",
+        "bitset": "c",
+        "condition_variable": "c",
+        "cstring": "c",
+        "ctime": "c",
+        "map": "c",
+        "regex": "c",
+        "iostream": "c",
+        "shared_mutex": "c"
     },
     "C_Cpp.errorSquiggles": "enabled",
     "C_Cpp.default.browse.limitSymbolsToIncludedHeaders": false
