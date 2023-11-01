@@ -10,6 +10,11 @@
 #include <wx/artprov.h>
 #include <map>
 
+//Resources
+
+
+
+
 class MainFrame : public wxFrame {
 	
 	public:
