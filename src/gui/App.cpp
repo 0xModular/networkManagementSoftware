@@ -7,14 +7,22 @@
 
 #include "App.h"
 #include "MainFrame.h"
-#include <wx/wx.h>
+#include "NetworkField.h"
 
 wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
 	
-	MainFrame* app = new MainFrame("NULL Network Management (alpha)");
+	wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL); //Load Box Sizer
+	MainFrame* app = new MainFrame("NULL Network Management (alpha)"); //Load MainFrame
 	
+	NetworkField* networkField = new NetworkField(app); //Create NetworkField and attach it to MainFrame
+
+	sizer->Add(networkField, 1, wxEXPAND); //Apply sizer to NetworkField
+	
+	app->SetSizer(sizer); //Set MainFrame sizer to sizer
+	app->SetAutoLayout(true);
+
 	app->Show();
 
 	return true;
