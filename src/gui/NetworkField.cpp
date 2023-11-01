@@ -11,6 +11,7 @@
 
 NetworkField::NetworkField(wxFrame* parent) : wxPanel(parent) {
 
-	//Empty, for now...
+	//Set Color
+	this->SetBackgroundColour(*wxLIGHT_GREY);
 
 }

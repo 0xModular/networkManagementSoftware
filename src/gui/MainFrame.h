@@ -45,12 +45,13 @@ class MainFrame : public wxFrame {
 		wxMenuBar* mm = new wxMenuBar();
 		
 		//--MAIN MENU IDS--//
-		inline static const int ID_CONFIG = 1;
-		inline static const int ID_MANAGEDEVICES = 2;
-		inline static const int ID_VIEWNETWORK = 3;
-		inline static const int ID_MANAGEUSERS = 4;
-		inline static const int ID_UPDATEUSER = 5;
-		inline static const int ID_OPENDOCS = 6;
+		inline static const int ID_LOGOUT = 1;
+		inline static const int ID_CONFIG = 2;
+		inline static const int ID_MANAGEDEVICES = 3;
+		inline static const int ID_VIEWNETWORK = 4;
+		inline static const int ID_MANAGEUSERS = 5;
+		inline static const int ID_UPDATEUSER = 6;
+		inline static const int ID_OPENDOCS = 7;
 
 
 
@@ -58,9 +59,44 @@ class MainFrame : public wxFrame {
 		wxToolBar* tb = new wxToolBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL);	
 
 		//--TOOLBAR IDS--//
-		inline static const int ID_SELECT = 7;
-		inline static const int ID_ADDDEVICE = 8;
-		inline static const int ID_TESTCONNECTION = 9;
-		inline static const int ID_NOTE = 10;
+		inline static const int ID_SELECT = 8;
+		inline static const int ID_ADDDEVICE = 9;
+		inline static const int ID_TESTCONNECTION = 10;
+		inline static const int ID_NOTE = 11;
+
+
+
+		//Event Handler Functions
+
+		//--STANDARD--//
+		void OnExit(wxCommandEvent event); //When User Clicks 'X' or Quit on the File Menu
+		
+		//--MAIN MENU--//
+		
+		//---File---//
+		void OnNew(wxCommandEvent event); //Creates New Network File, Gives Prompt 
+		void OnOpen(wxCommandEvent event); //Opens Existing Network File
+		void OnSave(wxCommandEvent event); //Saves Network State to Network File
+		void OnSaveAs(wxCommandEvent event); //Saves Network State, and Allows User to Choose Location of Network File
+		void OnLogOut(wxCommandEvent event); //Logs User Out and Returns to Log In Prompt
+		//OnExit 			//Exits the Program Fully - Will Prompt if Not Saved
+
+		//---Edit---//
+		void OnUndo(wxCommandEvent event); //Undo Previous Action
+		void OnRedo(wxCommandEvent event); //Redo Undone Action
+
+		//---Network---//
+		void OnConfigure(wxCommandEvent event); //Opens Configuration Suite
+		void OnManageDevices(wxCommandEvent event); //Opens Device Manager
+		void OnViewInfo(wxCommandEvent event); //Opens Network Information Window
+
+		//---Users---//
+		void OnManageUsers(wxCommandEvent event); //Opens User Manager
+		void OnUpdateAccount(wxCommandEvent event); //Opens Account Management Menu
+		
+		//---Help---//
+		void OnOpenDocs(wxCommandEvent event); //Open Up Browser Window to Documentation
+
+
 };
 

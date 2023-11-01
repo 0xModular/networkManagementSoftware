@@ -32,8 +32,10 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 
 	mm_File->AppendSeparator();
 
-	auto mm_FileQuit = mm_File->Append(wxID_EXIT); //Exit Program
-	mm_FileQuit->SetBitmap(wxArtProvider::GetBitmap(wxART_QUIT, wxART_MENU));
+	auto mm_FileLogOut = mm_File->Append(ID_LOGOUT, "Log Out"); //Log Out
+
+	auto mm_FileExit = mm_File->Append(wxID_EXIT); //Exit Program
+	mm_FileExit->SetBitmap(wxArtProvider::GetBitmap(wxART_QUIT, wxART_MENU));
 
 	//--EDIT--//
 	auto mm_Edit = new wxMenu();
