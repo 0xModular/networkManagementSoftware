@@ -9,6 +9,7 @@
 #include <wx/wx.h>
 #include <wx/artprov.h>
 #include <map>
+#include <vector>
 
 //XPM RESOURCES
 #include "../../assets/icons/TOOLBAR_ADD_DEVICE.xpm"
@@ -63,6 +64,17 @@ class MainFrame : public wxFrame {
 		inline static const int ID_ADDDEVICE = 9;
 		inline static const int ID_TESTCONNECTION = 10;
 		inline static const int ID_NOTE = 11;
+
+
+
+		//Statusbar
+		wxStatusBar* sb = new wxStatusBar(this);
+		
+        	//--SET WIDTHS--//
+       		inline static const int sb_Widths[] = {160, -1};
+	
+	        //--SET STYLES--//
+	        inline static const int sb_Styles[] = {wxSB_SUNKEN, wxSB_SUNKEN};
 
 
 

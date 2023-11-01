@@ -94,9 +94,24 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 	//--APPLY TOOLBAR--//
 	SetToolBar(tb);
 	tb->Realize();
+
+
+
+	//Statusbar
 	
-
-
+	//--SET STATUS BAR--//
+	sb->SetFieldsCount(sizeof(sb_Widths)); //Declare how many Status Bar Fields are there
+	sb->SetStatusWidths(sizeof(sb_Widths), sb_Widths); //Set Width of each Field
+	sb->SetStatusStyles(sizeof(sb_Styles), sb_Styles); //Set Style of each Field
+	
+	//--SET DEFAULT TEXT--//
+	sb->SetStatusText("On Selection Mode"); //Left
+	sb->SetStatusText("None Selected", 1); //Right-ish
+	
+	//--APPLY STATUSBAR--//
+	SetStatusBar(sb);
+		
+		
 	//Set Minimum Window Size
 
 	SetMinSize(wxSize(828, 512));
