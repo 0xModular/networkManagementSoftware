@@ -6,7 +6,7 @@
 
 Device::Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac){
 
-localIpv4 = Ipv4;
+localIpv4 = IPv4;
 staticIp = staticIP;
 macAddress = mac;
 limitedMembers = false; 
@@ -14,9 +14,9 @@ limitedMembers = false;
 
 }
 
-Device(std::string IPv4, bool staticIP, std::string mac){
+Device::Device(std::string IPv4, bool staticIP, std::string mac){
 
-localIpv4 = Ipv4;
+localIpv4 = IPv4;
 staticIp = staticIP;
 macAddress = mac;
 limitedMembers = true; 
@@ -30,7 +30,7 @@ Device::~Device(){
 
 }
 
-std::vector<string> Device::setPrivacyFlags(std::vector<string> newFlags){
+std::vector<std::string> Device::setPrivacyFlags(std::vector<std::string> newFlags){
 
 
 

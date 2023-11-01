@@ -17,7 +17,7 @@ class LocalSave{
 	
 
 		//public methods
-		LocalSave(std::string s) //used for new save
+		LocalSave(std::string s); //used for new save
 		std::string readSave();
 		std::string overwriteSave(std::string s);
 		bool backupSave(std::string l);

@@ -81,7 +81,7 @@ ReferenceValidationMechanism::~ReferenceValidationMechanism(){
 
 bool ReferenceValidationMechanism::checkAuthorization(int level){
 
-    if (level == 1 && (accessType.compare("engineer") == 0 || accessType.compare("admin") == 0){
+    if (level == 1 && (accessType.compare("engineer") == 0 || accessType.compare("admin") == 0)){
         return true;
     }
     else if (level == 2 && accessType.compare("admin")){

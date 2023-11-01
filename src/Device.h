@@ -10,6 +10,7 @@ class Device{
 
 		//public functions ipv4, ipv6, gateway, wired/wireless, flags, ports, static/dynamic, mac
 		Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac);
+		Device(std::string IPv4, bool staticIP, std::string mac);
 		~Device();
 		std::vector<std::string> setPrivacyFlags(std::vector<std::string> newFlags);
 		void resetPrivacyFlags();
@@ -29,6 +30,7 @@ class Device{
 		std::vector<std::string> privacyFlags;
 		std::vector<int> openPorts;
 		bool staticIp;
+		bool limitedMembers;
 };
 
 #endif
