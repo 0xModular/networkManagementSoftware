@@ -10,9 +10,14 @@
 #include <wx/artprov.h>
 #include <map>
 
-//Resources
-
-
+//XPM RESOURCES
+#include "../../assets/icons/TOOLBAR_ADD_DEVICE.xpm"
+#include "../../assets/icons/TOOLBAR_ADD_NOTE.xpm"
+#include "../../assets/icons/TOOLBAR_SELECT.xpm"
+#include "../../assets/icons/TOOLBAR_TEST_CONNECTION.xpm"
+#include "../../assets/icons/TOOLBAR_ZOOM_FIT.xpm"
+#include "../../assets/icons/TOOLBAR_ZOOM_OUT.xpm"
+#include "../../assets/icons/TOOLBAR_ZOOM_IN.xpm"
 
 
 class MainFrame : public wxFrame {
@@ -22,6 +27,19 @@ class MainFrame : public wxFrame {
 		MainFrame(const wxString& title);
 
 	private:
+
+		//Resources
+
+		//--TOOLBOX ICONS--//
+		inline static const wxIcon* TB_ADD_DEVICE = new wxIcon(TOOLBAR_ADD_DEVICE);
+		inline static const wxIcon* TB_ADD_NOTE = new wxIcon(TOOLBAR_ADD_NOTE);
+		inline static const wxIcon* TB_SELECT = new wxIcon(TOOLBAR_SELECT);
+		inline static const wxIcon* TB_TEST_CONNECTION = new wxIcon(TOOLBAR_TEST_CONNECTION);
+		inline static const wxIcon* TB_ZOOM_FIT = new wxIcon(TOOLBAR_ZOOM_FIT);
+		inline static const wxIcon* TB_ZOOM_OUT = new wxIcon(TOOLBAR_ZOOM_OUT);
+		inline static const wxIcon* TB_ZOOM_IN = new wxIcon(TOOLBAR_ZOOM_IN);
+
+
 
 		//Main Menu
 		wxMenuBar* mm = new wxMenuBar();
@@ -117,16 +135,16 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 
 
 	//Toolbar
-
+	
 	//--ADD TOOLBAR OPTIONS--//
-	tb->AddTool(ID_SELECT, "Select", wxArtProvider::GetBitmap(wxART_COPY, wxART_TOOLBAR)); //Cursor is in Select Mode
-	tb->AddTool(ID_ADDDEVICE, "Add Device", wxArtProvider::GetBitmap(wxART_COPY, wxART_TOOLBAR)); //Cursor will Add Device when clicking on Network Field - Restricted to Network Admin
-	tb->AddTool(ID_TESTCONNECTION, "Test Connection", wxArtProvider::GetBitmap(wxART_COPY, wxART_TOOLBAR)); //Cursor will Select Two Devices to Test
-	tb->AddTool(ID_NOTE, "Place Note", wxArtProvider::GetBitmap(wxART_COPY, wxART_TOOLBAR)); //Cursor will Place Note when clicking on Network Field
+	tb->AddTool(ID_SELECT, "Select", *TB_SELECT, "Selection Mode"); //Cursor is in Select Mode
+	tb->AddTool(ID_ADDDEVICE, "Add Device", *TB_ADD_DEVICE, "Add Device"); //Cursor will Add Device when clicking on Network Field - Restricted to Network Admin
+	tb->AddTool(ID_TESTCONNECTION, "Test Connection", *TB_TEST_CONNECTION, "Test Connection"); //Cursor will Select Two Devices to Test
+	tb->AddTool(ID_NOTE, "Place Note", *TB_ADD_NOTE, "Add Note"); //Cursor will Place Note when clicking on Network Field
 	tb->AddSeparator();
-	tb->AddTool(wxID_ZOOM_IN, "&Zoom In", wxArtProvider::GetBitmap(wxART_COPY, wxART_TOOLBAR)); //Network Field will be Zoomed In
-	tb->AddTool(wxID_ZOOM_OUT, "&Zoom Out", wxArtProvider::GetBitmap(wxART_COPY, wxART_TOOLBAR)); //Network Field will be Zoomed Out
-	tb->AddTool(wxID_ZOOM_FIT, "&Reset Zoom", wxArtProvider::GetBitmap(wxART_COPY, wxART_TOOLBAR)); //Network Field Zoom will be set to Default
+	tb->AddTool(wxID_ZOOM_IN, "&Zoom In", *TB_ZOOM_IN, "Zoom In"); //Network Field will be Zoomed In
+	tb->AddTool(wxID_ZOOM_OUT, "&Zoom Out", *TB_ZOOM_OUT, "Zoom Out"); //Network Field will be Zoomed Out
+	tb->AddTool(wxID_ZOOM_FIT, "&Reset Zoom", *TB_ZOOM_FIT, "Reset Zoom"); //Network Field Zoom will be set to Default
 	
 	//--APPLY TOOLBAR--//
 	SetToolBar(tb);
