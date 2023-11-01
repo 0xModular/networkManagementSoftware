@@ -1,83 +1,83 @@
-#ifndef SRC_USERINTERFACE_I_
-#define SRC_USERINTERFACE_I_
+#ifndef SRC_REFERENCEVALIDATIONMECHANISM_I_
+#define SRC_REFERENCEVALIDATIONMECHANISM_I_
 
-#include "src/ReferenceValidationMechanism.h"
-#include <string>
+#include "ReferenceValidationMechanism.h"
+
 #include <iostream>
+
+#include "Login.h"
+
+class Network;
 
 
 ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
 
-    this.account = null;
-    this.type = interfaceType;
+	//userAccount = NULL;
+    accessType = type;
 
-    if(){
+    //if(){
 
-    }
-
-}
-
-ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Account a){
-
-    this.account = userAccount;
-    this.type = interfaceType;
-
-    if(strcmp(type, "admin") == 0){
-        this.networkAdminTools();
-    }
+    //}
 
 }
+
+/*ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Account a){
+
+	userAccount = a;
+	accessType = type;
+
+    if(accessType.compare("admin") == 0){
+        networkAdminTools();
+    }
+    else if(accessType.compare("engineer") == 0){
+    	networkEngineerTools();
+    }
+
+}*/
 
 void accessLogin(){
 
     std::string type;
     std::string name;
     std::string password;
-    cin >> type;
-    cin >> name;
-    cin >> password;
+    std::cin >> type;
+    std::cin >> name;
+    std::cin >> password;
 
-    Login l = new Login(type, name, password);
+    Login *l = new Login(type, name, password);
     std::string accountType;
     std::string accountCategory;
 
-    l.encryptLoginInfo();
-    l.sendLoginInfo();
+    l->encryptLoginInfo();
+    l->sendLoginInfo();
 
-    Account a = l.waitforResponse(accountType, accountCategory);
-    this.userAccount = a;
-    this.type = accountType;
-    l.~Login();
+    //Account *a = l->waitforResponse(&type, &accountCategory);
+    //l.~Login();
 
-    if(strcmp(this.type) == "Engineer"){
-
-        this.networkEngineerTools();
-
-    }
-    else if(strcmp(this.type) == "Admin"){
-
-        this.networkAdminTools();
-        
-    }
-    else
-        exit();
+    //ReferenceValidationMechanism r(type, a);
 
 
 }
 
-ReferenceValidationMechanism::networkAdminTools(){
+void ReferenceValidationMechanism::networkAdminTools(){
     
-    Network n = new Network();
+    Network n();
 
 }
 
-ReferenceValidationMechanism::networkEngineerTools(){
+void ReferenceValidationMechanism::networkEngineerTools(){
 
-    Network n = new Network();
 
-    
 
 }
+
+ReferenceValidationMechanism::~ReferenceValidationMechanism(){
+
+
+
+
+}
+
 
 bool ReferenceValidationMechanism::checkAuthorization(int level){
 
@@ -91,6 +91,7 @@ bool ReferenceValidationMechanism::checkAuthorization(int level){
         //error
         return false;
     }
+    return false;
 
 }
 

@@ -1,9 +1,12 @@
-#include <vector>
-#include "src/Device.h"
-#include "src/ReferenceValidationMechanism.h"
-
 #ifndef SRC_ACCOUNT_H_
 #define SRC_ACCOUNT_H_
+
+#include <string>
+#include <vector>
+
+#include "Device.h"
+
+class ReferenceValidationMechanism;
 
 class Account{
 
@@ -11,8 +14,8 @@ class Account{
 	public:
 
 		//public static methods
-		static Account addAccount(std::string name, std::string type, std::string category); //Creates a new account in the database.
-		static vector<Account> getManagableAccounts(ReferenceValidationMechanism *r) //Gets accounts that an admin account can manage.
+		//static Account addAccount(std::string name, std::string type, std::string category); //Creates a new account in the database.
+		//static std::vector<Account> getManagableAccounts(ReferenceValidationMechanism *r); //Gets accounts that an admin account can manage.
 
 		//public methods
 		void removeAccount(ReferenceValidationMechanism *r); //Sends a request to the database to remove an account. First it checks if that account exists in the database using checkIfAccountExists.
@@ -24,8 +27,8 @@ class Account{
 	private:
 
 		//private static methods
-		static void EncryptOutgoingInfo(std::string *d); 
-		static bool checkIfAccountExists(); 
+		//static void EncryptOutgoingInfo(std::string *d);
+		//static bool checkIfAccountExists();
 
 		//private function
 		bool sendDeviceLinkNotifications();

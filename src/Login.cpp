@@ -1,50 +1,50 @@
 #ifndef SRC_LOGIN_I_
 #define SRC_LOGIN_I_
 
-#include "src/Login.h"
-#include <string>
+
+#include "Login.h"
 
 
         //constructor
-		Login::Login(std::string name, std::string passphrase, std::string t){
+Login::Login(std::string name, std::string passphrase, std::string t){
             
-            this.userName = name;
-            this.password = passphrase;
-            this.type = t;
-            this.loginAttempts = 0;
-
-            
-        }
-
-		Login::~Login();
-
-		Login::void encryptLoginInfo(){
-
-            return;
+	username = name;
+	password = passphrase;
+	type = t;
+	loginAttempts = 0;
 
             
-        }
+}
 
-		Login::void sendLoginInfo(){
+Login::~Login(){
+
+
+}
+
+void Login::encryptLoginInfo(){
+
+
+}
+
+void Login::sendLoginInfo(){
         
-            return;
-        }
+}
 
-		Login::Account waitforResponse(std::string *type, std::string *category){
 
-            int resposeCode = 0
-            std::string t = "Admin";
-            std::string c = "Network1";
-            Account a = Account.addAccount("Bob1998", type, category);
-            *type = t*;
-            *category = c*;
+/*Account Login::waitforResponse(std::string *type, std::string *category){
+
+	int responseCode = 0;
+	std::string t = "Admin";
+	std::string c = "Network1";
+	type = &t;
+	category = &c;
             //response code
 
-            switch(responseCode){
-                case 0: return a;
-                case 1: /*error message wrong password*/ return null;
-                case 2: /*error message account doesnt exist*/ return null;
-            }
-        }
-
+	switch(responseCode){
+    	case 0: return NULL; //change to return new account
+    	case 1:  return NULL;
+    	case 2:  return NULL;
+    	}
+	}
+*/
 #endif

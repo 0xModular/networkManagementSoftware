@@ -1,34 +1,36 @@
-#ifndef SRC_NETWORK_H_
-#define SRC_NETWORK_H_
+#ifndef SRC_NETWORK_I_
+#define SRC_NETWORK_I_
 
-#include "src/Device.h"
-#include "src/Connection.h"
-#include <iostream>
-#include <winsock2.h>
-#include <string>
-#include <cstring>
-#include <vector>
-#include <regex>
-#include <cstdlib>
+#include "Network.h"
+
+#include <windef.h>
+#include <winsock.h>
 #include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <regex>
+#include <string>
+#include <tuple>
+#include <vector>
 
-Network(){
+class ReferenceValidationMechanism;
 
-    this.timeSinceReset = 0;
+Network::Network(){
 
-
-}
-
-void refresh(){
-
-    this.getDevices();
-    this.getGeneralNetworkDetails();
-    this.getCoonections();
-    this.timeSinceReset = 0;
+    timeSinceRefresh = 0;
 
 }
 
-void getDevices(){
+void Network::refresh(ReferenceValidationMechanism *r){
+
+    getDevices();
+    getGeneralNetworkDetails();
+    getConnections();
+    timeSinceRefresh = 0;
+
+}
+
+void Network::getDevices(){
 
     std::vector<std::tuple<std::string, std::string, std::string>> devices;
     char buffer[256];
@@ -37,7 +39,7 @@ void getDevices(){
 
     if (!pipe) {
         std::cerr << "Error running arp -a command." << std::endl;
-        return devices;
+        //manage error
     }
 
     std::regex deviceRegex(R"((\d+\.\d+\.\d+\.\d+)\s+([0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+)\s+(\w+))");
@@ -54,69 +56,56 @@ void getDevices(){
                 std::string type = match[3];
 
                 bool isStatic;
-                if (strcmp(type) == "static")
+                if (type.compare("static") == 0)
                     isStatic = true;
                 else 
-                    issStatic = false;
+                    isStatic = false;
 
                 //ipv4, ipv6, gateway, wired/wireless, flags, ports, static/dynamic, mac
-                Device d = new device(ipv4Address, !!!!, !!!!, !!!!, NULL, NULL, isStatic, physicalAddress);
-                this.deviceList.add(d);
+                //Device d = new Device(ipv4Address, NULL, NULL, NULL, NULL, NULL, isStatic, physicalAddress);
+                //deviceList.push_back(d);
             }
         }
     }
 
     _pclose(pipe);
-    return devices;
-}
-
-
-void getGeneralNetworkDetails(){
-
 
 }
 
-void getConnections(){
 
- while(/*?/*/){
+void Network::getGeneralNetworkDetails(){
+
+
+}
+
+void Network::getConnections(){
+
+ //while(/*?/*/){
         
-        Connection c = new Connection(/*?*/);
-        this.connectionList.add(c);
+        //Connection c = new Connection();
+        //connectionList.push_back(c);
 
-    }
+    //}
 
 }
 
-void editDevices(Device d, std::string requestType, std::string AdditionalData){
+void Network::editDevices(Device d, std::string requestType, std::string AdditionalData){
 
     std::string message;
 
     //changes dynamic to static and static to dynamic. Additional data is the ip a device should be if its being changed to static.
-    if (strcmp(requestType, "changeIpType"){
+    if (requestType.compare("changeIpType") == 0){
         message = requestType + " " + AdditionalData;
     }
 
     //change static ip to a new static ip value
-    else if (strcmp(requestType, "changeStaticIP"){
+    else if (requestType.compare("changeStaticIp") == 0){
         
         message = requestType + " 0";
     }
 
-
-    else if (strcmp(requestType, "changeIpType"){
-
-        
-    }
-    else if (strcmp(requestType, "changeIpType"){
-
-        
-    }
-
-	
-	std::string message;
 	
 	char cStringMessage[message.length() + 1]; 
-
 	strcpy(cStringMessage, message.c_str());
 	
 	
@@ -124,14 +113,14 @@ void editDevices(Device d, std::string requestType, std::string AdditionalData){
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         std::cerr << "Failed to initialize Winsock." << std::endl;
-        return 1;
+        //handle error
     }
 
     SOCKET clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == INVALID_SOCKET) {
         std::cerr << "Failed to create client socket." << std::endl;
         WSACleanup();
-        return 1;
+        //handle error
     }
 
     sockaddr_in serverAddress;
@@ -143,40 +132,28 @@ void editDevices(Device d, std::string requestType, std::string AdditionalData){
         std::cerr << "Connection to the server failed." << std::endl;
         closesocket(clientSocket);
         WSACleanup();
-        return 1;
+        //handle error
     }
 
     std::cout << "Connected to the server." << std::endl;
 
-    char cStringMessage[] = "Hello, Server!";
     send(clientSocket, cStringMessage, sizeof(cStringMessage), 0);
 
     // In a real application, you can have a loop for sending/receiving data.
 
     closesocket(clientSocket);
     WSACleanup();
-    return 0;
-}
-    
-   
-   send(clientSocket, message, strlen(message), 0);
-
-        // Receive and display the echoed data
-        char buffer[1024];
-        std::string bytesRead = recv(netManagerSocket, buffer, sizeof(buffer), 0);
-        if (sizeof(bytesRead) > 0) {
-            return bytesRead;
-        }
-        else{}
-        	//invalide response
 }
 
-void editGeneralNetworkDetails(){
+
+void Network::editGeneralNetworkDetails(ReferenceValidationMechanism *r){
 
 
 }
 
-void editConnections(){
+void Network::editConnections(ReferenceValidationMechanism *r){
 
 
 }
+
+#endif

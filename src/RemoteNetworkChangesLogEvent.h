@@ -1,9 +1,12 @@
 #ifndef SRC_REMOTENETWORKCHANGESLOG_H_
 #define SRC_REMOTENETWORKCHANGESLOG_H_
 
-#include <vector>
 #include <string>
-#include "src/ReferenceValidationMechanism.h"
+#include <vector>
+
+#include "Account.h"
+
+class ReferenceValidationMechanism;
 
 class RemoteNetworkChangesLogEvent{
 
@@ -18,12 +21,12 @@ class RemoteNetworkChangesLogEvent{
 	private:
 
 		//private methods
-		RemoteNetworkChangesLogEvent(std::string event, Account a, std::string networkCateory, int time)
+		RemoteNetworkChangesLogEvent(std::string event, Account a, std::string networkCateory, int time);
 		void encryptOutgoingLog();
 
 		std::string logEvent;
 		Account eventActor;
-		std::string networkCateory
+		std::string networkCateory;
 		int time;
 
 };

@@ -1,8 +1,10 @@
 #ifndef SRC_CONNECTION_H_
 #define SRC_CONNECTION_H_
 
-#include "src/Device.h"
+#include <string>
 #include <vector>
+
+#include "Device.h"
 
 class Connection{
 	

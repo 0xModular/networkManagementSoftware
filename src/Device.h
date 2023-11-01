@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 #ifndef SRC_DEVICE_H_
 #define SRC_DEVICE_H_
@@ -10,8 +11,7 @@ class Device{
 		//public functions ipv4, ipv6, gateway, wired/wireless, flags, ports, static/dynamic, mac
 		Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac);
 		~Device();
-		Device(std::string IPv4, bool staticIP, std::string mac);
-		std::vector<string> setPrivacyFlags(std::vector<string> newFlags)
+		std::vector<std::string> setPrivacyFlags(std::vector<std::string> newFlags);
 		void resetPrivacyFlags();
 		void setDeviceDetails(std::string IPv4, std::string IPv6, std::string defaultGateway, std::vector<int> openPorts, bool staticIP);
 
@@ -29,7 +29,6 @@ class Device{
 		std::vector<std::string> privacyFlags;
 		std::vector<int> openPorts;
 		bool staticIp;
-		bool limitedMembers;
 };
 
 #endif

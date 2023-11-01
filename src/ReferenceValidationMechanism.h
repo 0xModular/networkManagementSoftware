@@ -1,17 +1,18 @@
-#include <string>
-#include "src/Account.h"
+#ifndef SRC_REFERENCEVALIDATIONMECHANISM_H_
+#define SRC_REFERENCEVALIDATIONMECHANISM_H_
 
-#ifndef SRC_USERINTERFACE_H_
-#define SRC_USERINTERFACE_H_
+#include <string>
+
+class Account;
 
 class ReferenceValidationMechanism{
 
 	public:
 
         ReferenceValidationMechanism(std::string type);
-        ReferenceValidationMechanism(std::string type, Account a);
+       // ReferenceValidationMechanism(std::string type, Account a);
         ~ReferenceValidationMechanism();
-        bool checkAuthorization(int level);
+        static bool checkAuthorization(int level);
 
 	private:
 
@@ -21,11 +22,11 @@ class ReferenceValidationMechanism{
         void networkEngineerTools();
         
 
-	std::string accessType;
-        Account userAccount;
+        std::string accessType;
+        //Account *userAccount;
 
 
 };
 
 
-#endif 
+#endif /* SRC_LOGIN_H_ */

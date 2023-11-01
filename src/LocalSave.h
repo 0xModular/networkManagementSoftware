@@ -1,6 +1,7 @@
+#include <fstream>
 #include <string>
 #include <vector>
-#include "Account.h"
+
 
 #ifndef SRC_LOCALSAVE_H_
 #define SRC_LOCALSAVE_H_
@@ -27,10 +28,10 @@ class LocalSave{
 	private:
 
 		//private functions
-		LocalSave(file f); //used by getSaves to create objects for existing save files
+		LocalSave(std::fstream f); //used by getSaves to create objects for existing save files
 
 		//member
-		file f;
+		std::fstream f;
 
 
 

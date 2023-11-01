@@ -1,8 +1,9 @@
-#include <string>
-#include "Account.h"
-
 #ifndef SRC_LOGIN_H_
 #define SRC_LOGIN_H_
+
+#include <string>
+
+class Account;
 
 class Login{
 
@@ -10,13 +11,14 @@ class Login{
 	
 		Login(std::string type, std::string name, std::string password);
 		~Login();
-
-	private:
-
 		Account createAccount();
 		void encryptLoginInfo();
 		void sendLoginInfo();
-		Account waitforResponse(); //handles wrong password and account doesn't exist errors
+		Account waitforResponse(std::string *type, std::string *category); //handles wrong password and account doesn't exist errors
+
+	private:
+
+
 
 		std::string username;
 		std::string password;
