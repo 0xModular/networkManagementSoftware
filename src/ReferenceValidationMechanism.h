@@ -11,7 +11,7 @@ class ReferenceValidationMechanism{
         ReferenceValidationMechanism(std::string type);
         ReferenceValidationMechanism(std::string type, Account a);
         ~ReferenceValidationMechanism();
-        static bool checkAuthorization(int level);
+        bool checkAuthorization(int level);
 
 	private:
 
@@ -28,4 +28,4 @@ class ReferenceValidationMechanism{
 };
 
 
-#endif /* SRC_LOGIN_H_ */
+#endif 

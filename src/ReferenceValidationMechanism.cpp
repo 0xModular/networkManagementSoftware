@@ -73,7 +73,24 @@ ReferenceValidationMechanism::networkAdminTools(){
 
 ReferenceValidationMechanism::networkEngineerTools(){
 
+    Network n = new Network();
 
+    
+
+}
+
+bool ReferenceValidationMechanism::checkAuthorization(int level){
+
+    if (level == 1 && (accessType.compare("engineer") == 0 || accessType.compare("admin") == 0){
+        return true;
+    }
+    else if (level == 2 && accessType.compare("admin")){
+        return true;
+    }
+    else {
+        //error
+        return false;
+    }
 
 }
 
