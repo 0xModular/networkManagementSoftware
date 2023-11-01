@@ -32,7 +32,7 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 
 	mm_File->AppendSeparator();
 
-	auto mm_FileLogOut = mm_File->Append(ID_LOGOUT, "Log Out"); //Log Out
+	auto mm_FileLogOut = mm_File->Append(ID_LOGOUT, "Log Out", "Log out of this program"); //Log Out
 
 	auto mm_FileExit = mm_File->Append(wxID_EXIT); //Exit Program
 	mm_FileExit->SetBitmap(wxArtProvider::GetBitmap(wxART_QUIT, wxART_MENU));
@@ -49,24 +49,24 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 	//--NETWORK--//
 	auto mm_Network = new wxMenu();
 
-	auto mm_NetworkConfigure = mm_Network->Append(ID_CONFIG,"Configure Network"); //Configure Network - Restricted to Network Admin
+	auto mm_NetworkConfigure = mm_Network->Append(ID_CONFIG,"Configure Network", "Configure Network"); //Configure Network - Restricted to Network Admin
 
-	auto mm_NetworkManageDevices = mm_Network->Append(ID_MANAGEDEVICES, "Manage Devices"); //Manage Devices - Restricted to Network Admin
+	auto mm_NetworkManageDevices = mm_Network->Append(ID_MANAGEDEVICES, "Manage Devices", "Manage Devices"); //Manage Devices - Restricted to Network Admin
 
-	auto mm_NetworkViewInfo = mm_Network->Append(ID_VIEWNETWORK, "View Network Information"); //View Network Information
+	auto mm_NetworkViewInfo = mm_Network->Append(ID_VIEWNETWORK, "View Network Information", "View Network Information"); //View Network Information
 
 
 	//--USERS--//
 	auto mm_Users = new wxMenu();
 
-	auto mm_UsersManage = mm_Users->Append(ID_MANAGEUSERS, "Manage Users"); //Manage Users - Restricted to Network Admin
+	auto mm_UsersManage = mm_Users->Append(ID_MANAGEUSERS, "Manage Users", "Manage Users"); //Manage Users - Restricted to Network Admin
 
-	auto mm_UsersUpdate = mm_Users->Append(ID_UPDATEUSER, "Update Account Information"); //Update User Account Information
+	auto mm_UsersUpdate = mm_Users->Append(ID_UPDATEUSER, "Update Account Information", "Update Account Information"); //Update User Account Information
 
 	//--HELP--//
 	auto mm_Help = new wxMenu();
 
-	auto mm_HelpOpenDocs = mm_Help->Append(ID_OPENDOCS, "Open Documentation"); //Link to Documentation
+	auto mm_HelpOpenDocs = mm_Help->Append(ID_OPENDOCS, "Open Documentation", "Open Documentation"); //Link to Documentation
 	
 	//--APPLY MAIN MENU--//	
 	mm->Append(mm_File, "&File");
@@ -105,7 +105,7 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 	sb->SetStatusStyles(sizeof(sb_Styles), sb_Styles); //Set Style of each Field
 	
 	//--SET DEFAULT TEXT--//
-	sb->SetStatusText("On Selection Mode"); //Left
+	sb->SetStatusText("Selection Mode"); //Left
 	sb->SetStatusText("None Selected", 1); //Right-ish
 	
 	//--APPLY STATUSBAR--//

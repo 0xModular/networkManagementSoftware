@@ -71,7 +71,7 @@ class MainFrame : public wxFrame {
 		wxStatusBar* sb = new wxStatusBar(this);
 		
         	//--SET WIDTHS--//
-       		inline static const int sb_Widths[] = {160, -1};
+       		inline static const int sb_Widths[] = {250, -1};
 	
 	        //--SET STYLES--//
 	        inline static const int sb_Styles[] = {wxSB_SUNKEN, wxSB_SUNKEN};
@@ -108,6 +108,59 @@ class MainFrame : public wxFrame {
 		
 		//---Help---//
 		void OnOpenDocs(wxCommandEvent event); //Open Up Browser Window to Documentation
+
+		//--TOOLBAR--//
+		
+		void OnHoverToolbarSelection(wxCommandEvent event); //Display on Statusbar "Set to... Mode" or "Zoom..."
+
+		//---Modes---//
+                void OnSelectionMode(wxCommandEvent event); //Default Mode of the Program, allows you to select devices
+		void OnAddDeviceMode(wxCommandEvent event); //When in this mode, clicking on the Network Field prompts Device Addition Menu
+                void OnTestingMode(wxCommandEvent event); //When in this mode, user selects one device, then another, which triggers tests, where results are shown in Testing Suite Window
+                void OnPlaceNoteMode(wxCommandEvent event); //When in this mode, clicking on the Network Field add a text note
+
+		//---Zoom---// 				//These are Self Explanatory
+                void OnZoomIn(wxCommandEvent event); 
+                void OnZoomOut(wxCommandEvent event);
+                void OnResetZoom(wxCommandEvent event);
+
+		//--NETWORKFIELD--//
+		void OnLeftClickDevice(wxCommandEvent event); //In Selection Mode, selects device
+							      //In Add Device Mode, after prompt, places device nearby
+							      //In Testing Mode, selects first device --> Then user will select different device as second device
+							      //In Place Note Mode, Places Note under device
+		
+		void OnRightClickDevice(wxCommandEvent event); //In Selection Mode, Opens Device Options Menu
+							       //In Add Device Mode, reverts to Selection Mode
+							       //In Testing Mode, clears selections and reverts to Selection Mode
+							       //In Place Note Mode, reverts to Selection Mode
+		
+		void OnLeftClickNote(wxCommandEvent event); //In Selection Mode, selects note
+							    //In Add Device Mode, after prompt, places device nearby
+							    //In Testing Mode, clears selections and reverts to Selection Mode
+							    //In Place Note Mode, Places Note under note
+		
+		void OnRightClickNote(wxCommandEvent event); //In Selection Mode, opens Note Options Menu (literally edit or delete)
+							     //In Add Device Mode, reverts to Selection Mode
+							     //In Testing Mode, clears selections and reverts to Selection Mode
+							     //In Place Note Mode, edit note
+		
+		void OnLeftClickField(wxCommandEvent event); //In Selection Mode, clears selections
+							     //In Add Device Mode, after prompt, adds device at position
+							     //In Testing Mode, clears selections and reverts to Selection Mode
+							     //In Place Note Mode, places note at position
+		
+		void OnRightClickField(wxCommandEvent event); //In Selection Mode, opens Network Options Menu
+							      //In Add Device Mode, reverts to Selection Mode
+							      //In Testing Mode, clears selections and reverts to Selection Mode
+							      //In Place Note Mode, reverts to Selection Mode
+		
+		void OnLeftHoldDragField(wxCommandEvent event); //In All Modes, revert to Selection Mode and  move the Network Field
+
+		void OnLeftHoldDragDevice(wxCommandEvent event); //In All Modes, revert to Selection Mode and move Device in Network Field
+		
+		//OnZoomIn - Triggered From Forward Scroll
+		//OnZoomOut - Triggered From Backward Scroll
 
 
 };
