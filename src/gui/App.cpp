@@ -5,9 +5,12 @@
  * Author: Ubljudok
  */
 
+#include "2FA.h"
 #include "App.h"
+#include "Login.h"
 #include "MainFrame.h"
 #include "NetworkField.h"
+#include "Registration.h"
 
 wxIMPLEMENT_APP(App);
 
@@ -24,6 +27,18 @@ bool App::OnInit() {
 	app->SetAutoLayout(true);
 
 	app->Show();
+
+	//Temp -- Login
+	
+	(new Login())->Show();
+
+	//Temp -- 2FA
+	
+	(new TwoFactorAuthentication())->Show();
+
+	//Temp -- Registration
+	
+	(new Registration())->Show();
 
 	return true;
 
