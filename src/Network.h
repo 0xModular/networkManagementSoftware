@@ -26,15 +26,16 @@ class Network{
 		void editGeneralNetworkDetails(ReferenceValidationMechanism *r);
 		void editConnections(ReferenceValidationMechanism *r);
 		void validateDeviceDetailInputs(std::string gate, std::string DNS);
+		Device getGatewayDevice(ReferenceValidationMechanism *r);
 
 		//networkdetailsvalidation
 
 		//members
-		std::string gateway;
 		std::string defaultDNS;
 		long long timeSinceRefresh;
 		std::vector<Device> deviceList;
 		std::vector<Device> connectionList;
+		Device gateway;
 };
 
 

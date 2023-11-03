@@ -16,15 +16,6 @@
 
 class ReferenceValidationMechanism;
 
-Network::Network(){
-
-	getDevices();
-	getGeneralNetworkDetails();
-	getConnections();
-    timeSinceRefresh = 0;
-
-}
-
 void Network::refresh(ReferenceValidationMechanism *r){
 
 	if (r->checkAuthorization(1)){
@@ -76,13 +67,23 @@ void Network::getDevices(){
         else
             wired = false;
 
-        deviceList.push_back(Device(macAddress, ipv4Address, wired, name));
+        Device d(macAddress, ipv4Address, wired, name);
+
+        if (name.compare("_gateway") == 0)
+            gateway = d;
+
+        deviceList.push_back(d);
 
         it = match[0].second;
     }
 
 }
 
+Device Network::getGatewayDevice(ReferenceValidationMechanism *r){
+    if (r->checkAuthorization(1)){
+        return gateway;
+    }
+}
 
 void Network::getGeneralNetworkDetails(){
 

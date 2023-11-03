@@ -102,6 +102,29 @@ void ReferenceValidationMechanism::networkAdminTools(){
 
 void ReferenceValidationMechanism::networkEngineerTools(){
 
+ Network *n = new Network();
+
+    std::string input;
+
+    while (true){
+
+        std::cout << "type \"dlist\"\n";
+    	std::cin >> input;
+
+    	if (input.compare("dlist") == 0){
+
+    		n->refresh(this);
+    		std::vector<Device> d = n->getDeviceList(this);
+    		int i;
+    		for (i = 0; i < d.size(); i++){
+    		std::cout << "Name: " << d.at(i).getName(this) << " IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Wired(1 is true): " << d.at(i).getWired(this) << "\n";
+    		}
+    	}
+    	else if (input.compare("add") == 0){
+
+
+    	}
+    }
 
 
 }
@@ -124,7 +147,7 @@ bool ReferenceValidationMechanism::checkAuthorization(int level){
     }
     else {
         //error
-        return false;
+        exit(1);
     }
     return false;
 
