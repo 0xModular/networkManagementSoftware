@@ -1,10 +1,9 @@
-
 #include "ReferenceValidationMechanism.h"
 
 int main(){
 
-	ReferenceValidationMechanism("login");
+	ReferenceValidationMechanism::start("login");
+
+
 
 }
-
-

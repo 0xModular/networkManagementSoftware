@@ -3,6 +3,7 @@
 
 #include "Device.h"
 #include <string>
+#include <iostream>
 
 Device::Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac){
 
@@ -11,6 +12,7 @@ staticIp = staticIP;
 macAddress = mac;
 limitedMembers = false; 
 
+std::cout << macAddress << "\n";
 
 }
 
@@ -22,6 +24,27 @@ macAddress = mac;
 limitedMembers = true; 
 
 
+}
+
+std::string Device::getIpv4(ReferenceValidationMechanism *r){
+
+	if(r->checkAuthorization(1)){
+		return localIpv4;
+	}
+}
+
+std::string Device::getMac(ReferenceValidationMechanism *r){
+
+	if(r->checkAuthorization(1)){
+		return macAddress;
+	}
+}
+
+bool Device::getIsStaticIp(ReferenceValidationMechanism *r){
+
+	if(r->checkAuthorization(1)){
+		return staticIp;
+	}
 }
 
 Device::~Device(){

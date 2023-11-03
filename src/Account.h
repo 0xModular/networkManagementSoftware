@@ -6,7 +6,7 @@
 
 #include "Device.h"
 
-class ReferenceValidationMechanism;
+class Device;
 
 class Account{
 
@@ -14,8 +14,7 @@ class Account{
 	public:
 
 		//public static methods
-		//static Account addAccount(std::string name, std::string type, std::string category); //Creates a new account in the database.
-		//static std::vector<Account> getManagableAccounts(ReferenceValidationMechanism *r); //Gets accounts that an admin account can manage.
+		static std::vector<Account> getManagableAccounts(ReferenceValidationMechanism *r); //Gets accounts that an admin account can manage.
 
 		//public methods
 		void removeAccount(ReferenceValidationMechanism *r); //Sends a request to the database to remove an account. First it checks if that account exists in the database using checkIfAccountExists.
@@ -23,20 +22,22 @@ class Account{
 		Account linkDevice(Device d, ReferenceValidationMechanism *r);
 		Account unlinkDevice(Device d, ReferenceValidationMechanism *r);
 		void getAccountDetails(std::string *name, std::string *type, std::string *category, std::vector<Device> *linkedDevices);
+		Account(std::string *name, std::string *t, std::string *cat);
+		Account();
+		~Account();
 
 	private:
 
 		//private static methods
-		//static void EncryptOutgoingInfo(std::string *d);
-		//static bool checkIfAccountExists();
+		static void EncryptOutgoingInfo(std::string *d);
+		static bool checkIfAccountExists();
 
 		//private function
 		bool sendDeviceLinkNotifications();
 		void notifyAccountandDevice(Device d);
 		Account overwriteAccountDetailsInDB(); 
 		Account resetPassword(); 
-		Account();
-		~Account();
+
 
 
 	//variables

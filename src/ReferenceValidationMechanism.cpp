@@ -2,40 +2,45 @@
 #define SRC_REFERENCEVALIDATIONMECHANISM_I_
 
 #include "ReferenceValidationMechanism.h"
-
 #include <iostream>
 
-#include "Login.h"
 
-class Network;
+void ReferenceValidationMechanism::start(std::string type){
 
 
-ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
+	ReferenceValidationMechanism *r = new ReferenceValidationMechanism("login");
+	if(type.compare("login") == 0){
+		    r = r->accessLogin();
+	}
+	else if(type.compare("createAccount") == 0){
+		r = r->accessLogin();
+	}
 
-	//userAccount = NULL;
-    accessType = type;
-
-    //if(){
-
-    //}
+	if(r->accessType.compare("admin") == 0){
+	    r->networkAdminTools();
+	}
+	else if(r->accessType.compare("engineer") == 0){
+		r->networkEngineerTools();
+	}
 
 }
 
-/*ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Account a){
+ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
+
+	userAccount = NULL;
+    accessType = type;
+}
+
+
+
+ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Account *a){
 
 	userAccount = a;
 	accessType = type;
 
-    if(accessType.compare("admin") == 0){
-        networkAdminTools();
-    }
-    else if(accessType.compare("engineer") == 0){
-    	networkEngineerTools();
-    }
+}
 
-}*/
-
-void accessLogin(){
+ReferenceValidationMechanism* ReferenceValidationMechanism::accessLogin(){
 
     std::string type;
     std::string name;
@@ -51,18 +56,42 @@ void accessLogin(){
     l->encryptLoginInfo();
     l->sendLoginInfo();
 
-    //Account *a = l->waitforResponse(&type, &accountCategory);
-    //l.~Login();
 
-    //ReferenceValidationMechanism r(type, a);
+    Account *a = l->waitForResponse(&type, &accountCategory);
+    l->~Login();
+    delete l;
+
+
+    ReferenceValidationMechanism *r = new ReferenceValidationMechanism(type, a);
+
+    return r;
 
 
 }
 
 void ReferenceValidationMechanism::networkAdminTools(){
     
-    Network n();
+    Network *n = new Network();
 
+    std::string input;
+
+    while (true){
+
+    	std::cin >> input;
+
+    	if (input.compare("dlist") == 0){
+    		n->refresh(this);
+    		std::vector<Device> d = n->getDeviceList(this);
+    		int i;
+    		for (i = 0; i < d.size(); i++){
+    		std::cout << "IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Static: " << d.at(i).getIsStaticIp(this) << "\n";
+    		}
+    	}
+    	else if (input.compare("add") == 0){
+
+
+    	}
+    }
 }
 
 void ReferenceValidationMechanism::networkEngineerTools(){

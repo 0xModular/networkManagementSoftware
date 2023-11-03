@@ -1,8 +1,12 @@
 #include <string>
 #include <vector>
 
+class ReferenceValidationMechanism;
+
 #ifndef SRC_DEVICE_H_
 #define SRC_DEVICE_H_
+
+#include "ReferenceValidationMechanism.h"
 
 class Device{
 
@@ -15,6 +19,9 @@ class Device{
 		std::vector<std::string> setPrivacyFlags(std::vector<std::string> newFlags);
 		void resetPrivacyFlags();
 		void setDeviceDetails(std::string IPv4, std::string IPv6, std::string defaultGateway, std::vector<int> openPorts, bool staticIP);
+		std::string getIpv4(ReferenceValidationMechanism *r);
+		std::string getMac(ReferenceValidationMechanism *r);
+		bool getIsStaticIp(ReferenceValidationMechanism *r);
 
 	private:
 
@@ -34,7 +41,6 @@ class Device{
 };
 
 #endif
-
 
 
 

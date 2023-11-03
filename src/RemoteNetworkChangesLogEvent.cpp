@@ -1,9 +1,9 @@
 #ifndef SRC_REMOTENETWORKCHANGESLOG_I_
 #define SRC_REMOTENETWORKCHANGESLOG_I_
 
-#include "RemoteNetworkChangeLog.h"
+#include "RemoteNetworkChangesLogEvent.h"
 
-static std::vector<RemoteNetworkChangesLogEvent> RemoteNetworkChangesLogEvent::readLogs(ReferenceValidationMechanism *r){
+std::vector<RemoteNetworkChangesLogEvent> RemoteNetworkChangesLogEvent::readLogs(ReferenceValidationMechanism *r){
 
 
 }

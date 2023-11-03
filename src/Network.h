@@ -5,8 +5,7 @@
 #include <vector>
 
 #include "Device.h"
-
-class ReferenceValidationMechanism;
+class Device;
 
 class Network{
 
@@ -15,6 +14,7 @@ class Network{
 		//public methods
 		Network(); //Calls getDevices, getGeneralNetworkDetails, and getConnections to get information needed for  the current network.
 		void refresh(ReferenceValidationMechanism *r); //get updated information for the network
+		std::vector<Device> getDeviceList(ReferenceValidationMechanism *r);
 
 	private:
 

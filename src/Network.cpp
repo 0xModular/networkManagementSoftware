@@ -9,24 +9,36 @@
 #include <cstring>
 #include <iostream>
 #include <regex>
-#include <string>
 #include <tuple>
-#include <vector>
+
+#include "ReferenceValidationMechanism.h"
 
 class ReferenceValidationMechanism;
 
 Network::Network(){
 
+	getDevices();
+	getGeneralNetworkDetails();
+	getConnections();
     timeSinceRefresh = 0;
 
 }
 
 void Network::refresh(ReferenceValidationMechanism *r){
 
+	if (r->checkAuthorization(1)){
     getDevices();
     getGeneralNetworkDetails();
     getConnections();
     timeSinceRefresh = 0;
+	}
+}
+
+std::vector<Device> Network::getDeviceList(ReferenceValidationMechanism *r){
+
+	if(r->checkAuthorization(1)){
+		return deviceList;
+	}
 
 }
 
@@ -62,8 +74,8 @@ void Network::getDevices(){
                     isStatic = false;
 
                 //ipv4, ipv6, gateway, wired/wireless, flags, ports, static/dynamic, mac
-                //Device d = new Device(ipv4Address, NULL, NULL, NULL, NULL, NULL, isStatic, physicalAddress);
-                //deviceList.push_back(d);
+                Device d(ipv4Address, isStatic, physicalAddress);
+                deviceList.push_back(d);
             }
         }
     }

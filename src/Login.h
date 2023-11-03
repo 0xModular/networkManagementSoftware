@@ -2,7 +2,7 @@
 #define SRC_LOGIN_H_
 
 #include <string>
-
+#include "Account.h"
 class Account;
 
 class Login{
@@ -14,7 +14,7 @@ class Login{
 		Account createAccount();
 		void encryptLoginInfo();
 		void sendLoginInfo();
-		Account waitforResponse(std::string *type, std::string *category); //handles wrong password and account doesn't exist errors
+		Account* waitForResponse(std::string *type, std::string *category); //handles wrong password and account doesn't exist errors
 
 	private:
 

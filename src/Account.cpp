@@ -6,16 +6,12 @@
 
 
 
-//static Account Account::addAccount(std::string name, std::string type, std::string category){
 
 
-
-//}
-
-//static std::vector<Account> Account::getManagableAccounts(ReferenceValidationMechanism *r){
+std::vector<Account> Account::getManagableAccounts(ReferenceValidationMechanism *r){
 
 
-//}
+}
 
 void Account::removeAccount(ReferenceValidationMechanism *r){
 
@@ -35,21 +31,22 @@ Account Account::unlinkDevice(Device d, ReferenceValidationMechanism *r){
 void Account::getAccountDetails(std::string *name, std::string *type, std::string *category, std::vector<Device> *linkedDevices){}
 
 
-//static void Account::EncryptOutgoingInfo(std::string *d){
-
-//}
-//static bool Account::checkIfAccountExists(){
-
-	//return false;
-//}
-
-Account::Account(){
-
-	type = "wow";
-	userName = "wow";
-	category = "wow";
+void Account::EncryptOutgoingInfo(std::string *d){
 
 }
+bool Account::checkIfAccountExists(){
+
+	return false;
+}
+
+Account::Account(std::string *name, std::string *t, std::string *cat){
+
+	type = *t;
+	userName = *name;
+	category = *cat;
+
+}
+Account::Account(){}
 Account::~Account(){}
 
 #endif

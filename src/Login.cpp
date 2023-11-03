@@ -12,7 +12,6 @@ Login::Login(std::string name, std::string passphrase, std::string t){
 	password = passphrase;
 	type = t;
 	loginAttempts = 0;
-
             
 }
 
@@ -31,20 +30,25 @@ void Login::sendLoginInfo(){
 }
 
 
-/*Account Login::waitforResponse(std::string *type, std::string *category){
+Account* Login::waitForResponse(std::string *accType, std::string *cat){
 
 	int responseCode = 0;
 	std::string t = "Admin";
 	std::string c = "Network1";
-	type = &t;
-	category = &c;
+	accType = &t;
+	cat = &c;
             //response code
 
+	/*
 	switch(responseCode){
     	case 0: return NULL; //change to return new account
     	case 1:  return NULL;
     	case 2:  return NULL;
-    	}
+
 	}
 */
+	Account *a = new Account(&username, accType, cat);
+	return a;
+}
+
 #endif
