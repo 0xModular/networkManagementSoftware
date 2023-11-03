@@ -84,7 +84,7 @@ void ReferenceValidationMechanism::networkAdminTools(){
     		std::vector<Device> d = n->getDeviceList(this);
     		int i;
     		for (i = 0; i < d.size(); i++){
-    		std::cout << "IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Static: " << d.at(i).getIsStaticIp(this) << "\n";
+    		std::cout << "IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Static: " << d.at(i).getWired(this) << "\n";
     		}
     	}
     	else if (input.compare("add") == 0){

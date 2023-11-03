@@ -16,10 +16,11 @@ std::cout << macAddress << "\n";
 
 }
 
-Device::Device(std::string IPv4, bool staticIP, std::string mac){
+Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName){
 
+name = deviceName;
 localIpv4 = IPv4;
-staticIp = staticIP;
+wired = wiredConnection;
 macAddress = mac;
 limitedMembers = true; 
 
@@ -40,10 +41,17 @@ std::string Device::getMac(ReferenceValidationMechanism *r){
 	}
 }
 
-bool Device::getIsStaticIp(ReferenceValidationMechanism *r){
+bool Device::getWired(ReferenceValidationMechanism *r){
 
 	if(r->checkAuthorization(1)){
-		return staticIp;
+		return wired;
+	}
+}
+
+std::string Device::getName(ReferenceValidationMechanism *r){
+
+	if(r->checkAuthorization(1)){
+		return name;
 	}
 }
 

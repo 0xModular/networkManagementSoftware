@@ -3,9 +3,10 @@
 
 #include "Network.h"
 
-#include <windef.h>
-#include <winsock.h>
 #include <cstdio>
+#include <memory>
+#include <stdexcept>
+#include <string>
 #include <cstring>
 #include <iostream>
 #include <regex>
@@ -44,43 +45,36 @@ std::vector<Device> Network::getDeviceList(ReferenceValidationMechanism *r){
 
 void Network::getDevices(){
 
-    std::vector<std::tuple<std::string, std::string, std::string>> devices;
-    char buffer[256];
-
-    FILE* pipe = _popen("arp -a", "r"); // Execute "arp -a" and capture output
-
+    char buffer[128];
+    std::string result = "";
+    FILE* pipe = popen("arp -a", "r");
     if (!pipe) {
-        std::cerr << "Error running arp -a command." << std::endl;
-        //manage error
+        throw std::runtime_error("popen() failed!");
     }
-
-    std::regex deviceRegex(R"((\d+\.\d+\.\d+\.\d+)\s+([0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+)\s+(\w+))");
-
     while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        std::string line(buffer);
-        std::smatch match;
-
-        if (std::regex_search(line, match, deviceRegex)) {
-            if (match.size() == 4) {
-            	std::string whole = match[0];
-                std::string ipv4Address = match[1];
-                std::string physicalAddress = match[2];
-                std::string type = match[3];
-
-                bool isStatic;
-                if (type.compare("static") == 0)
-                    isStatic = true;
-                else 
-                    isStatic = false;
-
-                //ipv4, ipv6, gateway, wired/wireless, flags, ports, static/dynamic, mac
-                Device d(ipv4Address, isStatic, physicalAddress);
-                deviceList.push_back(d);
-            }
-        }
+        result += buffer;
     }
+    pclose(pipe);
 
-    _pclose(pipe);
+    std::string line(result);
+    std::regex deviceRegex(R"([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\s+([0-9a-fA-F:-]+)\s+(\w+))");
+
+    std::smatch match;
+    auto it = line.cbegin();
+    while (std::regex_search(it, line.cend(), match, deviceRegex)) {
+        std::string name = match[1];
+        std::string ipv4Address = match[2];
+        std::string macAddress = match[2];
+        std::string wiredString = match[2];
+
+        bool wired;
+        if (wiredString.compare("ether") == 0)
+            wired = true;
+        else
+            wired = false;
+
+        deviceList.push_back(Device(macAddress, ipv4Address, wired, name));
+    }
 
 }
 
@@ -120,7 +114,7 @@ void Network::editDevices(Device d, std::string requestType, std::string Additio
 	char cStringMessage[message.length() + 1]; 
 	strcpy(cStringMessage, message.c_str());
 	
-	
+	/*
 	
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
@@ -155,6 +149,8 @@ void Network::editDevices(Device d, std::string requestType, std::string Additio
 
     closesocket(clientSocket);
     WSACleanup();
+
+    */
 }
 
 
