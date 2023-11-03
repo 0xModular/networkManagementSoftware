@@ -45,6 +45,8 @@ std::vector<Device> Network::getDeviceList(ReferenceValidationMechanism *r){
 
 void Network::getDevices(){
 
+    deviceList.clear();
+
     char buffer[128];
     std::string result = "";
     FILE* pipe = popen("arp -a", "r");
@@ -57,15 +59,16 @@ void Network::getDevices(){
     pclose(pipe);
 
     std::string line(result);
-    std::regex deviceRegex(R"([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\s+([0-9a-fA-F:-]+)\s+(\w+))");
+    std::string regex;
+    std::regex deviceRegex(R"(([_a-zA-Z0-9]+)\s\(([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\)\sat\s([0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+)\s\[([a-zA-Z0-9]+)\]\son\s([a-zA-Z0-9]+))");
 
     std::smatch match;
     auto it = line.cbegin();
     while (std::regex_search(it, line.cend(), match, deviceRegex)) {
         std::string name = match[1];
         std::string ipv4Address = match[2];
-        std::string macAddress = match[2];
-        std::string wiredString = match[2];
+        std::string macAddress = match[3];
+        std::string wiredString = match[4];
 
         bool wired;
         if (wiredString.compare("ether") == 0)
@@ -74,6 +77,8 @@ void Network::getDevices(){
             wired = false;
 
         deviceList.push_back(Device(macAddress, ipv4Address, wired, name));
+
+        it = match[0].second;
     }
 
 }

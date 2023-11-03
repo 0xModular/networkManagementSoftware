@@ -45,9 +45,13 @@ ReferenceValidationMechanism* ReferenceValidationMechanism::accessLogin(){
     std::string type;
     std::string name;
     std::string password;
+    std::cout << "account type (type \"admin\" for now):\n";
     std::cin >> type;
+    std::cout << "account name (type anything for now):\n";
     std::cin >> name;
+    std::cout << "account password (type anything for now):\n";
     std::cin >> password;
+    
 
     Login *l = new Login(type, name, password);
     std::string accountType;
@@ -77,14 +81,16 @@ void ReferenceValidationMechanism::networkAdminTools(){
 
     while (true){
 
+        std::cout << "type \"dlist\"\n";
     	std::cin >> input;
 
     	if (input.compare("dlist") == 0){
+
     		n->refresh(this);
     		std::vector<Device> d = n->getDeviceList(this);
     		int i;
     		for (i = 0; i < d.size(); i++){
-    		std::cout << "IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Static: " << d.at(i).getWired(this) << "\n";
+    		std::cout << "Name: " << d.at(i).getName(this) << " IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Wired(1 is true): " << d.at(i).getWired(this) << "\n";
     		}
     	}
     	else if (input.compare("add") == 0){
