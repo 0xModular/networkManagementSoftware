@@ -8,6 +8,11 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/sizer.h>
+#include <vector>
+
+#include "structures/Device.h"
+#include "structures/Connection.h"
+#include "structures/Note.h"
 
 class NetworkField : public wxWindow {
 	
@@ -27,7 +32,7 @@ class NetworkField : public wxWindow {
 		 */
 		
 		void setMode(int newMode);
-
+		int getMode();
 
 
 		//Conditions
@@ -39,17 +44,20 @@ class NetworkField : public wxWindow {
 		//Objects
 		wxMenu* networkFieldContextMenu;
 		wxMenu* deviceContextMenu;
-
+		std::vector<Device> devices;
+		std::vector<Connection> connections;
+		std::vector<Note> notes;
 
 
 		//Network Field Events
-		void OnPaint(wxPaintEvent &);
+		void OnPaint(wxPaintEvent & event);
 		void DrawDeviceOnContext(wxGraphicsContext *gc);
 		
-		void OnMouseLeftDown(wxMouseEvent &);
-		void OnMouseMovement(wxMouseEvent &);
-		void OnMouseLeftUp(wxMouseEvent &);
+		void OnMouseLeftDown(wxMouseEvent & event);
+		void OnMouseMovement(wxMouseEvent & event);
+		void OnMouseLeftUp(wxMouseEvent & event);
 
-		void OnContextMenuEvent(wxContextMenuEvent &); //Right Mouse
+		void OnContextMenuEvent(wxContextMenuEvent & event); //Right Mouse
 		void BuildContextMenu();
+
 };

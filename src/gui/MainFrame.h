@@ -8,6 +8,7 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/artprov.h>
+#include <wx/aui/aui.h>
 #include <map>
 #include <vector>
 
@@ -19,6 +20,12 @@
 #include "../../assets/icons/TOOLBAR_ZOOM_FIT.xpm"
 #include "../../assets/icons/TOOLBAR_ZOOM_OUT.xpm"
 #include "../../assets/icons/TOOLBAR_ZOOM_IN.xpm"
+
+//Other Objects
+#include "subwindows/DeviceManagementSubWindow.h"
+#include "subwindows/UserManagementSubWindow.h"
+#include "subwindows/UserUpdateSubWindow.h"
+
 
 
 class MainFrame : public wxFrame {
@@ -47,12 +54,11 @@ class MainFrame : public wxFrame {
 		
 		//--MAIN MENU IDS--//
 		inline static const int ID_LOGOUT = 1;
-		inline static const int ID_CONFIG = 2;
-		inline static const int ID_MANAGEDEVICES = 3;
-		inline static const int ID_VIEWNETWORK = 4;
-		inline static const int ID_MANAGEUSERS = 5;
-		inline static const int ID_UPDATEUSER = 6;
-		inline static const int ID_OPENDOCS = 7;
+		inline static const int ID_MANAGEDEVICES = 2;
+		inline static const int ID_VIEWNETWORK = 3;
+		inline static const int ID_MANAGEUSERS = 4;
+		inline static const int ID_UPDATEUSER = 5;
+		inline static const int ID_OPENDOCS = 6;
 
 
 
@@ -60,14 +66,14 @@ class MainFrame : public wxFrame {
 		wxToolBar* tb = new wxToolBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL);	
 
 		//--TOOLBAR IDS--//
-		inline static const int ID_SELECT = 8;
-		inline static const int ID_ADDDEVICE = 9;
-		inline static const int ID_TESTCONNECTION = 10;
-		inline static const int ID_NOTE = 11;
+		inline static const int ID_SELECT = 7;
+		inline static const int ID_ADDDEVICE = 8;
+		inline static const int ID_TESTCONNECTION = 9;
+		inline static const int ID_NOTE = 10;
 	
-		inline static const int ID_ZOOMIN = 12;
-		inline static const int ID_ZOOMOUT = 13;
-		inline static const int ID_RESETZOOM = 14;
+		inline static const int ID_ZOOMIN = 11;
+		inline static const int ID_ZOOMOUT = 12;
+		inline static const int ID_RESETZOOM = 13;
 
 		//--TOOLBAR MODE IDS--//
 		inline static const int SELECTION_MODE = 0;
@@ -84,6 +90,11 @@ class MainFrame : public wxFrame {
 	
 	        //--SET STYLES--//
 	        inline static const int sb_Styles[] = {wxSB_SUNKEN, wxSB_SUNKEN};
+
+
+
+		//Aui Manager
+		wxAuiManager* subWindowManager = new wxAuiManager(this, wxAUI_MGR_DEFAULT);
 
 
 
@@ -107,7 +118,6 @@ class MainFrame : public wxFrame {
 		void OnRedo(wxCommandEvent & event); //Redo Undone Action
 
 		//---Network---//
-		void OnConfigure(wxCommandEvent & event); //Opens Configuration Suite
 		void OnManageDevices(wxCommandEvent & event); //Opens Device Manager
 		void OnViewInfo(wxCommandEvent & event); //Opens Network Information Window
 
@@ -133,5 +143,18 @@ class MainFrame : public wxFrame {
                 void OnZoomOut(wxCommandEvent & event);
                 void OnResetZoom(wxCommandEvent & event);
 
+		//Sub Windows
+
+		//--Sub Window IDs--//
+		inline static const wxWindowID SUBWIN_DEVICEMANAGEMENT = 0;
+		inline static const wxWindowID SUBWIN_USERMANAGEMENT = 1;
+		inline static const wxWindowID SUBWIN_USERUPDATE = 2;
+
+		//--Sub Window Objects--//
+		DeviceManagementSubWindow* deviceManagementSubWindow = new typename DeviceManagementSubWindow::DeviceManagementSubWindow(this, this->SUBWIN_DEVICEMANAGEMENT, wxDefaultPosition, wxDefaultSize);
+		UserManagementSubWindow* userManagementSubWindow = new typename UserManagementSubWindow::UserManagementSubWindow(this, this->SUBWIN_USERMANAGEMENT, wxDefaultPosition, wxDefaultSize);
+		UserUpdateSubWindow* userUpdateSubWindow = new typename UserUpdateSubWindow::UserUpdateSubWindow(this, this->SUBWIN_USERUPDATE, wxDefaultPosition, wxDefaultSize);
+
 };
+
 

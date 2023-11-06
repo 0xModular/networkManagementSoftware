@@ -49,8 +49,6 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 	//--NETWORK--//
 	auto mm_Network = new wxMenu();
 
-	auto mm_NetworkConfigure = mm_Network->Append(ID_CONFIG,"Configure Network", "Configure Network"); //Configure Network - Restricted to Network Admin
-
 	auto mm_NetworkManageDevices = mm_Network->Append(ID_MANAGEDEVICES, "Manage Devices", "Manage Devices"); //Manage Devices - Restricted to Network Admin
 
 	auto mm_NetworkViewInfo = mm_Network->Append(ID_VIEWNETWORK, "View Network Information", "View Network Information"); //View Network Information
@@ -79,7 +77,6 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 	mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnUndo, this, wxID_UNDO);
 	mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnRedo, this, wxID_REDO);
 
-	mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnConfigure, this, MainFrame::ID_CONFIG);
 	mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnManageDevices, this, MainFrame::ID_MANAGEDEVICES);
 	mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnViewInfo, this, MainFrame::ID_VIEWNETWORK);
 
@@ -143,7 +140,8 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 	//--APPLY STATUSBAR--//
 	SetStatusBar(sb);
 		
-		
+	
+	
 	//Set Minimum Window Size
 
 	SetMinSize(wxSize(828, 512));
@@ -190,12 +188,19 @@ void MainFrame::OnRedo(wxCommandEvent & event){
 }
 
 //---Network---//
-void MainFrame::OnConfigure(wxCommandEvent & event){
-        std::cout << "Configuring" << std::endl;
-}
-
 void MainFrame::OnManageDevices(wxCommandEvent & event){
-        std::cout << "Managing Devices" << std::endl;
+        std::cout << "Managing Devices" << std::endl;	
+
+	this->subWindowManager->DetachPane(this->deviceManagementSubWindow);
+	
+	this->subWindowManager->AddPane(this->deviceManagementSubWindow, 
+	
+		wxAuiPaneInfo().Float().Caption("Device Managment").FloatingPosition({400, 300}).FloatingSize({300, 200}).CloseButton()
+	
+	);
+	
+	this->subWindowManager->Update();
+
 }
 
 void MainFrame::OnViewInfo(wxCommandEvent & event){
@@ -205,10 +210,32 @@ void MainFrame::OnViewInfo(wxCommandEvent & event){
 //---Users---//
 void MainFrame::OnManageUsers(wxCommandEvent & event){
         std::cout << "Managing Users" << std::endl;
+
+	this->subWindowManager->DetachPane(this->userManagementSubWindow);
+
+        this->subWindowManager->AddPane(this->userManagementSubWindow,
+
+                wxAuiPaneInfo().Float().Caption("User Managment").FloatingPosition({400, 300}).FloatingSize({300, 200}).CloseButton()
+
+        );
+
+        this->subWindowManager->Update();
+
 }
                 
 void MainFrame::OnUpdateAccount(wxCommandEvent & event){
         std::cout << "Updating Accout" << std::endl;
+
+	this->subWindowManager->DetachPane(this->userUpdateSubWindow);
+
+        this->subWindowManager->AddPane(this->userUpdateSubWindow,
+
+                wxAuiPaneInfo().Float().Caption("Update User Information").FloatingPosition({400, 300}).FloatingSize({300, 200}).CloseButton()
+
+        );
+
+        this->subWindowManager->Update();
+
 }
 
 //---Help---//
@@ -252,6 +279,4 @@ void MainFrame::OnZoomOut(wxCommandEvent & event){
 void MainFrame::OnResetZoom(wxCommandEvent & event){
         std::cout << "Resetting Zoom" << std::endl;
 }
-
-
 

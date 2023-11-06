@@ -18,4 +18,4 @@ struct Note {
 	int posX;
 	int posY;
 
-}
+};

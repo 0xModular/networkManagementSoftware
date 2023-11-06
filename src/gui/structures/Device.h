@@ -27,4 +27,4 @@ struct Device {
 	//Color (Depends on if it is selected)
 	wxColour color;
 
-}
+};

@@ -5,6 +5,9 @@
  * Author: Ubljudok
  */
 
+#pragma once
+#include "Device.h"
+
 struct Connection {
 	
 	//Type
@@ -12,10 +15,8 @@ struct Connection {
 
 
 
-	//Positional Information
-	int d1_posX;
-	int d1_posY;
-	int d2_posX;
-	int d2_posY;
-
-}
+	//Devices
+	Device* deviceOne;
+	Device* deviceTwo;
+	
+};
