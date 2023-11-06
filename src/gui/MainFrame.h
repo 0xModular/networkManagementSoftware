@@ -64,7 +64,16 @@ class MainFrame : public wxFrame {
 		inline static const int ID_ADDDEVICE = 9;
 		inline static const int ID_TESTCONNECTION = 10;
 		inline static const int ID_NOTE = 11;
+	
+		inline static const int ID_ZOOMIN = 12;
+		inline static const int ID_ZOOMOUT = 13;
+		inline static const int ID_RESETZOOM = 14;
 
+		//--TOOLBAR MODE IDS--//
+		inline static const int SELECTION_MODE = 0;
+		inline static const int ADD_DEVICE_MODE = 1;
+		inline static const int TEST_CONNECTION_MODE = 2;
+		inline static const int ADD_NOTE_MODE = 3;
 
 
 		//Statusbar
@@ -81,87 +90,48 @@ class MainFrame : public wxFrame {
 		//Event Handler Functions
 
 		//--STANDARD--//
-		void OnExit(wxCommandEvent event); //When User Clicks 'X' or Quit on the File Menu
+		void OnExit(wxCommandEvent & event); //When User Clicks 'X' or Quit on the File Menu
 		
 		//--MAIN MENU--//
 		
 		//---File---//
-		void OnNew(wxCommandEvent event); //Creates New Network File, Gives Prompt 
-		void OnOpen(wxCommandEvent event); //Opens Existing Network File
-		void OnSave(wxCommandEvent event); //Saves Network State to Network File
-		void OnSaveAs(wxCommandEvent event); //Saves Network State, and Allows User to Choose Location of Network File
-		void OnLogOut(wxCommandEvent event); //Logs User Out and Returns to Log In Prompt
+		void OnNew(wxCommandEvent & event); //Creates New Network File, Gives Prompt 
+		void OnOpen(wxCommandEvent & event); //Opens Existing Network File
+		void OnSave(wxCommandEvent & event); //Saves Network State to Network File
+		void OnSaveAs(wxCommandEvent & event); //Saves Network State, and Allows User to Choose Location of Network File
+		void OnLogOut(wxCommandEvent & event); //Logs User Out and Returns to Log In Prompt
 		//OnExit 			//Exits the Program Fully - Will Prompt if Not Saved
 
 		//---Edit---//
-		void OnUndo(wxCommandEvent event); //Undo Previous Action
-		void OnRedo(wxCommandEvent event); //Redo Undone Action
+		void OnUndo(wxCommandEvent & event); //Undo Previous Action
+		void OnRedo(wxCommandEvent & event); //Redo Undone Action
 
 		//---Network---//
-		void OnConfigure(wxCommandEvent event); //Opens Configuration Suite
-		void OnManageDevices(wxCommandEvent event); //Opens Device Manager
-		void OnViewInfo(wxCommandEvent event); //Opens Network Information Window
+		void OnConfigure(wxCommandEvent & event); //Opens Configuration Suite
+		void OnManageDevices(wxCommandEvent & event); //Opens Device Manager
+		void OnViewInfo(wxCommandEvent & event); //Opens Network Information Window
 
 		//---Users---//
-		void OnManageUsers(wxCommandEvent event); //Opens User Manager
-		void OnUpdateAccount(wxCommandEvent event); //Opens Account Management Menu
+		void OnManageUsers(wxCommandEvent & event); //Opens User Manager
+		void OnUpdateAccount(wxCommandEvent & event); //Opens Account Management Menu
 		
 		//---Help---//
-		void OnOpenDocs(wxCommandEvent event); //Open Up Browser Window to Documentation
+		void OnOpenDocs(wxCommandEvent & event); //Open Up Browser Window to Documentation
 
 		//--TOOLBAR--//
 		
-		void OnHoverToolbarSelection(wxCommandEvent event); //Display on Statusbar "Set to... Mode" or "Zoom..."
+		void OnHoverToolbarSelection(wxCommandEvent & event); //Display on Statusbar "Set to... Mode" or "Zoom..."
 
 		//---Modes---//
-                void OnSelectionMode(wxCommandEvent event); //Default Mode of the Program, allows you to select devices
-		void OnAddDeviceMode(wxCommandEvent event); //When in this mode, clicking on the Network Field prompts Device Addition Menu
-                void OnTestingMode(wxCommandEvent event); //When in this mode, user selects one device, then another, which triggers tests, where results are shown in Testing Suite Window
-                void OnPlaceNoteMode(wxCommandEvent event); //When in this mode, clicking on the Network Field add a text note
+                void OnSelectionMode(wxCommandEvent & event); //Default Mode of the Program, allows you to select devices
+		void OnAddDeviceMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field prompts Device Addition Menu
+                void OnTestingMode(wxCommandEvent & event); //When in this mode, user selects one device, then another, which triggers tests, where results are shown in Testing Suite Window
+                void OnPlaceNoteMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field add a text note
 
 		//---Zoom---// 				//These are Self Explanatory
-                void OnZoomIn(wxCommandEvent event); 
-                void OnZoomOut(wxCommandEvent event);
-                void OnResetZoom(wxCommandEvent event);
-
-		//--NETWORKFIELD--//
-		void OnLeftClickDevice(wxCommandEvent event); //In Selection Mode, selects device
-							      //In Add Device Mode, after prompt, places device nearby
-							      //In Testing Mode, selects first device --> Then user will select different device as second device
-							      //In Place Note Mode, Places Note under device
-		
-		void OnRightClickDevice(wxCommandEvent event); //In Selection Mode, Opens Device Options Menu
-							       //In Add Device Mode, reverts to Selection Mode
-							       //In Testing Mode, clears selections and reverts to Selection Mode
-							       //In Place Note Mode, reverts to Selection Mode
-		
-		void OnLeftClickNote(wxCommandEvent event); //In Selection Mode, selects note
-							    //In Add Device Mode, after prompt, places device nearby
-							    //In Testing Mode, clears selections and reverts to Selection Mode
-							    //In Place Note Mode, Places Note under note
-		
-		void OnRightClickNote(wxCommandEvent event); //In Selection Mode, opens Note Options Menu (literally edit or delete)
-							     //In Add Device Mode, reverts to Selection Mode
-							     //In Testing Mode, clears selections and reverts to Selection Mode
-							     //In Place Note Mode, edit note
-		
-		void OnLeftClickField(wxCommandEvent event); //In Selection Mode, clears selections
-							     //In Add Device Mode, after prompt, adds device at position
-							     //In Testing Mode, clears selections and reverts to Selection Mode
-							     //In Place Note Mode, places note at position
-		
-		void OnRightClickField(wxCommandEvent event); //In Selection Mode, opens Network Options Menu
-							      //In Add Device Mode, reverts to Selection Mode
-							      //In Testing Mode, clears selections and reverts to Selection Mode
-							      //In Place Note Mode, reverts to Selection Mode
-		
-		void OnLeftHoldDragField(wxCommandEvent event); //In All Modes, revert to Selection Mode and  move the Network Field
-
-		void OnLeftHoldDragDevice(wxCommandEvent event); //In All Modes, revert to Selection Mode and move Device in Network Field
-		
-		//OnZoomIn - Triggered From Forward Scroll
-		//OnZoomOut - Triggered From Backward Scroll
-
+                void OnZoomIn(wxCommandEvent & event); 
+                void OnZoomOut(wxCommandEvent & event);
+                void OnResetZoom(wxCommandEvent & event);
 
 };
 

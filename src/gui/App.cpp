@@ -19,7 +19,7 @@ bool App::OnInit() {
 	wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL); //Load Box Sizer
 	MainFrame* app = new MainFrame("NULL Network Management (alpha)"); //Load MainFrame
 	
-	NetworkField* networkField = new NetworkField(app); //Create NetworkField and attach it to MainFrame
+	NetworkField* networkField = new NetworkField(app, wxID_ANY, wxDefaultPosition, wxDefaultSize); //Create NetworkField and attach it to MainFrame
 
 	sizer->Add(networkField, 1, wxEXPAND); //Apply sizer to NetworkField
 	
