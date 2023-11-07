@@ -46,8 +46,7 @@ ReferenceValidationMechanism* ReferenceValidationMechanism::accessLogin(){
     std::string name;
     std::string password;
     
-
-    //login, cancel, create account
+    LoginDialog()
 
     if (loginScreenReturnValue.compare("login")){
 
