@@ -8,17 +8,19 @@
 #include "LoginDialog.h"
 
 //Constructor
-LoginDialog::LoginDialog(wxWindow* parent, int maxAttempts) : wxDialog(parent, -1, _T("Network Manager Login")) {
+LoginDialog::LoginDialog(wxWindow* parent, int maxAttempts, struct Credentials * credentials, bool  wrongPassword) : wxDialog(parent, -1, _T("Network Manager Login")) {
+
+	this->cred = credentials;
 
 	this->attempts = 0;
 	this->maxAttempts = maxAttempts;
 
-	CreateControls();
+	CreateControls(wrongPassword);
 	ConnectControls();
 
 }
 
-void LoginDialog::CreateControls() {
+void LoginDialog::CreateControls(bool wrongPassword) {
 
 	wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 	wxBoxSizer* horizontalSizer;
@@ -88,7 +90,9 @@ void LoginDialog::CreateControls() {
 
 
 	//Other Operations
-	this->warningText->Hide();
+	
+	if (!wrongPassword)
+		this->warningText->Hide();
 
 	mainSizer->SetSizeHints(this);
 
@@ -152,6 +156,19 @@ void LoginDialog::OnOk(wxCommandEvent & event) {
 
 	//this->warningText->Show();	
 	//GetSizer()->SetSizeHints(this);
+	
+	//Get Input
+	wxString wx_Username = this->usernameEntry->GetValue();
+	wxString wx_Password = this->passwordEntry->GetValue();
+
+	this->username = std::string(wx_Username.mb_str(wxConvUTF8));
+	this->password = std::string(wx_Password.mb_str(wxConvUTF8));
+
+	struct Credentials credentials;
+	credentials.username = this->username;
+	credentials.password = this->password;
+
+	*cred = credentials;	
 
 	this->EndModal(wxID_OK);
 }
