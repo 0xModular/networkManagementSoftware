@@ -42,33 +42,40 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Acc
 
 ReferenceValidationMechanism* ReferenceValidationMechanism::accessLogin(){
 
-    std::string type;
+    std::string loginScreenReturnValue;
     std::string name;
     std::string password;
-    std::cout << "account type (type \"admin\" for now):\n";
-    std::cin >> type;
-    std::cout << "account name (type anything for now):\n";
-    std::cin >> name;
-    std::cout << "account password (type anything for now):\n";
-    std::cin >> password;
     
 
-    Login *l = new Login(type, name, password);
-    std::string accountType;
-    std::string accountCategory;
+    //login, cancel, create account
 
-    l->encryptLoginInfo();
-    l->sendLoginInfo();
+    if (loginScreenReturnValue.compare("login")){
+
+        Login *l = new Login(name, password);
+        std::string accountType;
+        std::string accountCategory;
+
+        l->encryptLoginInfo();
+        l->sendLoginInfo();
 
 
-    Account *a = l->waitForResponse(&type, &accountCategory);
-    l->~Login();
-    delete l;
+        Account *a = l->waitForResponse(&type, &accountCategory);
+        l->~Login();
+        delete l;
+
+        ReferenceValidationMechanism *r = new ReferenceValidationMechanism(type, a);
+
+        return r;
+
+    }
+    else if(loginScreenReturnValue.compare("cancel")){
+        exit(0);
+    }
+    else if(loginScreenReturnValue.compare("create account")){
+        
+    }
 
 
-    ReferenceValidationMechanism *r = new ReferenceValidationMechanism(type, a);
-
-    return r;
 
 
 }

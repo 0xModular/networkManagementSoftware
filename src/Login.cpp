@@ -6,11 +6,11 @@
 
 
         //constructor
-Login::Login(std::string name, std::string passphrase, std::string t){
+Login::Login(std::string name, std::string passphrase){
             
+	
 	username = name;
 	password = passphrase;
-	type = t;
 	loginAttempts = 0;
             
 }

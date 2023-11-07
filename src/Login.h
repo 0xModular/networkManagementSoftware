@@ -9,7 +9,7 @@ class Login{
 
 	public:
 	
-		Login(std::string type, std::string name, std::string password);
+		Login(std::string name, std::string password);
 		~Login();
 		Account createAccount();
 		void encryptLoginInfo();
@@ -23,7 +23,6 @@ class Login{
 		std::string username;
 		std::string password;
 		int loginAttempts;
-		std::string type;
 
 
 
