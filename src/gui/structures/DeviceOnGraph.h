@@ -1,26 +1,22 @@
 /*
- * Device.h
+ * DeviceOnGraph.h
  * Created on Nov 5, 2023
  *
  * Author: Ubljudok
  */
 
 #pragma once
+#include <wx/wx.h>
 #include <string>
-
 
 struct Device {
 	
-	//Identification
-	std::string name;
-	std::string mac;
-	//TODO: Consult other group members on other Idenification info
-	
+	//Associated Device
+	//Device	
 
 
 	//Positional Information
-	int posX;
-	int posY;
+	wxPoint position;
 	
 
 	

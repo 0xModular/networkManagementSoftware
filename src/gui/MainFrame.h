@@ -22,6 +22,8 @@
 #include "../../assets/icons/TOOLBAR_ZOOM_IN.xpm"
 
 //Other Objects
+#include "NetworkField.h"
+
 #include "subwindows/DeviceManagementSubWindow.h"
 #include "subwindows/UserManagementSubWindow.h"
 #include "subwindows/UserUpdateSubWindow.h"
@@ -34,7 +36,40 @@ class MainFrame : public wxFrame {
 
 		MainFrame(const wxString& title); //Constructor
 
+	protected:
+
+		//Toolbar Events
+
+                void OnHoverToolbarSelection(wxCommandEvent & event); //Display on Statusbar "Set to... Mode" or "Zoom..."
+
+                //--Modes--//
+                void OnSelectionMode(wxCommandEvent & event); //Default Mode of the Program, allows you to select devices
+                void OnAddDeviceMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field prompts Device Addition Menu
+                void OnTestingMode(wxCommandEvent & event); //When in this mode, user selects one device, then another, which triggers tests, where results are shown in Testing Suite Window
+                void OnPlaceNoteMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field add a text note
+
+                //---Zoom---//                          //These are Self Explanatory
+                void OnZoomIn(wxCommandEvent & event);
+                void OnZoomOut(wxCommandEvent & event);
+                void OnResetZoom(wxCommandEvent & event);
+		
+		//--Toolbar Mode IDs--//
+		inline static const int SELECTION_MODE = 0;
+                inline static const int ADD_DEVICE_MODE = 1;
+                inline static const int TEST_CONNECTION_MODE = 2;
+                inline static const int ADD_NOTE_MODE = 3;
+
+	
 	private:
+		
+		//Sizer
+		wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
+
+
+
+		//Network Field
+		NetworkField* nf = new NetworkField(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+
 
 		//Resources
 
@@ -75,21 +110,16 @@ class MainFrame : public wxFrame {
 		inline static const int ID_ZOOMOUT = 12;
 		inline static const int ID_RESETZOOM = 13;
 
-		//--TOOLBAR MODE IDS--//
-		inline static const int SELECTION_MODE = 0;
-		inline static const int ADD_DEVICE_MODE = 1;
-		inline static const int TEST_CONNECTION_MODE = 2;
-		inline static const int ADD_NOTE_MODE = 3;
-
+		//--TOOLBAR MODE IDS--// --SEE PROTECTED
 
 		//Statusbar
 		wxStatusBar* sb = new wxStatusBar(this);
 		
         	//--SET WIDTHS--//
-       		inline static const int sb_Widths[] = {250, -1};
+       		inline static const int SB_WIDTHS[] = {250, -1};
 	
 	        //--SET STYLES--//
-	        inline static const int sb_Styles[] = {wxSB_SUNKEN, wxSB_SUNKEN};
+	        inline static const int SB_STYLES[] = {wxSB_SUNKEN, wxSB_SUNKEN};
 
 
 
@@ -128,20 +158,9 @@ class MainFrame : public wxFrame {
 		//---Help---//
 		void OnOpenDocs(wxCommandEvent & event); //Open Up Browser Window to Documentation
 
-		//--TOOLBAR--//
-		
-		void OnHoverToolbarSelection(wxCommandEvent & event); //Display on Statusbar "Set to... Mode" or "Zoom..."
+		//--TOOLBAR--// --SEE PROTECTED
 
-		//---Modes---//
-                void OnSelectionMode(wxCommandEvent & event); //Default Mode of the Program, allows you to select devices
-		void OnAddDeviceMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field prompts Device Addition Menu
-                void OnTestingMode(wxCommandEvent & event); //When in this mode, user selects one device, then another, which triggers tests, where results are shown in Testing Suite Window
-                void OnPlaceNoteMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field add a text note
 
-		//---Zoom---// 				//These are Self Explanatory
-                void OnZoomIn(wxCommandEvent & event); 
-                void OnZoomOut(wxCommandEvent & event);
-                void OnResetZoom(wxCommandEvent & event);
 
 		//Sub Windows
 
@@ -149,6 +168,8 @@ class MainFrame : public wxFrame {
 		inline static const wxWindowID SUBWIN_DEVICEMANAGEMENT = 0;
 		inline static const wxWindowID SUBWIN_USERMANAGEMENT = 1;
 		inline static const wxWindowID SUBWIN_USERUPDATE = 2;
+
+		inline static const wxWindowID SUBWIN_ADDDEVICE = 3;
 
 		//--Sub Window Objects--//
 		DeviceManagementSubWindow* deviceManagementSubWindow = new typename DeviceManagementSubWindow::DeviceManagementSubWindow(this, this->SUBWIN_DEVICEMANAGEMENT, wxDefaultPosition, wxDefaultSize);
