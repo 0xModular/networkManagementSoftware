@@ -1,5 +1,5 @@
 /*
- * Registration.h
+ * RegistrationDialog.h
  * Created on: Nov 1, 2023
  *
  * Author: Ubljudok
@@ -7,22 +7,24 @@
 
 #pragma once
 #include <wx/wx.h>
+#include <wx/statline.h>
+
 #include <string>
 #include <vector>
 
-class Registration : public wxDialog {
+class RegistrationDialog : public wxDialog {
 
 	public:
 	
-		Registration(wxWindow* parent, std::vector<std::string> usernames); //Constructor
-		virtual ~Registration(); //Destructor
+		RegistrationDialog(wxWindow* parent); //Constructor
+		virtual ~RegistrationDialog() noexcept {}; //Destructor
 	
 	private:
 
 		//Misc Functions
 		void CreateControls();
 		void ConnectControls();
-
+		bool ComparePasswords();
 		
 
 		//Event Handler Functions
@@ -44,12 +46,5 @@ class Registration : public wxDialog {
 
 		wxButton* cancel;
 		wxButton* submit;
-
-
-
-		//Misc Variables
-		std::string username;
-		std::string password;
-		std::string password2;
 
 };

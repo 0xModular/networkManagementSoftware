@@ -7,6 +7,8 @@
 
 #pragma once
 #include <wx/wx.h>
+#include <wx/statline.h>
+
 #include <string>
 #include <vector>
 
@@ -14,8 +16,10 @@ class LoginDialog : public wxDialog {
 	
 	public:
 		
-		LoginDialog(wxWindow* parent, std::vector<std::string> usernames, std::vector<std::string> passwords, int maxAttempts); //Constuctor
-		virtual ~LoginDialog(); //Destructor
+		LoginDialog(wxWindow* parent, int maxAttempts); //Constuctor
+		virtual ~LoginDialog() noexcept {}; //Destructor
+
+		inline static const int ID_RGSTR = 2;
 
 	private:
 		
@@ -30,7 +34,7 @@ class LoginDialog : public wxDialog {
 		
 		void OnOk(wxCommandEvent & event);
 		void OnCancel(wxCommandEvent & event);
-		void OnRegisterNewAccount(wxCommandEvent & event);
+		void OnRegister(wxCommandEvent & event);
 
 
 
@@ -49,8 +53,6 @@ class LoginDialog : public wxDialog {
 
 
 		//Misc Variables
-		std::string username;
-		std::string password;
 		int attempts;
 		int maxAttempts;
 
