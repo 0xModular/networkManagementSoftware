@@ -7,6 +7,8 @@
 
 #pragma once
 #include <wx/wx.h>
+#include <wx/statline.h>
+
 #include <string>
 
 class TwoFactorAuthenticationDialog : public wxDialog {
@@ -14,7 +16,7 @@ class TwoFactorAuthenticationDialog : public wxDialog {
 	public:
 
 		TwoFactorAuthenticationDialog(wxWindow* parent, int code); //Constructor
-		virtual ~TwoFactorAuthenticationDialog();
+		virtual ~TwoFactorAuthenticationDialog() noexcept {};
 		
 		void UpdateCode(int newCode);
 
@@ -23,7 +25,7 @@ class TwoFactorAuthenticationDialog : public wxDialog {
 		//Misc Functions
 		void CreateControls();
 		void ConnectControls();
-
+		void ProcessInput();
 
 		//Event Handler Functions
 		void OnCancel(wxCommandEvent & event);
@@ -43,5 +45,6 @@ class TwoFactorAuthenticationDialog : public wxDialog {
 
 		//Misc Variables
 		int enteredCode; //Process wxString into std::string into int;
+		int code;
 
 };

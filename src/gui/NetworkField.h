@@ -13,9 +13,9 @@
 
 #include <vector>
 
-#include "structures/DeviceOnGraph.h"
-#include "structures/ConnectionOnGraph.h"
-#include "structures/Note.h"
+#include "structures/DeviceOnField.h"
+#include "structures/ConnectionOnField.h"
+#include "structures/NoteOnField.h"
 
 class NetworkField : public wxWindow {
 	

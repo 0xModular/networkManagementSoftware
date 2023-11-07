@@ -1,5 +1,5 @@
 /*
- * DeviceOnGraph.h
+ * DeviceOnField.h
  * Created on Nov 5, 2023
  *
  * Author: Ubljudok
@@ -13,6 +13,7 @@ struct Device {
 	
 	//Associated Device
 	//Device	
+
 
 
 	//Positional Information
