@@ -53,5 +53,3 @@ int ConnectDatabase() {
 }
 <<<<<<< HEAD:src/database.cpp
 */
-=======
->>>>>>> 5d18c593a0d5632a515834303f48b473ee59559c:src/Database.cpp
