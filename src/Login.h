@@ -12,9 +12,8 @@ class Login{
 		Login(std::string name, std::string password);
 		~Login();
 		Account createAccount();
-		void encryptLoginInfo();
-		void sendLoginInfo();
-		Account* waitForResponse(std::string *type, std::string *category); //handles wrong password and account doesn't exist errors
+		Account *generateEncryptedLoginConnection();
+		Account *sendInfoAndGetResponse(std::string name, std::string pass sql::Connection *con); //handles wrong password and account doesn't exist errors
 
 	private:
 
