@@ -70,7 +70,7 @@ void Network::getDevices(){
         Device d(macAddress, ipv4Address, wired, name);
 
         if (name.compare("_gateway") == 0)
-            gateway = d;
+            gateway = &d;
 
         deviceList.push_back(d);
 
@@ -81,7 +81,7 @@ void Network::getDevices(){
 
 Device Network::getGatewayDevice(ReferenceValidationMechanism *r){
     if (r->checkAuthorization(1)){
-        return gateway;
+        return *gateway;
     }
 }
 

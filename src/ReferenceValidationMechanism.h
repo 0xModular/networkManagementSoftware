@@ -8,6 +8,7 @@
 #include "Device.h"
 
 class Account;
+class Network;
 
 class ReferenceValidationMechanism{
 
@@ -26,7 +27,7 @@ class ReferenceValidationMechanism{
 
 	private:
 
-        Network n;
+        Network *n;
         std::string accessType;
         Account *userAccount;
 

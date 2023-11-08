@@ -35,7 +35,7 @@ class Network{
 		long long timeSinceRefresh;
 		std::vector<Device> deviceList;
 		std::vector<Device> connectionList;
-		Device gateway;
+		Device *gateway;
 };
 
 

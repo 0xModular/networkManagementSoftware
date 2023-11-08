@@ -20,25 +20,17 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Acc
  
     if(type.compare("admin") == 0){
 	    accessType = type;
-        n = Network();
+        n = new Network();
         userAccount = a;
 	}
 	else if(type.compare("engineer") == 0){
 		accessType = type;
-        n = Network();
+        n = new Network();
         userAccount = a;
 	}
 
 }
 
-
-
-ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Account *a){
-
-	userAccount = a;
-	accessType = type;
-
-}
 
 Account* ReferenceValidationMechanism::accessLogin(std::string name, std::string password, int *error){
 
@@ -67,8 +59,8 @@ void ReferenceValidationMechanism::networkAdminTools(std::string option){
 
     if (option.compare("dlist") == 0){
 
-    	n.refresh(this);
-    	std::vector<Device> d = n.getDeviceList(this);
+    	n->refresh(this);
+    	std::vector<Device> d = n->getDeviceList(this);
     	int i;
     	for (i = 0; i < d.size(); i++){
     	std::cout << "Name: " << d.at(i).getName(this) << " IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Wired(1 is true): " << d.at(i).getWired(this) << "\n";
@@ -87,8 +79,8 @@ void ReferenceValidationMechanism::networkEngineerTools(std::string option){
 
     if (option.compare("dlist") == 0){
 
-    	n.refresh(this);
-    	std::vector<Device> d = n.getDeviceList(this);
+    	n->refresh(this);
+    	std::vector<Device> d = n->getDeviceList(this);
     	int i;
     	for (i = 0; i < d.size(); i++){
     	std::cout << "Name: " << d.at(i).getName(this) << " IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Wired(1 is true): " << d.at(i).getWired(this) << "\n";
