@@ -7,6 +7,7 @@
 
 
 std::string Account::getAccountType(){
+
 	return type;
 
 }
