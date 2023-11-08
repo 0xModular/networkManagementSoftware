@@ -7,6 +7,7 @@
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
+class mysql_connection;
 
 //constructor
 Login::Login(std::string name, std::string passphrase){
