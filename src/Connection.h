@@ -10,13 +10,9 @@ class Connection{
 	
 	public:
 		
-		//public static methods
 		static bool testConnection(Device d1, Device d2);
 		static bool testConnection(Device d1, Device d2, std::string *details);
-	
-		//public methods
-		
-		Connection(Device d1, Device d2);
+		Connection(int lPort, std::string rAddress, int rPort, std::string connectionState, int pid);
         ~Connection();
 
 	private:
@@ -35,3 +31,4 @@ class Connection{
 
 
 #endif /* SRC_CONNECTION_H_ */
+

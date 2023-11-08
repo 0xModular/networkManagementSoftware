@@ -4,31 +4,35 @@
 #include "ReferenceValidationMechanism.h"
 #include <iostream>
 
+//"login"4
+ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
 
-void ReferenceValidationMechanism::start(std::string type){
 
-
-	ReferenceValidationMechanism *r = new ReferenceValidationMechanism("login");
 	if(type.compare("login") == 0){
-		    r = r->accessLogin();
+		accessType = type;
 	}
 	else if(type.compare("createAccount") == 0){
-		r = r->accessLogin();
+		accessType = type;
 	}
 
-	if(r->accessType.compare("admin") == 0){
-	    r->networkAdminTools();
-	}
-	else if(r->accessType.compare("engineer") == 0){
-		r->networkEngineerTools();
-	}
+	
 
 }
 
-ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
+ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Account *a){
 
-	userAccount = NULL;
-    accessType = type;
+    
+    if(type.compare("admin") == 0){
+	    accessType = type;
+        n = Network();
+        userAccount = a;
+	}
+	else if(type.compare("engineer") == 0){
+		accessType = type;
+        n = Network();
+        userAccount = a;
+	}
+
 }
 
 
@@ -40,40 +44,22 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Acc
 
 }
 
-ReferenceValidationMechanism* ReferenceValidationMechanism::accessLogin(){
+Account* ReferenceValidationMechanism::accessLogin(std::string name, std::string password, int *error){
 
     std::string loginScreenReturnValue;
-    std::string name;
-    std::string password;
     
-    LoginDialog()
-
-    if (loginScreenReturnValue.compare("login")){
-
-        Login *l = new Login(name, password);
-        std::string accountType;
-        std::string accountCategory;
-
-        l->encryptLoginInfo();
-        l->sendLoginInfo();
-
-
-        Account *a = l->waitForResponse(&type, &accountCategory);
-        l->~Login();
-        delete l;
-
-        ReferenceValidationMechanism *r = new ReferenceValidationMechanism(type, a);
-
-        return r;
-
+    Login *l = new Login(name, password);
+    std::string accountType;
+    std::string accountCategory;
+    Account *a = l->generateEncryptedLoginConnection();
+    if (a == NULL){
+        *error = 1;
+        return NULL;
     }
-    else if(loginScreenReturnValue.compare("cancel")){
-        exit(0);
+    else{
+        *error = 0;
+        return a;
     }
-    else if(loginScreenReturnValue.compare("create account")){
-        
-    }
-
 
 
 
