@@ -1,8 +1,4 @@
-#ifndef SRC_REFERENCEVALIDATIONMECHANISM_I_
-#define SRC_REFERENCEVALIDATIONMECHANISM_I_
-
 #include "ReferenceValidationMechanism.h"
-#include <iostream>
 
 //"login"4
 ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
@@ -20,12 +16,12 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Acc
  
     if(type.compare("admin") == 0){
 	    accessType = type;
-        n = new Network();
+        auto n = new Network();
         userAccount = a;
 	}
 	else if(type.compare("engineer") == 0){
 		accessType = type;
-        n = new Network();
+        auto n = new Network();
         userAccount = a;
 	}
 
@@ -120,4 +116,3 @@ bool ReferenceValidationMechanism::checkAuthorization(int level){
 
 }
 
-#endif

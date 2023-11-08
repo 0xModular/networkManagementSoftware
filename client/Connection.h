@@ -1,9 +1,6 @@
-#ifndef SRC_CONNECTION_H_
-#define SRC_CONNECTION_H_
-
+#pragma once
 #include <string>
 #include <vector>
-
 #include "Device.h"
 
 class Connection{
@@ -23,9 +20,3 @@ class Connection{
 		int PID;
 	
 };
-
-
-
-
-
-#endif /* SRC_CONNECTION_H_ */

@@ -1,9 +1,7 @@
+#pragma once
 #include <string>
 #include <vector>
 #include "Connection.h"
-
-#ifndef SRC_THISDEVICE_H_
-#define SRC_THISDEVICE_H_
 
 class ThisDevice{
 
@@ -28,9 +26,3 @@ class ThisDevice{
 		bool limitedMembers;
 		bool wired;
 };
-
-#endif
-
-
-
-

@@ -1,13 +1,4 @@
-#ifndef SRC_LOGIN_I_
-#define SRC_LOGIN_I_
-
-#include <iostream>
 #include "Login.h"
-#include "mysql_connection.h"
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/prepared_statement.h>
-class mysql_connection;
 
 //constructor
 Login::Login(std::string name, std::string passphrase){
@@ -91,4 +82,3 @@ Account *a = new Account(&name, new std::string("admin"), new std::string("1"));
 return a;
 
 }
-#endif

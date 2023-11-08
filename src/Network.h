@@ -1,11 +1,18 @@
-#ifndef SRC_NETWORK_H_
-#define SRC_NETWORK_H_
-
+#pragma once
+#include <cstdio>
+#include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
-
+#include <cstring>
+#include <iostream>
+#include <regex>
+#include <tuple>
 #include "Device.h"
+#include "ReferenceValidationMechanism.h"
+
 class Device;
+class ReferenceValidationMechanism;
 
 class Network{
 
@@ -40,7 +47,6 @@ class Network{
 
 
 
-#endif /* SRC_NETWORK_H_ */
 
 /*
 Machine1 (10.0.2.4) at 08:00:27:ad:87:b3 [ether] om etho0

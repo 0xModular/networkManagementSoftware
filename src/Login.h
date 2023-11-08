@@ -1,12 +1,12 @@
-#ifndef SRC_LOGIN_H_
-#define SRC_LOGIN_H_
-
+#pragma once
+#include <iostream>
 #include <string>
 #include "Account.h"
 #include "mysql_connection.h"
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
+
 class Account;
 
 class Login{
@@ -31,4 +31,3 @@ class Login{
 };
 
 
-#endif /* SRC_LOGIN_H_ */

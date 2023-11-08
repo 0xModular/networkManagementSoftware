@@ -1,5 +1,5 @@
 /*
-
+#pragma once
 #include <iostream>
 #include "mysql_connection.h"
 #include <cppconn/driver.h>

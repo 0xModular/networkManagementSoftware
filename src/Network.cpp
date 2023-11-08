@@ -1,20 +1,10 @@
-#ifndef SRC_NETWORK_I_
-#define SRC_NETWORK_I_
-
 #include "Network.h"
 
-#include <cstdio>
-#include <memory>
-#include <stdexcept>
-#include <string>
-#include <cstring>
-#include <iostream>
-#include <regex>
-#include <tuple>
+Network::Network() {
 
-#include "ReferenceValidationMechanism.h"
+	//Missing Constructor
 
-class ReferenceValidationMechanism;
+}
 
 void Network::refresh(ReferenceValidationMechanism *r){
 
@@ -170,4 +160,3 @@ void Network::editConnections(ReferenceValidationMechanism *r){
 
 }
 
-#endif

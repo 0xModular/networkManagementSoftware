@@ -1,8 +1,5 @@
 #include "ThisDevice.h"
 
-#ifndef SRC_THISDEVICE_I_
-#define SRC_THISDEVICE_I_
-
 std::string ThisDevice::getDefaultAdapater(){
 
  std::vector<std::tuple<std::string, std::string, std::string>> devices;
@@ -122,7 +119,3 @@ int pid;
     return ports;
 
 }
-
-
-
-#endif

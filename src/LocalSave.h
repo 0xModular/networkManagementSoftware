@@ -1,10 +1,7 @@
+#pragma once
 #include <fstream>
 #include <string>
 #include <vector>
-
-
-#ifndef SRC_LOCALSAVE_H_
-#define SRC_LOCALSAVE_H_
 
 class LocalSave{
 
@@ -38,4 +35,3 @@ class LocalSave{
 };
 
 
-#endif /* SRC_LOCALSAVE_H_ */

@@ -1,12 +1,11 @@
-#ifndef SRC_ACCOUNT_H_
-#define SRC_ACCOUNT_H_
-
+#pragma once
 #include <string>
 #include <vector>
-
 #include "Device.h"
+#include "ReferenceValidationMechanism.h"
 
 class Device;
+class ReferenceValidationMechanism;
 
 class Account{
 
@@ -53,4 +52,3 @@ class Account{
 
 
 
-#endif /* SRC_ACCOUNT_H_ */

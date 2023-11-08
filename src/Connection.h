@@ -1,6 +1,4 @@
-#ifndef SRC_CONNECTION_H_
-#define SRC_CONNECTION_H_
-
+#pragma once
 #include <string>
 #include <vector>
 
@@ -30,5 +28,4 @@ class Connection{
 
 
 
-#endif /* SRC_CONNECTION_H_ */
 

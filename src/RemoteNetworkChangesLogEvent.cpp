@@ -1,6 +1,3 @@
-#ifndef SRC_REMOTENETWORKCHANGESLOG_I_
-#define SRC_REMOTENETWORKCHANGESLOG_I_
-
 #include "RemoteNetworkChangesLogEvent.h"
 
 std::vector<RemoteNetworkChangesLogEvent> RemoteNetworkChangesLogEvent::readLogs(ReferenceValidationMechanism *r){
@@ -24,6 +21,3 @@ void encryptOutgoingLog(){
     
 }
 
-
-
-#endif

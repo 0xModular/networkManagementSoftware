@@ -1,6 +1,4 @@
-#ifndef SRC_REMOTENETWORKCHANGESLOG_H_
-#define SRC_REMOTENETWORKCHANGESLOG_H_
-
+#pragma once
 #include <string>
 #include <vector>
 
@@ -33,4 +31,3 @@ class RemoteNetworkChangesLogEvent{
 
 
 
-#endif /* SRC_REMOTENETWORKCHANGESLOG_H_ */

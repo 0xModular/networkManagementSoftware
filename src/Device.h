@@ -1,12 +1,11 @@
+#pragma once
+
+#include <iostream>
 #include <string>
 #include <vector>
+#include "ReferenceValidationMechanism.h"
 
 class ReferenceValidationMechanism;
-
-#ifndef SRC_DEVICE_H_
-#define SRC_DEVICE_H_
-
-#include "ReferenceValidationMechanism.h"
 
 class Device{
 
@@ -47,7 +46,6 @@ class Device{
 		bool wired;
 };
 
-#endif
 
 
 

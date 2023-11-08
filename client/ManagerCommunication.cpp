@@ -1,7 +1,4 @@
-#ifndef SRC_MANAGERCOMMUNICATION_I_
-#define SRC_MANAGERCOMMUNICATION_I_
-
-
+#pragma once
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -124,10 +121,3 @@ void setStaticIP(){
     _pclose(pipe);
     return devices;
 }
-
-
-
-
-
-
-#endif

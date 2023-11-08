@@ -1,6 +1,5 @@
-#ifndef SRC_REFERENCEVALIDATIONMECHANISM_H_
-#define SRC_REFERENCEVALIDATIONMECHANISM_H_
-
+#pragma once
+#include <iostream>
 #include <string>
 #include "Account.h"
 #include "Network.h"
@@ -9,6 +8,8 @@
 
 class Account;
 class Network;
+class Login;
+class Device;
 
 class ReferenceValidationMechanism{
 
@@ -27,12 +28,11 @@ class ReferenceValidationMechanism{
 
 	private:
 
-        Network *n;
+	Network *n;
         std::string accessType;
-        Account *userAccount;
+	Account *userAccount;
 
 
 };
 
 
-#endif /* SRC_LOGIN_H_ */

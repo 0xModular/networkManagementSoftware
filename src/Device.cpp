@@ -1,9 +1,4 @@
-#ifndef SRC_DEVICE_I_
-#define SRC_DEVICE_I_
-
 #include "Device.h"
-#include <string>
-#include <iostream>
 
 Device::Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac){
 
@@ -83,4 +78,3 @@ void Device::validateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, st
 
 }
 
-#endif

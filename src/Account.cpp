@@ -1,6 +1,3 @@
-#ifndef SRC_ACCOUNT_I_
-#define SRC_ACCOUNT_I_
-
 #include "Account.h"
 
 
@@ -52,5 +49,3 @@ Account::Account(std::string *name, std::string *t, std::string *cat){
 }
 Account::Account(){}
 Account::~Account(){}
-
-#endif
