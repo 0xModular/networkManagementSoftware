@@ -1,3 +1,10 @@
+/*
+ * ThisDevice.h
+ * Created on: Nov 7, 2023
+ *
+ * Author: Layne
+ */
+
 #pragma once
 #include <string>
 #include <vector>
@@ -7,14 +14,14 @@ class ThisDevice{
 
 	public:
 
-		void getAllMembers();
-		std::string getDefaultAdapater();
-		std::vector<Connection> getConnections();
+		void GetAllMembers();
+		std::string GetDefaultAdapater();
+		std::vector<Connection> GetConnections();
 
 	private:
 
 		//members
-        std::string defaultAdapter;
+	       	std::string defaultAdapter;
 		std::string macAddress;
 		std::string localIpv4;
 		std::string localIpv6;
@@ -25,4 +32,5 @@ class ThisDevice{
 		bool staticIp;
 		bool limitedMembers;
 		bool wired;
+
 };

@@ -1,3 +1,10 @@
+/*
+ * Connection.h
+ * Created on: Nov 7, 2023
+ *
+ * Author: Layne
+ */
+
 #pragma once
 #include <string>
 #include <vector>
@@ -7,8 +14,8 @@ class Connection{
 	
 	public:
 		
-		Connection(int lPort, std::string rAddress, int rPort, std::string connectionState, int pid);
-        ~Connection();
+		Connection(int lPort, std::string rAddress, int rPort, std::string connectionState, int pid); //Constructor
+	        ~Connection(); //Destructor
 
 	private:
 		
