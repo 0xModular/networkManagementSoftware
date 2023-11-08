@@ -7,7 +7,6 @@
 //"login"4
 ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
 
-
 	if(type.compare("login") == 0){
 		accessType = type;
 	}
@@ -15,13 +14,10 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
 		accessType = type;
 	}
 
-	
-
 }
 
 ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Account *a){
-
-    
+ 
     if(type.compare("admin") == 0){
 	    accessType = type;
         n = Network();
@@ -61,61 +57,48 @@ Account* ReferenceValidationMechanism::accessLogin(std::string name, std::string
         return a;
     }
 
-
-
 }
 
-void ReferenceValidationMechanism::networkAdminTools(){
+void ReferenceValidationMechanism::networkAdminTools(std::string option){
     
-    Network *n = new Network();
+    if(userAccount->getAccountType().compare("admin") != 0){
+        exit(1);
+    }
 
-    std::string input;
+    if (option.compare("dlist") == 0){
 
-    while (true){
-
-        std::cout << "type \"dlist\"\n";
-    	std::cin >> input;
-
-    	if (input.compare("dlist") == 0){
-
-    		n->refresh(this);
-    		std::vector<Device> d = n->getDeviceList(this);
-    		int i;
-    		for (i = 0; i < d.size(); i++){
-    		std::cout << "Name: " << d.at(i).getName(this) << " IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Wired(1 is true): " << d.at(i).getWired(this) << "\n";
-    		}
+    	n.refresh(this);
+    	std::vector<Device> d = n.getDeviceList(this);
+    	int i;
+    	for (i = 0; i < d.size(); i++){
+    	std::cout << "Name: " << d.at(i).getName(this) << " IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Wired(1 is true): " << d.at(i).getWired(this) << "\n";
     	}
-    	else if (input.compare("add") == 0){
-
-
-    	}
+    }
+    else if (option.compare("add") == 0){
+    	
     }
 }
 
-void ReferenceValidationMechanism::networkEngineerTools(){
+void ReferenceValidationMechanism::networkEngineerTools(std::string option){
 
- Network *n = new Network();
+    if(userAccount->getAccountType().compare("engineer") != 0){
+        exit(1);
+    }
 
-    std::string input;
+    if (option.compare("dlist") == 0){
 
-    while (true){
-
-        std::cout << "type \"dlist\"\n";
-    	std::cin >> input;
-
-    	if (input.compare("dlist") == 0){
-
-    		n->refresh(this);
-    		std::vector<Device> d = n->getDeviceList(this);
-    		int i;
-    		for (i = 0; i < d.size(); i++){
-    		std::cout << "Name: " << d.at(i).getName(this) << " IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Wired(1 is true): " << d.at(i).getWired(this) << "\n";
-    		}
+    	n.refresh(this);
+    	std::vector<Device> d = n.getDeviceList(this);
+    	int i;
+    	for (i = 0; i < d.size(); i++){
+    	std::cout << "Name: " << d.at(i).getName(this) << " IP: " << d.at(i).getIpv4(this) << " MAC: " << d.at(i).getMac(this) << " Wired(1 is true): " << d.at(i).getWired(this) << "\n";
     	}
-    	else if (input.compare("add") == 0){
+    }
+
+    else if (option.compare("add") == 0){
 
 
-    	}
+    	
     }
 
 

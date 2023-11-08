@@ -22,6 +22,8 @@ class Account{
 		Account linkDevice(Device d, ReferenceValidationMechanism *r);
 		Account unlinkDevice(Device d, ReferenceValidationMechanism *r);
 		void getAccountDetails(std::string *name, std::string *type, std::string *category, std::vector<Device> *linkedDevices);
+		std::string getAccountType();
+
 		Account(std::string *name, std::string *t, std::string *cat);
 		Account();
 		~Account();

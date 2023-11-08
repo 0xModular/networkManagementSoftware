@@ -19,10 +19,10 @@ class ReferenceValidationMechanism{
                 ~ReferenceValidationMechanism();
                 bool checkAuthorization(int level);
 
-                void networkAdminTools();
+                void networkAdminTools(std::string option);
                 Account* accessLogin(std::string name, std::string password, int *error);
                 void createAccount();
-                void networkEngineerTools();
+                void networkEngineerTools(std::string option);
 
 	private:
 

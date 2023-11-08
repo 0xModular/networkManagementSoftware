@@ -6,7 +6,10 @@
 
 
 
+std::string Account::getAccountType(){
+	return type;
 
+}
 
 std::vector<Account> Account::getManagableAccounts(ReferenceValidationMechanism *r){
 
