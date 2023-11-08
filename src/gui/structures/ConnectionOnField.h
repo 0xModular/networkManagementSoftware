@@ -7,7 +7,7 @@
 
 #pragma once
 
-struct Connection {
+struct Connection_ {
 	
 	//Type
 	bool isWireless;

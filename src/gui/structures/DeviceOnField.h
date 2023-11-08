@@ -9,7 +9,7 @@
 #include <wx/wx.h>
 #include <string>
 
-struct Device {
+struct Device_ {
 	
 	//Associated Device
 	//Device	

@@ -48,11 +48,11 @@ class NetworkField : public wxWindow {
 		//Objects
 		wxMenu* networkFieldContextMenu;
 		wxMenu* deviceContextMenu;
-		std::vector<Device> devices;
-		std::vector<Connection> connections;
+		std::vector<Device_> devices;
+		std::vector<Connection_> connections;
 		std::vector<Note> notes;
 		
-		std::vector<Device> selectionBuffer;
+		std::vector<Device_> selectionBuffer;
 
 		wxPoint* mousePosition;
 
