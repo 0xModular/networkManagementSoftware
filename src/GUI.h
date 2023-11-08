@@ -1,14 +1,13 @@
 /*
- * GUI.cpp
+ * GUI.h
  * Created on: Oct 29, 2023
  *
  * Author: Ubljudok
  */
 
+//#include "ReferenceValidationMechanism.h"
 #include "gui/App.h"
 #include "gui/structures/Credentials.h"
-
-wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
 
