@@ -1,3 +1,10 @@
+/*
+ * Login.h
+ * Created on: Oct 24, 2023
+ *
+ * Author: Layne
+ */
+
 #pragma once
 #include <iostream>
 #include <string>
@@ -13,20 +20,18 @@ class Login{
 
 	public:
 	
-		Login(std::string name, std::string password);
-		~Login();
-		Account createAccount();
-		Account *generateEncryptedLoginConnection();
+		Login(std::string name, std::string password); //Constructor
+		~Login(); //Destructor
+		Account CreateAccount();
+		Account *GenerateEncryptedLoginConnection();
 
 	private:
 
-		Account *sendInfoAndGetResponse(std::string name, std::string pass, sql::Connection *con);
+		Account *SendInfoAndGetResponse(std::string name, std::string pass, sql::Connection *con);
 
 		std::string username;
 		std::string password;
 		int loginAttempts;
-
-
 
 };
 

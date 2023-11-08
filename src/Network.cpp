@@ -1,3 +1,11 @@
+/*
+ * Network.cpp
+ * Created on Oct 24, 2023
+ *
+ * Author:
+ */
+
+
 #include "Network.h"
 
 Network::Network() {
@@ -6,81 +14,110 @@ Network::Network() {
 
 }
 
-void Network::refresh(ReferenceValidationMechanism *r){
+void Network::Refresh(ReferenceValidationMechanism *r){
 
-	if (r->checkAuthorization(1)){
-    getDevices();
-    getGeneralNetworkDetails();
-    getConnections();
-    timeSinceRefresh = 0;
+	if (r->CheckAuthorization(1)){
+    		
+		GetDevices();
+    		GetGeneralNetworkDetails();
+    		GetConnections();
+    		timeSinceRefresh = 0;
+	
 	}
+
 }
 
-std::vector<Device> Network::getDeviceList(ReferenceValidationMechanism *r){
+std::vector<Device> Network::GetDeviceList(ReferenceValidationMechanism *r){
 
-	if(r->checkAuthorization(1)){
+	if(r->CheckAuthorization(1)){
+
 		return deviceList;
+
 	}
 
 }
 
-void Network::getDevices(){
+void Network::GetDevices(){
 
-    deviceList.clear();
+    	deviceList.clear();
 
-    char buffer[128];
-    std::string result = "";
-    FILE* pipe = popen("arp -a", "r");
-    if (!pipe) {
-        throw std::runtime_error("popen() failed!");
-    }
-    while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        result += buffer;
-    }
-    pclose(pipe);
+    	char buffer[128];
+    	std::string result = "";
+    	FILE* pipe = popen("arp -a", "r");
+    
+	if (!pipe) {
+        
+		throw std::runtime_error("popen() failed!");
+    
+	}
+    
+	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+        
+		result += buffer;
+    
+	}
+    
+	pclose(pipe);
 
-    std::string line(result);
-    std::string regex;
-    std::regex deviceRegex(R"(([_a-zA-Z0-9]+)\s\(([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\)\sat\s([0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+)\s\[([a-zA-Z0-9]+)\]\son\s([a-zA-Z0-9]+))");
+    	std::string line(result);
+    	std::string regex;
+    	std::regex deviceRegex(R"(([_a-zA-Z0-9]+)\s\(([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\)\sat\s([0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+:[0-9a-fA-F]+)\s\[([a-zA-Z0-9]+)\]\son\s([a-zA-Z0-9]+))");
 
-    std::smatch match;
-    auto it = line.cbegin();
-    while (std::regex_search(it, line.cend(), match, deviceRegex)) {
-        std::string name = match[1];
-        std::string ipv4Address = match[2];
-        std::string macAddress = match[3];
-        std::string wiredString = match[4];
+    	std::smatch match;
+    	auto it = line.cbegin();
+    
+	while (std::regex_search(it, line.cend(), match, deviceRegex)) {
+        
+		std::string name = match[1];
+        	std::string ipv4Address = match[2];
+        	std::string macAddress = match[3];
+        	std::string wiredString = match[4];
 
-        bool wired;
-        if (wiredString.compare("ether") == 0)
-            wired = true;
-        else
-            wired = false;
+        	bool wired;
+        
+		if (wiredString.compare("ether") == 0) {
+            
+			wired = true;
+			
+		} else {
+            
+			wired = false;
 
-        Device d(macAddress, ipv4Address, wired, name);
+		}
 
-        if (name.compare("_gateway") == 0)
-            gateway = &d;
+        	Device d(macAddress, ipv4Address, wired, name);
 
-        deviceList.push_back(d);
+        	if (name.compare("_gateway") == 0) {
+            
+			gateway = &d;
 
-        it = match[0].second;
-    }
+		}
+
+        	deviceList.push_back(d);
+
+        	it = match[0].second;
+    
+	}
 
 }
 
-Device Network::getGatewayDevice(ReferenceValidationMechanism *r){
-    if (r->checkAuthorization(1)){
-        return *gateway;
-    }
+Device Network::GetGatewayDevice(ReferenceValidationMechanism *r){
+    
+	if (r->CheckAuthorization(1)){
+        
+		return *gateway;
+    
+	}
+
 }
 
-void Network::getGeneralNetworkDetails(){
+void Network::GetGeneralNetworkDetails(){
+
 
 
 }
 
-void Network::getConnections(){
+void Network::GetConnections(){
 
  //while(/*?/*/){
         
@@ -91,21 +128,21 @@ void Network::getConnections(){
 
 }
 
-void Network::editDevices(Device d, std::string requestType, std::string AdditionalData){
+void Network::EditDevices(Device d, std::string requestType, std::string AdditionalData){
 
-    std::string message;
-
-    //changes dynamic to static and static to dynamic. Additional data is the ip a device should be if its being changed to static.
-    if (requestType.compare("changeIpType") == 0){
-        message = requestType + " " + AdditionalData;
-    }
-
-    //change static ip to a new static ip value
-    else if (requestType.compare("changeStaticIp") == 0){
+	std::string message;
+    
+	//changes dynamic to static and static to dynamic. Additional data is the ip a device should be if its being changed to static.
+    	if (requestType.compare("changeIpType") == 0){
         
-        message = requestType + " 0";
-    }
+		message = requestType + " " + AdditionalData;
+    
+	} else if (requestType.compare("changeStaticIp") == 0){
 
+		//change static ip to a new static ip value
+        	message = requestType + " 0";
+    
+	}
 	
 	char cStringMessage[message.length() + 1]; 
 	strcpy(cStringMessage, message.c_str());
@@ -150,12 +187,14 @@ void Network::editDevices(Device d, std::string requestType, std::string Additio
 }
 
 
-void Network::editGeneralNetworkDetails(ReferenceValidationMechanism *r){
+void Network::EditGeneralNetworkDetails(ReferenceValidationMechanism *r){
+
 
 
 }
 
-void Network::editConnections(ReferenceValidationMechanism *r){
+void Network::EditConnections(ReferenceValidationMechanism *r){
+
 
 
 }

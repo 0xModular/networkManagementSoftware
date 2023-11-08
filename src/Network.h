@@ -1,3 +1,10 @@
+/*
+ * Network.h
+ * Created on Oct 24, 2023
+ *
+ * Author:
+ */
+
 #pragma once
 #include <cstdio>
 #include <memory>
@@ -20,20 +27,20 @@ class Network{
 
 		//public methods
 		Network(); //Calls getDevices, getGeneralNetworkDetails, and getConnections to get information needed for  the current network.
-		void refresh(ReferenceValidationMechanism *r); //get updated information for the network
-		std::vector<Device> getDeviceList(ReferenceValidationMechanism *r);
+		void Refresh(ReferenceValidationMechanism *r); //get updated information for the network
+		std::vector<Device> GetDeviceList(ReferenceValidationMechanism *r);
 
 	private:
 
 		//private methods
-		void getDevices();
-		void getGeneralNetworkDetails();
-		void getConnections();
-		void editDevices(Device d, std::string requestType, std::string AdditionalData);
-		void editGeneralNetworkDetails(ReferenceValidationMechanism *r);
-		void editConnections(ReferenceValidationMechanism *r);
-		void validateDeviceDetailInputs(std::string gate, std::string DNS);
-		Device getGatewayDevice(ReferenceValidationMechanism *r);
+		void GetDevices();
+		void GetGeneralNetworkDetails();
+		void GetConnections();
+		void EditDevices(Device d, std::string requestType, std::string AdditionalData);
+		void EditGeneralNetworkDetails(ReferenceValidationMechanism *r);
+		void EditConnections(ReferenceValidationMechanism *r);
+		void ValidateDeviceDetailInputs(std::string gate, std::string DNS);
+		Device GetGatewayDevice(ReferenceValidationMechanism *r);
 
 		//networkdetailsvalidation
 

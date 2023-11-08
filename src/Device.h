@@ -1,3 +1,10 @@
+/*
+ * Device.h
+ * Created on: Oct 24, 2023
+ *
+ * Author:
+ */
+
 #pragma once
 
 #include <iostream>
@@ -14,23 +21,25 @@ class Device{
 		//public functions 
 
 		//only use these methods for now
-		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName);
-		~Device();
-		std::string getIpv4(ReferenceValidationMechanism *r);
-		std::string getMac(ReferenceValidationMechanism *r);
-		bool getWired(ReferenceValidationMechanism *r);
-		std::string getName(ReferenceValidationMechanism *r);
-		
-
+		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName); //Constructors
 		Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac);
-		std::vector<std::string> setPrivacyFlags(std::vector<std::string> newFlags);
-		void resetPrivacyFlags();
-		void setDeviceDetails(std::string IPv4, std::string IPv6, std::string defaultGateway, std::vector<int> openPorts, bool staticIP);
+		~Device(); //Destructor
+		
+		std::string GetIpv4(ReferenceValidationMechanism *r);
+		std::string GetMac(ReferenceValidationMechanism *r);
+		
+		bool GetWired(ReferenceValidationMechanism *r);
+		std::string GetName(ReferenceValidationMechanism *r);
+		
+		std::vector<std::string> SetPrivacyFlags(std::vector<std::string> newFlags);	
+		void ResetPrivacyFlags();
+
+		void SetDeviceDetails(std::string IPv4, std::string IPv6, std::string defaultGateway, std::vector<int> openPorts, bool staticIP);
 
 	private:
 
 		//private function
-		void validateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP);
+		void ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP);
 
 		//members
 		std::string macAddress;
@@ -44,9 +53,5 @@ class Device{
 		bool staticIp;
 		bool limitedMembers;
 		bool wired;
+
 };
-
-
-
-
-

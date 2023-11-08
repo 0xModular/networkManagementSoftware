@@ -1,3 +1,10 @@
+/*
+ * ReferenceValidationMechanism.h
+ * Created on: Oct 24, 2023
+ *
+ * Author:
+ */
+
 #pragma once
 #include <iostream>
 #include <string>
@@ -15,23 +22,22 @@ class ReferenceValidationMechanism{
 
 	public:
 
-	        static void start(std::string type);
-                ReferenceValidationMechanism(std::string type);
+	        static void Start(std::string type);
+                ReferenceValidationMechanism(std::string type); //Constructors
                 ReferenceValidationMechanism(std::string type, Account *a);
-                ~ReferenceValidationMechanism();
-                bool checkAuthorization(int level);
+                ~ReferenceValidationMechanism(); //Destructor
+                bool CheckAuthorization(int level);
 
-                void networkAdminTools(std::string option);
-                Account* accessLogin(std::string name, std::string password, int *error);
-                void createAccount();
-                void networkEngineerTools(std::string option);
+                void NetworkAdminTools(std::string option);
+                Account* AccessLogin(std::string name, std::string password, int *error);
+                void CreateAccount();
+                void NetworkEngineerTools(std::string option);
 
 	private:
 
-	Network *n;
-        std::string accessType;
-	Account *userAccount;
-
+		Network *n;
+        	std::string accessType;
+		Account *userAccount;
 
 };
 

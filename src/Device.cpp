@@ -1,53 +1,72 @@
+/*
+ * Device.cpp
+ * Created on: Oct 24, 2023
+ *
+ * Author:
+ */
+
+
 #include "Device.h"
 
 Device::Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac){
 
-localIpv4 = IPv4;
-staticIp = staticIP;
-macAddress = mac;
-limitedMembers = false; 
+	this->localIpv4 = IPv4;
+	this->staticIp = staticIP;
+	this->macAddress = mac;
+	this->limitedMembers = false; 
 
-std::cout << macAddress << "\n";
+	std::cout << this->macAddress << std::endl;
 
 }
 
 Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName){
 
-name = deviceName;
-localIpv4 = IPv4;
-wired = wiredConnection;
-macAddress = mac;
-limitedMembers = true; 
-
+	this->name = deviceName;
+	this->localIpv4 = IPv4;
+	this->wired = wiredConnection;
+	this->macAddress = mac;
+	this->limitedMembers = true; 
 
 }
 
-std::string Device::getIpv4(ReferenceValidationMechanism *r){
+std::string Device::GetIpv4(ReferenceValidationMechanism *r){
 
-	if(r->checkAuthorization(1)){
-		return localIpv4;
+	if(r->CheckAuthorization(1)){
+
+		return this->localIpv4;
+
 	}
+
 }
 
-std::string Device::getMac(ReferenceValidationMechanism *r){
+std::string Device::GetMac(ReferenceValidationMechanism *r){
 
-	if(r->checkAuthorization(1)){
-		return macAddress;
+	if(r->CheckAuthorization(1)){
+
+		return this->macAddress;
+
 	}
+
 }
 
-bool Device::getWired(ReferenceValidationMechanism *r){
+bool Device::GetWired(ReferenceValidationMechanism *r){
 
-	if(r->checkAuthorization(1)){
-		return wired;
+
+	if(r->CheckAuthorization(1)){
+
+		return this->wired;
 	}
+
 }
 
-std::string Device::getName(ReferenceValidationMechanism *r){
+std::string Device::GetName(ReferenceValidationMechanism *r){
 
-	if(r->checkAuthorization(1)){
-		return name;
+	if(r->CheckAuthorization(1)){
+	
+		return this->name;
+	
 	}
+
 }
 
 Device::~Device(){
@@ -56,23 +75,23 @@ Device::~Device(){
 
 }
 
-std::vector<std::string> Device::setPrivacyFlags(std::vector<std::string> newFlags){
+std::vector<std::string> Device::SetPrivacyFlags(std::vector<std::string> newFlags){
 
 
 
 }
 
-void Device::resetPrivacyFlags(){
+void Device::ResetPrivacyFlags(){
 
 
 }
 
-void Device::setDeviceDetails(std::string IPv4, std::string IPv6, std::string defaultGateway, std::vector<int> openPorts, bool staticIP){
+void Device::SetDeviceDetails(std::string IPv4, std::string IPv6, std::string defaultGateway, std::vector<int> openPorts, bool staticIP){
 
 
 }
 
-void Device::validateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP){
+void Device::ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP){
 
 
 

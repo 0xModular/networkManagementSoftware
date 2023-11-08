@@ -1,11 +1,11 @@
 #include "RemoteNetworkChangesLogEvent.h"
 
-std::vector<RemoteNetworkChangesLogEvent> RemoteNetworkChangesLogEvent::readLogs(ReferenceValidationMechanism *r){
+std::vector<RemoteNetworkChangesLogEvent> RemoteNetworkChangesLogEvent::ReadLogs(ReferenceValidationMechanism *r){
 
 
 }
 
-bool RemoteNetworkChangesLogEvent::updateLogWithNewEvent(std::string event, ReferenceValidationMechanism *r){
+bool RemoteNetworkChangesLogEvent::UpdateLogWithNewEvent(std::string event, ReferenceValidationMechanism *r){
 
 
 }
@@ -16,7 +16,7 @@ RemoteNetworkChangesLogEvent::RemoteNetworkChangesLogEvent(std::string event, Ac
 
 }
 
-void encryptOutgoingLog(){
+void EncryptOutgoingLog(){
 
     
 }
