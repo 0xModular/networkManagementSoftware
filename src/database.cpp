@@ -1,3 +1,5 @@
+/*
+
 #include <iostream>
 #include "mysql_connection.h"
 #include <cppconn/driver.h>
@@ -50,3 +52,4 @@ int connectDB() {
     delete con;
     return 0;
 }
+*/
