@@ -8,7 +8,7 @@
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
 
-/constructor
+//constructor
 Login::Login(std::string name, std::string passphrase){
             
 	
@@ -55,13 +55,11 @@ const std::string ssl_ca = "server-ca.pem";
         // Establish an SSL/TLS encrypted connection
         con = driver->connect(connection_properties);
 
-        std::cout << "Connected to the MySQL server with SSL/TLS encryption!" << endl;
 
-        return this.sendInfoAndGetResponse();
+        return sendInfoAndGetResponse(username, password, con);
 
     } catch (sql::SQLException e) {
-        std::cout << "Could not connect to the MySQL server. Error message: " << e.what() << endl;
-        return 1;  // Exit the program or handle the error as needed.
+        return NULL;  // Exit the program or handle the error as needed.
     }
 
     // Close the database connection when done.
@@ -70,7 +68,7 @@ const std::string ssl_ca = "server-ca.pem";
 
 
 // Assuming you have a valid database connection (con).
-Account* Login::sendInfoAndGetResponse(std::string name, std::string pass sql::Connection *con){
+Account* Login::sendInfoAndGetResponse(std::string name, std::string pass, sql::Connection *con){
 
 
 sql::PreparedStatement* pstmt;
@@ -82,16 +80,14 @@ sql::ResultSet* result = pstmt->executeQuery();
 
 if (result->next()) {
     // A matching record was found, so the login information is correct.
-    cout << "Login successful!" << endl;
 } else {
     // No matching record found; the login information is incorrect.
-    std::cout << "Login failed. Invalid credentials." << endl;
 }
 
 delete result;
 delete pstmt;
-Account a = new Account(name, new std::string("admin"), new std::string("1"));
-return &a;
+Account *a = new Account(&name, new std::string("admin"), new std::string("1"));
+return a;
 
 }
 #endif

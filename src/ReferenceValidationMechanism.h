@@ -13,20 +13,20 @@ class ReferenceValidationMechanism{
 
 	public:
 
-		static void start(std::string type);
-        ReferenceValidationMechanism(std::string type);
-        ReferenceValidationMechanism(std::string type, Account *a);
-        ~ReferenceValidationMechanism();
-        bool checkAuthorization(int level);
+	        static void start(std::string type);
+                ReferenceValidationMechanism(std::string type);
+                ReferenceValidationMechanism(std::string type, Account *a);
+                ~ReferenceValidationMechanism();
+                bool checkAuthorization(int level);
+
+                void networkAdminTools();
+                Account* accessLogin(std::string name, std::string password, int *error);
+                void createAccount();
+                void networkEngineerTools();
 
 	private:
 
-        void networkAdminTools();
-        ReferenceValidationMechanism* accessLogin();
-        void createAccount();
-        void networkEngineerTools();
-        
-
+        Network n;
         std::string accessType;
         Account *userAccount;
 
