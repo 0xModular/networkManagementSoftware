@@ -1,10 +1,3 @@
-#include "ReferenceValidationMechanism.h"
-#include <iostream>
+#include "GUI.h"
 
-int main(){
-
-	ReferenceValidationMechanism::start("login");
-
-
-
-}
+wxIMPLEMENT_APP(App);
