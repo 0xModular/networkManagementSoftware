@@ -1,1 +1,1 @@
-Copy these three .so files to usr/local/lib for the sql code to work
+Use install.sh to install mysql-connector-c++ on your linux machine
