@@ -18,16 +18,16 @@ class RemoteNetworkChangesLogEvent{
 
 		//public static method
 		static std::vector<RemoteNetworkChangesLogEvent> ReadLogs(ReferenceValidationMechanism *r);
-		
 
 		//public method
 		bool UpdateLogWithNewEvent(ReferenceValidationMechanism *r);
+		RemoteNetworkChangesLogEvent();
+		~RemoteNetworkChangesLogEvent();
 
 	private:
 
 		//private methods
 		RemoteNetworkChangesLogEvent(std::string event, Account a, std::string networkCateory); //Contructor
-		void EncryptOutgoingLog();
 
 		std::string logEvent;
 		Account eventActor;

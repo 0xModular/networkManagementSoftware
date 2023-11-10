@@ -8,7 +8,6 @@
 #pragma once
 #include <string>
 #include <vector>
-
 #include "Device.h"
 
 class Connection{
@@ -19,7 +18,7 @@ class Connection{
 		static bool testConnection(Device d1, Device d2, std::string *details);
 	
 		Connection(int lPort, std::string rAddress, int rPort, std::string connectionState, int pid); //Constructor
-	        ~Connection(); //Destructor
+	    ~Connection(); //Destructor
 
 	private:
 		

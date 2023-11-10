@@ -24,15 +24,15 @@ class Login{
 		Login(std::string name, std::string password); //Constructor
 		~Login(); //Destructor
 		Account CreateAccount();
-		Account *GenerateEncryptedLoginConnection();
+		int SendInfoAndGetResponseStatus(Account *a);
 
 	private:
 
-		Account *SendInfoAndGetResponseStatus(std::string name, std::string pass, sql::Connection *con);
+		
 
 		std::string username;
 		std::string password;
-		int loginAttempts;
+		int errorCode;
 
 };
 

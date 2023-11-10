@@ -7,6 +7,118 @@
 
 #include "ReferenceValidationMechanism.h"
 
+
+
+
+//Working \/\/\/
+
+//automatically updates the rvm active account if login succedes
+int ReferenceValidationMechanism::AccessLogin(std::string name, std::string password){
+    
+
+    Login *l = new Login(name, password);
+    std::string accountType;
+    std::string accountCategory;
+	Account *user;
+	int errorCode = l->SendInfoAndGetResponseStatus(user);
+
+
+
+	if (errorCode = 0){
+
+    delete l;
+	this->activeAccount = user;
+	this->n = new Network();
+	delete user;
+	
+	return errorCode;
+
+	}
+
+	else{
+
+		delete l;
+		delete user;
+		return errorCode;
+
+	}
+
+}
+
+
+Network ReferenceValidationMechanism::getNetwork(){
+
+	if (activeAccount != nullptr && (activeAccount->GetAccountType().compare("admin") == 0 || activeAccount->GetAccountType().compare("engineer") == 0)){
+		return *n;
+	}
+	else if (activeAccount == nullptr){
+		std::cout << "no account logged in, getNetwork() will return garbage code. In later versions this error will exit(1)";
+	}
+	else{
+		std::cout << "active account is not of admin or engineer type and is unauthorized, getNetwork() will return garbage code. In later versions this error will exit(1)";
+	}
+
+}
+
+
+std::string ReferenceValidationMechanism::encryptString(std:: string s, int key){
+
+	char temp;
+	int i;
+	for(i = 0; i < key; i++){
+		temp = s.at(s.size() - 1);
+		s.pop_back();
+		s = temp + s;
+	}
+
+	return s;
+
+}
+
+
+std::string ReferenceValidationMechanism::decryptString(std:: string s, int key){
+
+	char temp;
+	int i;
+	for(i = 0; i < key; i++){
+		temp = s.at(0);
+		s.pop_back();
+		s = s + temp;
+	}
+
+	return s;
+
+}
+
+ReferenceValidationMechanism::ReferenceValidationMechanism(){
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//wip \/\/\/
+
 //"login"4
 ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
 
@@ -38,58 +150,9 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Acc
 
 }
 
-static std::string encryptString(std:: string s, int key){
-
-	char temp;
-	int i;
-	for(i = 0; i < key; i++){
-		temp = s.at(s.size() - 1);
-		s.pop_back();
-		s = temp + s;
-	}
-
-	return s;
-
-}
 
 
-static std::string decryptString(std:: string s, int key){
 
-	char temp;
-	int i;
-	for(i = 0; i < key; i++){
-		temp = s.at(0);
-		s.pop_back();
-		s = s + temp;
-	}
-
-	return s;
-
-}
-
-
-Account* ReferenceValidationMechanism::AccessLogin(std::string name, std::string password, int *error){
-    
-	std::string loginScreenReturnValue;
-    
-    	Login *l = new Login(name, password);
-    	std::string accountType;
-    	std::string accountCategory;
-    	Account *a = l->GenerateEncryptedLoginConnection();
-    
-	if (a == NULL) {
-        
-		*error = 1;
-		return NULL;
-    
-	} else {
-        
-		*error = 0;
-        	return a;
-    
-	}
-
-}
 
 void ReferenceValidationMechanism::NetworkAdminTools(std::string option){
     

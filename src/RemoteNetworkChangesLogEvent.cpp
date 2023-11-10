@@ -1,4 +1,9 @@
 #include "RemoteNetworkChangesLogEvent.h"
+#include "DatabaseConnection.h"
+#include "mysql_connection.h"
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/prepared_statement.h>
 
 std::vector<RemoteNetworkChangesLogEvent> RemoteNetworkChangesLogEvent::ReadLogs(ReferenceValidationMechanism *r){
 
@@ -36,11 +41,6 @@ bool RemoteNetworkChangesLogEvent::UpdateLogWithNewEvent(ReferenceValidationMech
 
 
 
-
-
-    //INSERT INTO users (first_name, last_name, email)
-    //VALUES ('John', 'Doe', 'johndoe@example.com');
-
 }
 
 
@@ -52,11 +52,6 @@ RemoteNetworkChangesLogEvent::RemoteNetworkChangesLogEvent(std::string event, Ac
     time_t currentTime;
     std::time(&currentTime); // Get the current time as a time_t
     this->time = static_cast<int>(currentTime);
-    
-}
-
-void EncryptOutgoingLog(){
-
     
 }
 

@@ -6,14 +6,15 @@
  */
 
 #include "Login.h"
-#include "Database.h"
+#include "DatabaseConnection.h"
+
 
 //Constructor
 Login::Login(std::string name, std::string passphrase){
             	
 	this->username = name;
 	this->password = passphrase;
-	this->loginAttempts = 0;
+	this->errorCode = -1;
             
 }
 
@@ -23,19 +24,11 @@ Login::~Login(){
 
 }
 
-Account* Login::GenerateEncryptedLoginConnection(){
-
-
-
-		return SendInfoAndGetResponseStatus(username, password, &getSecureConnection("sample", "sample"));
-
-    	
-
-}
-
 
 // Assuming you have a valid database connection (con).
-Account* Login::SendInfoAndGetResponseStatus(std::string name, std::string pass, sql::Connection *con){
+int Login::SendInfoAndGetResponseStatus(Account *a){
+
+	sql::Connection con = getSecureConnection("sample", "sample");
 
 	sql::PreparedStatement* pstmt;
 	pstmt = con->prepareStatement("SELECT username FROM users WHERE username = ? AND password = ?");
@@ -58,7 +51,7 @@ Account* Login::SendInfoAndGetResponseStatus(std::string name, std::string pass,
 	delete *con;
 	delete result;
 	delete pstmt;
-	Account *a = new Account(&name, new std::string("admin"), new std::string("1"));
-	return a;
+	a = new Account(&name, new std::string("admin"), new std::string("1"));
+	return 1; //errorCode in future
 
 }

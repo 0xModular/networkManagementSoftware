@@ -1,11 +1,12 @@
 #include <string>
+#include "DatabaseConnection.h"
 #include "mysql_connection.h"
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
 
 
-static sql::Connection getSecureConnection(std::string sqlUsername, std::string sqlPassword){
+sql::Connection DatabaseConnection::getSecureConnection(std::string sqlUsername, std::string sqlPassword){
 
     const std::string server = "tcp://127.0.0.1:3306";
 

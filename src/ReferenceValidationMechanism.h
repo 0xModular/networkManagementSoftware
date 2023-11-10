@@ -22,23 +22,32 @@ class ReferenceValidationMechanism{
 
 	public:
 
+
+
+                //useable
+                ReferenceValidationMechanism();
                 static std::string encryptString(std:: string s, int key);
                 static std::string decryptString(std:: string s, int key);
+                bool CheckAuthorization(int level);
+                Network getNetwork();
+
+                //returns error code, 0 is success, 1 - 3 are normal issues with login, -1 is defined but should never occur so notify me if it happens.
+                int AccessLogin(std::string name, std::string password); 
+
+
+                //ignore for now
                 ReferenceValidationMechanism(std::string type); //Constructors
                 ReferenceValidationMechanism(std::string type, Account *a);
-                ~ReferenceValidationMechanism(); //Destructor
-                bool CheckAuthorization(int level);
-
                 void NetworkAdminTools(std::string option);
-                Account* AccessLogin(std::string name, std::string password, int *error);
                 void CreateAccount();
                 void NetworkEngineerTools(std::string option);
+                ~ReferenceValidationMechanism(); //Destructor
+                Account getAccount();
 
 	private:
 
-		Network *n;
-        	std::string accessType;
-		Account *userAccount;
+		Network *n; //network to be worked with. Generated after login is completed
+		Account *activeAccount; //logged in account. is a nullptr before login is completed
 
 };
 
