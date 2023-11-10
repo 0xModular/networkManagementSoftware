@@ -14,6 +14,12 @@ std::string Account::GetAccountType(){
 
 }
 
+std::string Account::GetAccountName(){
+
+	return this->userName;
+
+}
+
 std::vector<Account> Account::GetManagableAccounts(ReferenceValidationMechanism *r){
 
 

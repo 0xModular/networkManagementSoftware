@@ -38,6 +38,35 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Acc
 
 }
 
+static std::string encryptString(std:: string s, int key){
+
+	char temp;
+	int i;
+	for(i = 0; i < key; i++){
+		temp = s.at(s.size() - 1);
+		s.pop_back();
+		s = temp + s;
+	}
+
+	return s;
+
+}
+
+
+static std::string decryptString(std:: string s, int key){
+
+	char temp;
+	int i;
+	for(i = 0; i < key; i++){
+		temp = s.at(0);
+		s.pop_back();
+		s = s + temp;
+	}
+
+	return s;
+
+}
+
 
 Account* ReferenceValidationMechanism::AccessLogin(std::string name, std::string password, int *error){
     

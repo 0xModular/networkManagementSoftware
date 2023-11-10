@@ -15,7 +15,7 @@ class LocalSave{
 	public:
 
 		//public static methods
-		static std::vector<LoalSave> GetSaves();
+		static std::vector<LocalSave> GetSaves();
 		static LocalSave NewSave();
 		static bool RestoreSave();
 	
@@ -25,7 +25,7 @@ class LocalSave{
 
 		std::string ReadSave();
 		std::string OverwriteSave(std::string s);
-		bool BackupSave(std::string l);		
+		bool BackupSave(std::string location);		
 		
 	private:
 

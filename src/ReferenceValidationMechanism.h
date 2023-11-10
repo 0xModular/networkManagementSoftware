@@ -22,7 +22,8 @@ class ReferenceValidationMechanism{
 
 	public:
 
-	        static void Start(std::string type);
+                static std::string encryptString(std:: string s, int key);
+                static std::string decryptString(std:: string s, int key);
                 ReferenceValidationMechanism(std::string type); //Constructors
                 ReferenceValidationMechanism(std::string type, Account *a);
                 ~ReferenceValidationMechanism(); //Destructor

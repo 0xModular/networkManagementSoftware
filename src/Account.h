@@ -28,6 +28,7 @@ class Account{
 		Account UnlinkDevice(Device d, ReferenceValidationMechanism *r);
 		void GetAccountDetails(std::string *name, std::string *type, std::string *category, std::vector<Device> *linkedDevices);
 		std::string GetAccountType();
+		std::string GetAccountName();
 
 		Account(std::string *name, std::string *t, std::string *cat); //Constructors
 		Account();

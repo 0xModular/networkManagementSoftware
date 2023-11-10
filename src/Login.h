@@ -14,6 +14,7 @@
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
 
+
 class Account;
 
 class Login{
@@ -27,7 +28,7 @@ class Login{
 
 	private:
 
-		Account *SendInfoAndGetResponse(std::string name, std::string pass, sql::Connection *con);
+		Account *SendInfoAndGetResponseStatus(std::string name, std::string pass, sql::Connection *con);
 
 		std::string username;
 		std::string password;
