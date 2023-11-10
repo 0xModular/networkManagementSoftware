@@ -1,3 +1,10 @@
+/*
+ * DatabaseConnection.h
+ * Created on Nov 11, 2023
+ *
+ * Author:
+ */
+
 #pragma once
 #include <string>
 #include "mysql_connection.h"
@@ -7,9 +14,8 @@
 
 class DatabaseConnection{
 
-    public:
-        static sql::Connection getSecureConnection(std::string sqlUsername, std::string sqlPassword);
+	public:
 
-
+    		static sql::Connection* GetSecureConnection(std::string sqlUsername, std::string sqlPassword);
 
 };

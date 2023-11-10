@@ -1,12 +1,13 @@
-#include <string>
+/*
+ * DatabaseConnection.cpp
+ * Created on Nov 11, 2023
+ *
+ * Author:
+ */
+
 #include "DatabaseConnection.h"
-#include "mysql_connection.h"
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/prepared_statement.h>
 
-
-sql::Connection DatabaseConnection::getSecureConnection(std::string sqlUsername, std::string sqlPassword){
+sql::Connection* DatabaseConnection::GetSecureConnection(std::string sqlUsername, std::string sqlPassword){
 
     const std::string server = "tcp://127.0.0.1:3306";
 
@@ -42,7 +43,7 @@ sql::Connection DatabaseConnection::getSecureConnection(std::string sqlUsername,
         }
         catch (sql::SQLException e) {
         
-		return NULL;  // Exit the program or handle the error as needed.
+		return nullptr;  // Exit the program or handle the error as needed.
     
 	}
 

@@ -16,9 +16,9 @@
 int ReferenceValidationMechanism::AccessLogin(std::string name, std::string password){
     
 
-    Login *l = new Login(name, password);
-    std::string accountType;
-    std::string accountCategory;
+    	Login *l = new Login(name, password);
+    	std::string accountType;
+    	std::string accountCategory;
 	Account *user;
 	int errorCode = l->SendInfoAndGetResponseStatus(user);
 
@@ -26,19 +26,18 @@ int ReferenceValidationMechanism::AccessLogin(std::string name, std::string pass
 
 	if (errorCode = 0){
 
-    delete l;
-	this->activeAccount = user;
-	this->n = new Network();
-	delete user;
+   		delete l;
+		this->activeAccount = user;
+		this->n = new Network();
+		delete user;
 	
-	return errorCode;
+		return errorCode;
 
-	}
-
-	else{
+	} else{
 
 		delete l;
 		delete user;
+	
 		return errorCode;
 
 	}
@@ -114,7 +113,7 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(){
 
 
 
-
+//Layne, next time, please make sure you have compileable code before you commit. 
 
 
 //wip \/\/\/

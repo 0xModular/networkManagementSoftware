@@ -13,9 +13,10 @@
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
-
+#include "DatabaseConnection.h"
 
 class Account;
+class DatabaseConnection;
 
 class Login{
 

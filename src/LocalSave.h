@@ -14,25 +14,22 @@ class LocalSave{
 
 	public:
 
-		//public static methods
+		//Public Static Methods
 		static std::vector<LocalSave> GetSaves();
 		static LocalSave NewSave();
 		static bool RestoreSave();
 	
 
-		//public methods
+		//Public Methods
 		LocalSave(std::string s); //used for new save -- Constructor
 
 		std::string ReadSave();
-		std::string OverwriteSave(std::string s);
-		bool BackupSave(std::string location);		
+		std::string OverwriteSave(std::string save);
+		bool BackupSave(std::string destinationPath);		
 		
 	private:
 
-		//private functions
-		LocalSave(std::fstream f); //used by getSaves to create objects for existing save files -- Constructor
-
-		//member
-		std::fstream f;
+		//Members
+		std::string file;
 
 };

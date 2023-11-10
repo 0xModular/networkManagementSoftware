@@ -22,8 +22,6 @@ class ReferenceValidationMechanism{
 
 	public:
 
-
-
                 //useable
                 ReferenceValidationMechanism();
                 static std::string encryptString(std:: string s, int key);

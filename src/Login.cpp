@@ -6,7 +6,6 @@
  */
 
 #include "Login.h"
-#include "DatabaseConnection.h"
 
 
 //Constructor
@@ -28,12 +27,12 @@ Login::~Login(){
 // Assuming you have a valid database connection (con).
 int Login::SendInfoAndGetResponseStatus(Account *a){
 
-	sql::Connection con = getSecureConnection("sample", "sample");
+	auto con = DatabaseConnection::GetSecureConnection("sample", "sample");
 
 	sql::PreparedStatement* pstmt;
 	pstmt = con->prepareStatement("SELECT username FROM users WHERE username = ? AND password = ?");
-	pstmt->setString(1, name);
-	pstmt->setString(2, pass);
+	pstmt->setString(1, this->username);
+	pstmt->setString(2, this->password);
 
 	sql::ResultSet* result = pstmt->executeQuery();
 
@@ -48,10 +47,10 @@ int Login::SendInfoAndGetResponseStatus(Account *a){
 	}
 
 
-	delete *con;
+	delete con;
 	delete result;
 	delete pstmt;
-	a = new Account(&name, new std::string("admin"), new std::string("1"));
+	a = new Account(&(this->username), new std::string("admin"), new std::string("1"));
 	return 1; //errorCode in future
 
 }

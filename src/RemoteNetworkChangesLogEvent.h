@@ -9,8 +9,17 @@
 #include <string>
 #include <vector>
 #include "Account.h"
+#include "ReferenceValidationMechanism.h"
+#include "DatabaseConnection.h"
+#include "mysql_connection.h"
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/prepared_statement.h>
+
 
 class ReferenceValidationMechanism;
+class DatabaseConnection;
+class Account;
 
 class RemoteNetworkChangesLogEvent{
 
