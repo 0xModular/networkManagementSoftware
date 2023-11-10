@@ -2,7 +2,7 @@
 #include <fstream>
 #include "LocalSave.h"
 
-bool BackupSave(std::string destinationPath) {
+bool LocalSave::BackupSave(std::string destinationPath) {
 
     // Open the source file for reading
     std::ifstream sourceFile(f, std::ios::binary);
