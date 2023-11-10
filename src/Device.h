@@ -32,7 +32,6 @@ class Device{
 		//ignore for now
 		std::vector<std::string> SetPrivacyFlags(std::vector<std::string> newFlags);	
 		void ResetPrivacyFlags();
-
 		void SetDeviceDetails(std::string IPv4, std::string IPv6, std::string defaultGateway, std::vector<int> openPorts, bool staticIP);
 
 	private:
