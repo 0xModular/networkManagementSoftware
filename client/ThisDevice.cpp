@@ -6,10 +6,18 @@
  */
 
 #include "ThisDevice.h"
+#include <regex>
+
+ThisDevice::ThisDevice(){
+
+	GetAllMembers(GetDefaultAdapater());
+
+}
+
+
 
 std::string ThisDevice::GetDefaultAdapater(){
 
- 	std::vector<std::tuple<std::string, std::string, std::string>> devices;
     	char buffer[256];
 
     	FILE* pipe = _popen("ipconfig", "r"); //Execute "arp -a" and capture output
@@ -17,26 +25,25 @@ std::string ThisDevice::GetDefaultAdapater(){
     	if (!pipe) {
         	
 		std::cerr << "Error running arp -a command." << std::endl;
-        	return devices;
-    	
-	}
+    	//handle
+		}
 
     	std::regex deviceRegex(R"([a-zA-Z]+\sadapter\s([a-zA-Z0-9]+):\n\n\s\s\sConnection-specific\sDNS\sSuffix)");
 
     	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
         	
 		std::string line(buffer);
-        	std::smatch match;
+        std::smatch match;
 
-        	if (std::regex_search(line, match, deviceRegex)) {
+        if (std::regex_search(line, match, deviceRegex)) {
             
-			if (match.size() == 2) {
+		if (match.size() == 2) {
             		
-				std::string whole = match[0];
-                		std::string adapter = match[1];
+			std::string whole = match[0];
+            std::string adapter = match[1];
 
-                		defaultAdapter = adapter;
-                		return defaultAdapter;
+            this->defaultAdapter = adapter;
+            return defaultAdapter;
             	
 			}
         
@@ -46,7 +53,7 @@ std::string ThisDevice::GetDefaultAdapater(){
 
 }
 
-void ThisDevice::GetAllMembers(){
+void ThisDevice::GetAllMembers(std::string adapter){
 
     	std::string dhcp;
     	std::string whole;
@@ -75,22 +82,17 @@ void ThisDevice::GetAllMembers(){
 			if (match.size() == 7) {
             	
 				whole = match[0];
-                		name = match[1];
-                		macAddress = match[2];
-                		dhcp = match[3];
-                		localIpv6 = match[4];
-                		localIpv4 = match[5];
-                		defaultGateway = match[6];
+                name = match[1];
+                macAddress = match[2];
+                dhcp = match[3];
+                localIpv6 = match[4];
+                localIpv4 = match[5];
+                defaultGateway = match[6];
 
-                		if(dhcp.compare("Yes") == 0) {
-                    
+                if(dhcp.compare("Yes") == 0) 
 					staticIp = false;
-                
-				} else {
-                    
+				else  
 					staticIp = true;
-				
-				}
                 
 				return;
             
@@ -114,10 +116,52 @@ std::vector<Connection> ThisDevice::GetConnections(){
 	std::string state;
 	int pid;
 
-	std::vector<std::tuple<std::string, std::string, std::string>> devices;
+    char buffer[256];
+
+    FILE* pipe = _popen("netstat -aon", "r"); // Execute "arp -a" and capture output
+
+    if (!pipe) {
+        
+	std::cerr << "Error running arp -a command." << std::endl;
+	//handle
+	}
+
+    std::regex deviceRegex(R"(TCP[\s]+[0-9.]+:([0-9]+)[\s]+([0-9.]+):([0-9])+[\s]+([A-Z_]+)[\s]+([0-9]+))");
+
+    while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+        
+		std::string line(buffer);
+       	std::smatch match;
+
+        if (std::regex_search(line, match, deviceRegex)) {
+            
+			if (match.size() == 5) {
+                
+				whole = match[0];
+                localPort = std::stoi(match[1]);
+                remoteAddress = match[2];
+                remotePort = std::stoi(match[3]);
+                state = match[4];
+                pid = std::stoi(match[5]);
+
+                ports.push_back(Connection(localPort, remoteAddress, remotePort, state, pid));
+
+			}
+        
+		}
+    
+	}
+
+    return ports;
+
+}
+
+void ThisDevice::setStaticIP(){
+
+    	std::vector<std::tuple<std::string, std::string, std::string>> devices;
     	char buffer[256];
 
-    	FILE* pipe = _popen("netstat -aon", "r"); // Execute "arp -a" and capture output
+    	FILE* pipe = _popen("arp -a", "r"); // Execute "arp -a" and capture output
 
     	if (!pipe) {
         
@@ -126,32 +170,42 @@ std::vector<Connection> ThisDevice::GetConnections(){
     	
 	}
 
-    	std::regex deviceRegex(R"(TCP[\s]+[0-9.]+:([0-9]+)[\s]+([0-9.]+):([0-9])+[\s]+([A-Z_]+)[\s]+([0-9]+))");
+    	std::regex deviceRegex(R"((\d+\.\d+\.\d+\.\d+)\s+([0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+)\s+(\w+))");
 
     	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        
+        	
 		std::string line(buffer);
-       		std::smatch match;
+        	std::smatch match;
 
         	if (std::regex_search(line, match, deviceRegex)) {
-            
-			if (match.size() == 5) {
-                
-				whole = match[0];
-                		localPort = std::stoi(match[1]);
-                		remoteAddress = match[2];
-                		remotePort = std::stoi(match[3]);
-                		state = match[4];
-                		pid = std::stoi(match[5]);
+            		
+			if (match.size() == 4) {
+            	
+				std::string whole = match[0];
+                		std::string ipv4Address = match[1];
+                		std::string physicalAddress = match[2];
+                		std::string type = match[3];
 
-                		ports.push_back(Connection(localPort, remoteAddress, remotePort, state, pid));
+                		bool isStatic;
+                		if (strcmp(type) == "static") {
+                    
+					isStatic = true;
 
+				} else {
+					
+					isStatic = false;
+				
+				}
+
+                		//ipv4, ipv6, gateway, wired/wireless, flags, ports, static/dynamic, mac
+            		
 			}
-        
+        	
 		}
-    
+    	
 	}
 
-    	return ports;
+    	_pclose(pipe);
+    	return devices;
 
 }

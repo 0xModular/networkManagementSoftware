@@ -4,3 +4,34 @@
  *
  * Author: Layne
  */
+#include <string>
+#include "ThisDevice.h"
+
+int main(){
+
+ThisDevice *d = new ThisDevice();
+
+std::string input;
+
+    while(true){
+
+        
+
+        input = "wow";
+
+        if(input.compare("init") == 0){
+
+            
+
+        }
+
+
+
+
+
+    }
+
+
+
+
+}

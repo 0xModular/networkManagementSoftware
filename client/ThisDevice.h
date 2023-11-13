@@ -14,14 +14,16 @@ class ThisDevice{
 
 	public:
 
-		void GetAllMembers();
+		void setStaticIP();
+		ThisDevice();
+		void GetAllMembers(std::string adapter);
 		std::string GetDefaultAdapater();
 		std::vector<Connection> GetConnections();
 
 	private:
 
 		//members
-	       	std::string defaultAdapter;
+	    std::string defaultAdapter;
 		std::string macAddress;
 		std::string localIpv4;
 		std::string localIpv6;

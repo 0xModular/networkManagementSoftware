@@ -12,14 +12,16 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include "ThisDevice.h"
+#include "ManagerCommunication.h"
 
-int ConnectToManager() {
+int ConnectToManager(ThisDevice *d) {
 
 	// Create a socket
 	int endDeviceSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (endDeviceSocket == -1) {
 		
-		std::cerr << "Error creating socket" << std::endl;
+	std::cerr << "Error creating socket" << std::endl;
         
 		//Handle error
 	
@@ -83,8 +85,10 @@ int ConnectToManager() {
     	char buffer[1024];
     	ssize_t bytesRead;
 
-    	while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) {
+    	while (bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) {
         
+			std::stringstream s(buffer); 
+
 		if (bytesRead > 0) {
         
 			// Echo the received data back to the client
@@ -106,7 +110,7 @@ int ConnectToManager() {
 
     	// Close the sockets
     	close(clientSocket);
-    	close(serverSocket);
+    	close(endDeviceSocket);
 
     	return 0;
 
@@ -114,59 +118,3 @@ int ConnectToManager() {
 
 
 
-
-void SetStaticIP(){
-
-    	std::vector<std::tuple<std::string, std::string, std::string>> devices;
-    	char buffer[256];
-
-    	FILE* pipe = _popen("arp -a", "r"); // Execute "arp -a" and capture output
-
-    	if (!pipe) {
-        
-		std::cerr << "Error running arp -a command." << std::endl;
-        	return devices;
-    	
-	}
-
-    	std::regex deviceRegex(R"((\d+\.\d+\.\d+\.\d+)\s+([0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+)\s+(\w+))");
-
-    	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        	
-		std::string line(buffer);
-        	std::smatch match;
-
-        	if (std::regex_search(line, match, deviceRegex)) {
-            		
-			if (match.size() == 4) {
-            	
-				std::string whole = match[0];
-                		std::string ipv4Address = match[1];
-                		std::string physicalAddress = match[2];
-                		std::string type = match[3];
-
-                		bool isStatic;
-                		if (strcmp(type) == "static") {
-                    
-					isStatic = true;
-
-				} else {
-					
-					issStatic = false;
-				
-				}
-
-                		//ipv4, ipv6, gateway, wired/wireless, flags, ports, static/dynamic, mac
-                		Device d = new device(ipv4Address, !!!!, !!!!, !!!!, NULL, NULL, isStatic, physicalAddress);
-                		this.deviceList.add(d);
-            		
-			}
-        	
-		}
-    	
-	}
-
-    	_pclose(pipe);
-    	return devices;
-
-}

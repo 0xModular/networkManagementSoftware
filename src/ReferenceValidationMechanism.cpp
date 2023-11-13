@@ -51,10 +51,10 @@ Network ReferenceValidationMechanism::getNetwork(){
 		return *n;
 	}
 	else if (activeAccount == nullptr){
-		std::cout << "no account logged in, getNetwork() will return garbage code. In later versions this error will exit(1)";
+		std::cout << "\nno account logged in, getNetwork() will return garbage code. In later versions this error will exit(1)\n";
 	}
 	else{
-		std::cout << "active account is not of admin or engineer type and is unauthorized, getNetwork() will return garbage code. In later versions this error will exit(1)";
+		std::cout << "\nactive account is not of admin or engineer type and is unauthorized, getNetwork() will return garbage code. In later versions this error will exit(1)\n";
 	}
 
 }
@@ -91,7 +91,8 @@ std::string ReferenceValidationMechanism::decryptString(std:: string s, int key)
 
 ReferenceValidationMechanism::ReferenceValidationMechanism(){
 
-
+ 	n = nullptr;
+ 	activeAccount = nullptr;
 
 }
 
@@ -118,114 +119,14 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(){
 
 //wip \/\/\/
 
-//"login"4
-ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type){
-
-	if(type.compare("login") == 0) {
-		this->accessType = type;
-	} else if(type.compare("createAccount") == 0) {
-
-		this->accessType = type;
-	
-	}
-
-}
-
-ReferenceValidationMechanism::ReferenceValidationMechanism(std::string type, Account *a){
- 
-	if(type.compare("admin") == 0) {
-		
-		this->accessType = type;
-        	auto n = new Network();
-        	this->userAccount = a;
-	
-	} else if(type.compare("engineer") == 0) {
-		
-		this->accessType = type;
-        	auto n = new Network();
-        	this->userAccount = a;
-	
-	}
-
-}
-
-
-
-
-
-void ReferenceValidationMechanism::NetworkAdminTools(std::string option){
-    
-	if(this->userAccount->GetAccountType().compare("admin") != 0) {
-        
-		exit(1);
-    
-	}
-
-	if (option.compare("dlist") == 0) {
-    	
-		this->n->Refresh(this);
-    		std::vector<Device> d = n->GetDeviceList(this);
-    		int i;
-    	
-		for (i = 0; i < d.size(); i++) {
-    	
-			std::cout << "Name: " << d.at(i).GetName(this) << " IP: " << d.at(i).GetIpv4(this) << " MAC: " << d.at(i).GetMac(this) << " Wired(1 is true): " << d.at(i).GetWired(this) << "\n";
-    	
-		}
-    
-	}
-    
-	else if (option.compare("add") == 0) {
-    	
-    
-
-	}
-
-}
-
-void ReferenceValidationMechanism::NetworkEngineerTools(std::string option){
-
-	if(this->userAccount->GetAccountType().compare("engineer") != 0){
-        
-		exit(1);
-    
-	}
-    
-	if (option.compare("dlist") == 0) {
-    	
-		this->n->Refresh(this);
-		std::vector<Device> d = n->GetDeviceList(this);
-    		int i;
-    	
-		for (i = 0; i < d.size(); i++) {
-    	
-			std::cout << "Name: " << d.at(i).GetName(this) << " IP: " << d.at(i).GetIpv4(this) << " MAC: " << d.at(i).GetMac(this) << " Wired(1 is true): " << d.at(i).GetWired(this) << "\n";
-    	
-		}
-    
-	} else if (option.compare("add") == 0) {
-
-
-    	
-	}
-
-}
-
-ReferenceValidationMechanism::~ReferenceValidationMechanism(){
-
-
-
-}
-
-
 bool ReferenceValidationMechanism::CheckAuthorization(int level){
 
     
-	if (level == 1 && (this->accessType.compare("engineer") == 0 || accessType.compare("admin") == 0)){
+	if (level == 1 && (this->activeAccount->GetAccountType().compare("engineer") == 0 || this->activeAccount->GetAccountType().compare("admin") == 0)){
         
 		return true;
     
-	} else if (level == 2 && this->accessType.compare("admin")){
+	} else if (level == 2 && this->activeAccount->GetAccountType().compare("admin") == 0){
         
 		return true;
     
