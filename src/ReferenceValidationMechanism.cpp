@@ -89,6 +89,7 @@ std::string ReferenceValidationMechanism::decryptString(std:: string s, int key)
 
 }
 
+
 ReferenceValidationMechanism::ReferenceValidationMechanism(){
 
  	n = nullptr;
@@ -96,28 +97,6 @@ ReferenceValidationMechanism::ReferenceValidationMechanism(){
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Layne, next time, please make sure you have compileable code before you commit. 
-
-
-//wip \/\/\/
 
 bool ReferenceValidationMechanism::CheckAuthorization(int level){
 
@@ -141,4 +120,10 @@ bool ReferenceValidationMechanism::CheckAuthorization(int level){
 	return false;
 
 }
+
+
+
+
+//wip \/\/\/
+
 
