@@ -9,6 +9,8 @@
 
 #include <iostream>
 #include <cstring>
+#include <arpa/inet.h>
+#include <cstring>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -42,7 +44,7 @@ class Device{
 
 		//private function
 		void ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP);
-		bool SendMessageToDeviceAndGetResponse();
+		std::string* Device::SendMessageToDeviceAndGetResponse(std::string address, std::string *message);
 		//members
 		std::string macAddress;
 		std::string localIpv4;

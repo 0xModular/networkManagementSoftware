@@ -97,8 +97,47 @@ void Device::ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, st
 
 }
 
-bool SendMessageToDeviceAndGetResponse(){
+std::string* Device::SendMessageToDeviceAndGetResponse(std::string address, std::string *message){
 
+	const int port = 12345;
+
+	 // Create a socket
+    int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (clientSocket == -1) {
+        std::cerr << "Error creating socket" << std::endl;
+        return nullptr;
+    }
+
+    // Set up server address and port
+    struct sockaddr_in serverAddr;
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(port);  // Use the same port as the server
+    serverAddr.sin_addr.s_addr = inet_addr(address.c_str());  // Use the server's IP address
+
+    // Connect to the server
+    if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
+        std::cerr << "Error connecting to the server" << std::endl;
+        close(clientSocket);
+        return nullptr;
+    }
+
+    std::cout << "Connected to the server" << std::endl;
+
+    // Send data to the server
+    send(clientSocket, message->c_str(), strlen(message->c_str()), 0);
+
+    // Receive and display the echoed data
+    char buffer[1024];
+    ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+    if (bytesRead > 0) {
+        message = new std::string(buffer, bytesRead);
+    }
+
+    // Close the socket
+    close(clientSocket);
+
+    return message;
+}
 
 	
-}
+
