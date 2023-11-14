@@ -8,7 +8,7 @@
 
 #include "Device.h"
 
-Device::Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac){
+Device::Device(std::string IPv4, std::string IPv6, std::string defaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac){
 
 	this->localIpv4 = IPv4;
 	this->staticIp = staticIP;
@@ -86,7 +86,7 @@ void Device::ResetPrivacyFlags(){
 
 }
 
-void Device::SetDeviceDetails(std::string IPv4, std::string IPv6, std::string defaultGateway, std::vector<int> openPorts, bool staticIP){
+bool Device::ConnectToUpdateDeviceDetails(){
 
 
 }
@@ -97,3 +97,8 @@ void Device::ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, st
 
 }
 
+bool SendMessageToDeviceAndGetResponse(){
+
+
+	
+}

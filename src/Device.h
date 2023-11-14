@@ -8,6 +8,10 @@
 #pragma once
 
 #include <iostream>
+#include <cstring>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 #include <string>
 #include <vector>
 #include "ReferenceValidationMechanism.h"
@@ -32,13 +36,13 @@ class Device{
 		//ignore for now
 		std::vector<std::string> SetPrivacyFlags(std::vector<std::string> newFlags);	
 		void ResetPrivacyFlags();
-		void SetDeviceDetails(std::string IPv4, std::string IPv6, std::string defaultGateway, std::vector<int> openPorts, bool staticIP);
+		bool ConnectToUpdateDeviceDetails();
 
 	private:
 
 		//private function
 		void ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP);
-
+		bool SendMessageToDeviceAndGetResponse();
 		//members
 		std::string macAddress;
 		std::string localIpv4;
