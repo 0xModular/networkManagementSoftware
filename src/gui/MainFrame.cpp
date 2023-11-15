@@ -11,7 +11,7 @@
 
 //Constructor
 
-MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
+MainFrame::MainFrame(const wxString& title, ReferenceValidationMechanism* rvm) : wxFrame(nullptr, wxID_ANY, title) {
 
 	//Set Sizer
 	SetSizer(this->sizer);

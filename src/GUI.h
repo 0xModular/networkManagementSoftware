@@ -5,20 +5,24 @@
  * Author: Ubljudok
  */
 
-#include "ReferenceValidationMechanism.h"
 #include "gui/App.h"
 
 bool App::OnInit() {
 	
+	//Create RVM
+	this->rvm = new ReferenceValidationMechanism();
+
+
+
 	//Dialogs
-	this->login = new LoginDialog(NULL, 3, &(this->cred), false);
-	this->tfa = new TwoFactorAuthenticationDialog(NULL, 0);
-	this->rgstr = new RegistrationDialog(NULL);
+	this->login = new LoginDialog(NULL, 3, &(this->cred), this->rvm);
+	this->tfa = new TwoFactorAuthenticationDialog(NULL, 0, this->rvm);
+	this->rgstr = new RegistrationDialog(NULL, this->rvm);
 
 
 
 	//Frames
-	this->app = new MainFrame("NULL Network Management (alpha)");
+	this->app = new MainFrame("NULL Network Management (alpha)", this->rvm);
 
 
 

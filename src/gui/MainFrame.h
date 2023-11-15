@@ -23,6 +23,7 @@
 
 //Other Objects
 #include "NetworkField.h"
+#include "../ReferenceValidationMechanism.h"
 
 #include "subwindows/DeviceManagementSubWindow.h"
 #include "subwindows/UserManagementSubWindow.h"
@@ -34,7 +35,7 @@ class MainFrame : public wxFrame {
 	
 	public:
 
-		MainFrame(const wxString& title); //Constructor
+		MainFrame(const wxString& title, ReferenceValidationMechanism* rvm); //Constructor
 
 	protected:
 

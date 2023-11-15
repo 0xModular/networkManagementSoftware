@@ -11,6 +11,7 @@
 #include "dialogs/LoginDialog.h"
 #include "dialogs/RegistrationDialog.h"
 #include "dialogs/TwoFactorAuthenticationDialog.h"
+#include "../ReferenceValidationMechanism.h"
 
 #include "MainFrame.h"
 
@@ -47,6 +48,7 @@ class App : public wxApp {
 
 		//Misc
 		struct Credentials cred;
+		ReferenceValidationMechanism* rvm;
 
 };
 

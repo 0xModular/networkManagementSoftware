@@ -9,7 +9,7 @@
 
 //Constructor
 
-RegistrationDialog::RegistrationDialog (wxWindow* parent) : wxDialog(parent, -1, _T("Network Management Registration")) {
+RegistrationDialog::RegistrationDialog (wxWindow* parent, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Network Management Registration")) {
 	
 	CreateControls();
 	ConnectControls();

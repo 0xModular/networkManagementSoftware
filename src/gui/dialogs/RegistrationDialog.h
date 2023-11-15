@@ -12,11 +12,15 @@
 #include <string>
 #include <vector>
 
+#include "../../ReferenceValidationMechanism.h"
+
+class ReferenceValidationMechanism;
+
 class RegistrationDialog : public wxDialog {
 
 	public:
 	
-		RegistrationDialog(wxWindow* parent); //Constructor
+		RegistrationDialog(wxWindow* parent, ReferenceValidationMechanism* rvm); //Constructor
 		virtual ~RegistrationDialog() noexcept {}; //Destructor
 	
 	private:

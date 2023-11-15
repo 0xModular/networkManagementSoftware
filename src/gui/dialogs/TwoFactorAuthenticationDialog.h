@@ -8,14 +8,17 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/statline.h>
-
 #include <string>
+
+#include "../../ReferenceValidationMechanism.h"
+
+class ReferenceValidationMechanism;
 
 class TwoFactorAuthenticationDialog : public wxDialog {
 
 	public:
 
-		TwoFactorAuthenticationDialog(wxWindow* parent, int code); //Constructor
+		TwoFactorAuthenticationDialog(wxWindow* parent, int code, ReferenceValidationMechanism* rvm); //Constructor
 		virtual ~TwoFactorAuthenticationDialog() noexcept {};
 		
 		void UpdateCode(int newCode);

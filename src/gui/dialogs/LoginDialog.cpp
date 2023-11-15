@@ -8,19 +8,19 @@
 #include "LoginDialog.h"
 
 //Constructor
-LoginDialog::LoginDialog(wxWindow* parent, int maxAttempts, struct Credentials * credentials, bool  wrongPassword) : wxDialog(parent, -1, _T("Network Manager Login")) {
+LoginDialog::LoginDialog(wxWindow* parent, int maxAttempts, struct Credentials* credentials, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Network Manager Login")) {
 
 	this->cred = credentials;
 
 	this->attempts = 0;
 	this->maxAttempts = maxAttempts;
 
-	CreateControls(wrongPassword);
+	CreateControls();
 	ConnectControls();
 
 }
 
-void LoginDialog::CreateControls(bool wrongPassword) {
+void LoginDialog::CreateControls() {
 
 	wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 	wxBoxSizer* horizontalSizer;
@@ -91,8 +91,7 @@ void LoginDialog::CreateControls(bool wrongPassword) {
 
 	//Other Operations
 	
-	if (!wrongPassword)
-		this->warningText->Hide();
+	this->warningText->Hide();
 
 	mainSizer->SetSizeHints(this);
 

@@ -7,7 +7,7 @@
 
 #include "TwoFactorAuthenticationDialog.h"
 
-TwoFactorAuthenticationDialog::TwoFactorAuthenticationDialog(wxWindow* parent, int currentCode) : wxDialog(parent, -1, _T("Two Factor Authentication")) {
+TwoFactorAuthenticationDialog::TwoFactorAuthenticationDialog(wxWindow* parent, int currentCode, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Two Factor Authentication")) {
 
 	this->code = currentCode;
 
