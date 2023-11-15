@@ -21,19 +21,6 @@ class LocalSave{
 		static bool openFile();
 	
 
-<<<<<<< HEAD
-		//Public Methods
-		LocalSave(std::string s); //used for new save -- Constructor
-
-		std::string ReadSave();
-		std::string OverwriteSave(std::string save);
-		bool BackupSave(std::string destinationPath);		
-		
-	private:
-
-		//Members
-		std::string file;
-=======
 		//public methods
 		std::string ReadSave();
 		std::string OverwriteSave(std::string s);
@@ -50,6 +37,5 @@ class LocalSave{
 		//member
 		std::ifstream *f;
 		LocalSave(std::ifstream *input); 
->>>>>>> 0df8151 (hh)
 
 };
