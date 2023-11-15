@@ -15,10 +15,10 @@ std::vector<RemoteNetworkChangesLogEvent> RemoteNetworkChangesLogEvent::ReadLogs
 
 bool RemoteNetworkChangesLogEvent::UpdateLogWithNewEvent(ReferenceValidationMechanism *r){
 
-    	auto con = DatabaseConnection::GetSecureConnection("log", "log");
+    auto con = DatabaseConnection::GetSecureConnection("log", "log");
 
 
-    	sql::PreparedStatement* pstmt;
+    sql::PreparedStatement* pstmt;
 	pstmt = con->prepareStatement("INSERT INTO users (Category, Time, Account, Event) WHERE Category = ?, Time = ?, Account = ?, Event = ?");
 	pstmt->setString(1, networkCateory);
     	pstmt->setString(2, std::to_string(time));

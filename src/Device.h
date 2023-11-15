@@ -39,6 +39,7 @@ class Device{
 		std::vector<std::string> SetPrivacyFlags(std::vector<std::string> newFlags);	
 		void ResetPrivacyFlags();
 		bool ConnectToUpdateDeviceDetails();
+		bool GetDeviceConnections();
 
 	private:
 

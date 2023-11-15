@@ -8,17 +8,6 @@
 
 #include "Device.h"
 
-Device::Device(std::string IPv4, std::string IPv6, std::string defaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac){
-
-	this->localIpv4 = IPv4;
-	this->staticIp = staticIP;
-	this->macAddress = mac;
-	this->limitedMembers = false; 
-
-	std::cout << this->macAddress << std::endl;
-
-}
-
 Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName){
 
 	this->name = deviceName;
@@ -88,16 +77,53 @@ void Device::ResetPrivacyFlags(){
 
 bool Device::ConnectToUpdateDeviceDetails(){
 
+    std::string *s = new std::string("init");
+    SendMessageToDeviceAndGetResponse(this->localIpv4, s);
+
+
+    std::stringstream ss(s->c_str());
+    std::string temp;
+
+    if (s == nullptr){
+        return false;
+    }
+    else{
+        ss >> temp;
+        this->macAddress = temp;
+        ss >> temp;
+        this->localIpv4 = temp;
+        ss >> temp;
+        this->localIpv6 = temp;
+        ss >> temp;
+        this->name = temp;
+        ss >> temp;
+        if (temp.compare("true") == 0)
+            this->staticIp = true;
+        else 
+            this->staticIp = false;
+        ss >> temp;
+        if (temp.compare("true") == 0)
+            this->wired = true;
+        else
+            this->wired = true;
+        this->limitedMembers = false;
+        return true;
+    }  
+        
+    return false;
 
 }
 
-void Device::ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP){
+bool Device::GetDeviceConnections(){
+
 
 
 
 }
 
 std::string* Device::SendMessageToDeviceAndGetResponse(std::string address, std::string *message){
+
+    //message = new std::string(ReferenceValidationMechanism::encryptString(*message, 3));
 
 	const int port = 12345;
 
@@ -127,10 +153,11 @@ std::string* Device::SendMessageToDeviceAndGetResponse(std::string address, std:
     send(clientSocket, message->c_str(), strlen(message->c_str()), 0);
 
     // Receive and display the echoed data
-    char buffer[1024];
+    char buffer[10000];
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     if (bytesRead > 0) {
         message = new std::string(buffer, bytesRead);
+        //message = new std::string(ReferenceValidationMechanism::decryptString(*new std::string(buffer, bytesRead), 3));
     }
 
     // Close the socket
