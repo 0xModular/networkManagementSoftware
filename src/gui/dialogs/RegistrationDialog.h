@@ -28,8 +28,8 @@ class RegistrationDialog : public wxDialog {
 		//Misc Functions
 		void CreateControls();
 		void ConnectControls();
-		bool ComparePasswords();
-		
+	
+
 
 		//Event Handler Functions
 		void OnShowPassword(wxCommandEvent & event);
@@ -59,5 +59,14 @@ class RegistrationDialog : public wxDialog {
 		std::string username;
 		std::string password;
 		std::string password2;
+
+
+
+		//Status Constants
+		inline static const int ID_NOCONNECTION = -1;
+                inline static const int ID_SUCCESSFUL = 0;
+		inline static const int ID_ALREADYEXISTS = 1;
+		inline static const int ID_NOTMATCHING = 2;
+		inline static const int ID_EMPTYFIELD = 3;
 
 };

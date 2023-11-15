@@ -7,34 +7,42 @@
 
 #include "TwoFactorAuthenticationDialog.h"
 
-TwoFactorAuthenticationDialog::TwoFactorAuthenticationDialog(wxWindow* parent, int currentCode, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Two Factor Authentication")) {
+TwoFactorAuthenticationDialog::TwoFactorAuthenticationDialog(wxWindow* parent, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Two Factor Authentication")) {
 
 	//Set RVM
         this->rvm = rvm;
 
+	//Set Initial Code
+	this->code = 0; //Temp for 0 until 2FA backend is up
 
 
-	this->code = currentCode;
+
+	CreateControls();
+	ConnectControls();
+
+}
+
+void TwoFactorAuthenticationDialog::CreateControls() {
 
 	wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
         wxBoxSizer* horizontalSizer;
 
 
 
-	//2FA Entry Area
-	horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
+        //2FA Entry Area
+        horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
 
-	horizontalSizer->Add(new wxStaticText(this, wxID_STATIC, _T("Enter Code: ")), 0, wxALL|wxALIGN_CENTER_VERTICAL, 0);
+        horizontalSizer->Add(new wxStaticText(this, wxID_STATIC, _T("Enter Code: ")), 0, wxALL|wxALIGN_CENTER_VERTICAL, 0);
 
-	this->entry = new wxTextCtrl(this, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize);
-	horizontalSizer->Add(this->entry, 1, wxLEFT, 5);
+        this->entry = new wxTextCtrl(this, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+        horizontalSizer->Add(this->entry, 1, wxLEFT, 5);
 
-	mainSizer->Add(horizontalSizer, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxEXPAND, 10);
+        mainSizer->Add(horizontalSizer, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxEXPAND, 10);
 
 
 
-	//Warning Area
-	this->warningText = new wxStaticText(this, wxID_STATIC, _T("Wrong password!"));
+        //Warning Area
+        this->warningText = new wxStaticText(this, wxID_STATIC, _T("Wrong password!"));
 
         wxFont font = warningText->GetFont();
                 font.MakeBold();
@@ -45,8 +53,8 @@ TwoFactorAuthenticationDialog::TwoFactorAuthenticationDialog(wxWindow* parent, i
 
 
 
-	//Button Area
-	horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
+        //Button Area
+        horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
 
         this->cancel = new wxButton(this, wxID_CANCEL, _T("Cancel"));
         horizontalSizer->Add(this->cancel, 0, wxRIGHT, 0);
@@ -58,7 +66,7 @@ TwoFactorAuthenticationDialog::TwoFactorAuthenticationDialog(wxWindow* parent, i
 
 
 
-	//Set Sizer
+        //Set Sizer
         SetSizer(mainSizer);
 
 
@@ -88,11 +96,6 @@ void TwoFactorAuthenticationDialog::UpdateCode(int newCode) {
 
 }
 
-void TwoFactorAuthenticationDialog::ProcessInput() {
-
-	//Nothing Here for now...
-
-}
 
 
 //Event Handler Functions

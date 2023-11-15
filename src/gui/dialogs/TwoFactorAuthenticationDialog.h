@@ -18,7 +18,7 @@ class TwoFactorAuthenticationDialog : public wxDialog {
 
 	public:
 
-		TwoFactorAuthenticationDialog(wxWindow* parent, int code, ReferenceValidationMechanism* rvm); //Constructor
+		TwoFactorAuthenticationDialog(wxWindow* parent, ReferenceValidationMechanism* rvm); //Constructor
 		virtual ~TwoFactorAuthenticationDialog() noexcept {};
 		
 		void UpdateCode(int newCode);
@@ -28,7 +28,8 @@ class TwoFactorAuthenticationDialog : public wxDialog {
 		//Misc Functions
 		void CreateControls();
 		void ConnectControls();
-		void ProcessInput();
+
+
 
 		//Event Handler Functions
 		void OnCancel(wxCommandEvent & event);

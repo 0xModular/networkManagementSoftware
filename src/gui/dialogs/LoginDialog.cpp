@@ -8,13 +8,10 @@
 #include "LoginDialog.h"
 
 //Constructor
-LoginDialog::LoginDialog(wxWindow* parent, int maxAttempts, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Network Manager Login")) {
+LoginDialog::LoginDialog(wxWindow* parent, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Network Manager Login")) {
 
 	//Set RVM
         this->rvm = rvm;
-
-	this->attempts = 0;
-	this->maxAttempts = maxAttempts;
 
 	CreateControls();
 	ConnectControls();
@@ -171,28 +168,28 @@ void LoginDialog::OnOk(wxCommandEvent & event) {
 
 	switch (status) {
 	
-		case 0: //Successful Login
+		case this->ID_SUCCESSFUL:
 	
 			this->EndModal(wxID_OK);
 			return;
 
-		case 1: //Account Not Found
+		case this->ID_NOTFOUND:
 			
 			return;
 
-		case 2: //Wrong Password
+		case this->ID_WRONGPASSWORD:
 
 			return;
 
-		case 3: //Too Many Login Attempts
+		case this->ID_TOOMANYATTEMPTS:
 			
 			return;
 
-		case 4: //Field Left Empty
+		case this->ID_EMPTYFIELD:
 			
 			return;
 
-		case -1: //Could Not Connect
+		case this->ID_NOCONNECTION:
 
                         return;
 		

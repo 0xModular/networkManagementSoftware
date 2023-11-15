@@ -117,13 +117,6 @@ void RegistrationDialog::ConnectControls() {
 
 }
 
-//Misc Functions
-bool RegistrationDialog::ComparePasswords() {
-
-	return true;
-
-}
-
 
 
 //Event Handler Functions
@@ -186,24 +179,24 @@ void RegistrationDialog::OnSubmit(wxCommandEvent & event) {
 	
 	switch (status) {
 	
-		case 0: //Successful Registration
+		case this->ID_SUCCESSFUL:
 
 			this->EndModal(wxID_OK);
 			return;
 
-		case 1: //Account Already Exists
+		case this->ID_ALREADYEXISTS:
 	
 			return;
 
-		case 2: //Passwords Don't Match
+		case this->ID_NOTMATCHING:
 
 			return;
 
-		case 3: //Field Left Empty
+		case this->ID_EMPTYFIELD:
 
 			return;
 
-		case -1: //Could Not Connect
+		case this->ID_NOCONNECTION:
 
 			return;
 
