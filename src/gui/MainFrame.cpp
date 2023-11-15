@@ -16,155 +16,174 @@ MainFrame::MainFrame(const wxString& title, ReferenceValidationMechanism* rvm) :
 	//Set RVM
 	this->rvm = rvm;
 
-
-	
 	//Set Sizer
 	SetSizer(this->sizer);
 	SetAutoLayout(true);
 
+	//Create GUI
+	CreateMainMenu();
+	CreateToolBar();
+	this->sizer->Add(this->nf, 1, wxEXPAND); //Add NetworkField to Sizer
+	CreateStatusBar();
 
+	//Bind GUI
+	BindMainMenu();
+	BindToolBar();
 
-        //Main Menu
-	
-	//--FILE--//
-	auto mm_File = new wxMenu();
-
-	auto mm_FileNew = mm_File->Append(wxID_NEW); //Make a New Network File - Restricted to Network Admin
-	mm_FileNew->SetBitmap(wxArtProvider::GetBitmap(wxART_NEW, wxART_MENU));
-	
-	auto mm_FileOpen = mm_File->Append(wxID_OPEN); //Open a Network File
-	mm_FileOpen->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_MENU));
-
-	auto mm_FileSave = mm_File->Append(wxID_SAVE); //Save Network File
-	mm_FileSave->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_MENU));
-
-	auto mm_FileSaveAs = mm_File->Append(wxID_SAVEAS); //Save Network File to Location - Restricted to Network Admin
-	mm_FileSaveAs->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_SAVE_AS, wxART_MENU));
-
-	mm_File->AppendSeparator();
-
-	auto mm_FileLogOut = mm_File->Append(this->ID_LOGOUT, "Log Out", "Log out of this program"); //Log Out
-
-	auto mm_FileExit = mm_File->Append(wxID_EXIT); //Exit Program
-	mm_FileExit->SetBitmap(wxArtProvider::GetBitmap(wxART_QUIT, wxART_MENU));
-
-	//--EDIT--//
-	auto mm_Edit = new wxMenu();
-
-	auto mm_EditUndo = mm_Edit->Append(wxID_UNDO); //Undo Action
-	mm_EditUndo->SetBitmap(wxArtProvider::GetBitmap(wxART_UNDO, wxART_MENU));
-
-	auto mm_EditRedo = mm_Edit->Append(wxID_REDO); //Redo Action
-	mm_EditRedo->SetBitmap(wxArtProvider::GetBitmap(wxART_REDO, wxART_MENU));
-
-	//--NETWORK--//
-	auto mm_Network = new wxMenu();
-
-	auto mm_NetworkManageDevices = mm_Network->Append(this->ID_MANAGEDEVICES, "Manage Devices", "Manage Devices"); //Manage Devices - Restricted to Network Admin
-
-	auto mm_NetworkViewInfo = mm_Network->Append(this->ID_VIEWNETWORK, "View Network Information", "View Network Information"); //View Network Information
-
-
-	//--USERS--//
-	auto mm_Users = new wxMenu();
-
-	auto mm_UsersManage = mm_Users->Append(this->ID_MANAGEUSERS, "Manage Users", "Manage Users"); //Manage Users - Restricted to Network Admin
-
-	auto mm_UsersUpdate = mm_Users->Append(this->ID_UPDATEUSER, "Update Account Information", "Update Account Information"); //Update User Account Information
-
-	//--HELP--//
-	auto mm_Help = new wxMenu();
-
-	auto mm_HelpOpenDocs = mm_Help->Append(this->ID_OPENDOCS, "Open Documentation", "Open Documentation"); //Link to Documentation
-
-	//--BIND MENU EVENTS--//
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnNew, this, wxID_NEW);
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnOpen, this, wxID_OPEN);
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSave, this, wxID_SAVE);
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSaveAs, this, wxID_SAVEAS);
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLogOut, this, this->ID_LOGOUT);
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExit, this, wxID_EXIT);
-
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnUndo, this, wxID_UNDO);
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnRedo, this, wxID_REDO);
-
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnManageDevices, this, this->ID_MANAGEDEVICES);
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnViewInfo, this, this->ID_VIEWNETWORK);
-
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnManageUsers, this, this->ID_MANAGEUSERS);
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnUpdateAccount, this, this->ID_UPDATEUSER);
-
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnOpenDocs, this, this->ID_OPENDOCS);
-
-	//--APPLY MAIN MENU--//	
-	this->mm->Append(mm_File, "&File");
-	this->mm->Append(mm_Edit, "&Edit");
-	this->mm->Append(mm_Network, "&Network");
-	this->mm->Append(mm_Users, "&Users");
-	this->mm->Append(mm_Help, "&Help");
-
-	SetMenuBar(this->mm);
-
-
-
-	//Toolbar
-	
-	//--ADD TOOLBAR OPTIONS--//
-	auto tb_SetSelectionMode = this->tb->AddCheckTool(this->ID_SELECT, "Select", *TB_SELECT, wxNullBitmap, "Selection Mode"); //Cursor is in Select Mode
-	auto tb_SetAddDeviceMode = this->tb->AddCheckTool(this->ID_ADDDEVICE, "Add Device", *TB_ADD_DEVICE, wxNullBitmap, "Add Device"); //Cursor will Add Device when clicking on Network Field - Restricted to Network Admin
-	auto tb_SetTestConnectionMode = this->tb->AddCheckTool(this->ID_TESTCONNECTION, "Test Connection", *TB_TEST_CONNECTION, wxNullBitmap, "Test Connection"); //Cursor will Select Two Devices to Test
-	auto tb_SetAddNoteMode = this->tb->AddCheckTool(this->ID_NOTE, "Place Note", *TB_ADD_NOTE, wxNullBitmap, "Add Note"); //Cursor will Place Note when clicking on Network Field
-	
-	this->tb->AddSeparator();
-	
-	auto tb_ZoomIn = this->tb->AddTool(this->ID_ZOOMIN, "Zoom In", *TB_ZOOM_IN, "Zoom In"); //Network Field will be Zoomed In
-	auto tb_ZoomOut = this->tb->AddTool(this->ID_ZOOMOUT, "Zoom Out", *TB_ZOOM_OUT, "Zoom Out"); //Network Field will be Zoomed Out
-	auto tb_ZoomReset = this->tb->AddTool(this->ID_RESETZOOM, "Reset Zoom", *TB_ZOOM_FIT, "Reset Zoom"); //Network Field Zoom will be set to Default
-	
-	//--BIND TOOLBAR EVENTS--//
-	this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSelectionMode, this, this->ID_SELECT);
-	this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnAddDeviceMode, this, this->ID_ADDDEVICE);
-	this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnTestingMode, this, this->ID_TESTCONNECTION);
-	this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnPlaceNoteMode, this, this->ID_NOTE);
-
-	this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnZoomIn, this, this->ID_ZOOMIN);
-	this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnZoomOut, this, this->ID_ZOOMOUT);
-	this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnResetZoom, this, this->ID_RESETZOOM);
-
-	//--APPLY TOOLBAR--//
-	SetToolBar(this->tb);
-	this->tb->Realize();
-	
-	//--SET TO DEFAULT--//
-	wxCommandEvent defaultMode(wxEVT_COMMAND_MENU_SELECTED, this->ID_SELECT);
-	MainFrame::OnSelectionMode(defaultMode);
-
-
-
-	//Network Field
-	this->sizer->Add(this->nf, 1, wxEXPAND); //Apply sizer to NetworkField
-	
-
-
-	//Statusbar
-	
-	//--SET STATUS BAR--//
-	this->sb->SetFieldsCount(sizeof(this->SB_WIDTHS)); //Declare how many Status Bar Fields are there
-	this->sb->SetStatusWidths(sizeof(this->SB_WIDTHS), this->SB_WIDTHS); //Set Width of each Field
-	this->sb->SetStatusStyles(sizeof(this->SB_STYLES), this->SB_STYLES); //Set Style of each Field
-	
-	//--SET DEFAULT TEXT--//
-	this->sb->SetStatusText("None Selected", 1); //Right-ish
-	
-	//--APPLY STATUSBAR--//
-	SetStatusBar(this->sb);
-		
-	
-	
 	//Set Minimum Window Size
-
 	SetMinSize(wxSize(828, 512));
+
+	//Set to Default Mode
+	wxCommandEvent defaultMode(wxEVT_COMMAND_MENU_SELECTED, this->ID_SELECT);
+        MainFrame::OnSelectionMode(defaultMode);
+	
 }
+
+//Construction Functions
+void MainFrame::CreateMainMenu() {
+
+	//Create Menu Items
+	//--FILE--//
+        auto mm_File = new wxMenu();
+
+        auto mm_FileNew = mm_File->Append(wxID_NEW); //Make a New Network File - Restricted to Network Admin
+        mm_FileNew->SetBitmap(wxArtProvider::GetBitmap(wxART_NEW, wxART_MENU));
+
+        auto mm_FileOpen = mm_File->Append(wxID_OPEN); //Open a Network File
+        mm_FileOpen->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_MENU));
+
+        auto mm_FileSave = mm_File->Append(wxID_SAVE); //Save Network File
+        mm_FileSave->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_MENU));
+
+        auto mm_FileSaveAs = mm_File->Append(wxID_SAVEAS); //Save Network File to Location - Restricted to Network Admin
+        mm_FileSaveAs->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_SAVE_AS, wxART_MENU));
+
+        mm_File->AppendSeparator();
+
+        auto mm_FileLogOut = mm_File->Append(this->ID_LOGOUT, "Log Out", "Log out of this program"); //Log Out
+
+        auto mm_FileExit = mm_File->Append(wxID_EXIT); //Exit Program
+        mm_FileExit->SetBitmap(wxArtProvider::GetBitmap(wxART_QUIT, wxART_MENU));
+
+        //--EDIT--//
+        auto mm_Edit = new wxMenu();
+
+        auto mm_EditUndo = mm_Edit->Append(wxID_UNDO); //Undo Action
+        mm_EditUndo->SetBitmap(wxArtProvider::GetBitmap(wxART_UNDO, wxART_MENU));
+
+        auto mm_EditRedo = mm_Edit->Append(wxID_REDO); //Redo Action
+        mm_EditRedo->SetBitmap(wxArtProvider::GetBitmap(wxART_REDO, wxART_MENU));
+
+        //--NETWORK--//
+        auto mm_Network = new wxMenu();
+
+        auto mm_NetworkManageDevices = mm_Network->Append(this->ID_MANAGEDEVICES, "Manage Devices", "Manage Devices"); //Manage Devices - Restricted to Network Admin
+
+        auto mm_NetworkViewInfo = mm_Network->Append(this->ID_VIEWNETWORK, "View Network Information", "View Network Information"); //View Network Information
+
+        //--USERS--//
+        auto mm_Users = new wxMenu();
+
+        auto mm_UsersManage = mm_Users->Append(this->ID_MANAGEUSERS, "Manage Users", "Manage Users"); //Manage Users - Restricted to Network Admin
+
+        auto mm_UsersUpdate = mm_Users->Append(this->ID_UPDATEUSER, "Update Account Information", "Update Account Information"); //Update User Account Information
+
+        //--HELP--//
+        auto mm_Help = new wxMenu();
+
+        auto mm_HelpOpenDocs = mm_Help->Append(this->ID_OPENDOCS, "Open Documentation", "Open Documentation"); //Link to Documentation
+
+
+
+	//Add to Menu
+	this->mm->Append(mm_File, "&File");
+        this->mm->Append(mm_Edit, "&Edit");
+        this->mm->Append(mm_Network, "&Network");
+        this->mm->Append(mm_Users, "&Users");
+        this->mm->Append(mm_Help, "&Help");
+
+
+
+	//Set Menu
+        SetMenuBar(this->mm);	
+}
+
+void MainFrame::CreateToolBar() {
+
+	//Create Toolbar Items
+        auto tb_SetSelectionMode = this->tb->AddCheckTool(this->ID_SELECT, "Select", *TB_SELECT, wxNullBitmap, "Selection Mode"); //Cursor is in Select Mode
+        auto tb_SetAddDeviceMode = this->tb->AddCheckTool(this->ID_ADDDEVICE, "Add Device", *TB_ADD_DEVICE, wxNullBitmap, "Add Device"); //Cursor will Add Device when clicking on Network Field - Restricted to Network Admin
+        auto tb_SetTestConnectionMode = this->tb->AddCheckTool(this->ID_TESTCONNECTION, "Test Connection", *TB_TEST_CONNECTION, wxNullBitmap, "Test Connection"); //Cursor will Select Two Devices to Test
+        auto tb_SetAddNoteMode = this->tb->AddCheckTool(this->ID_NOTE, "Place Note", *TB_ADD_NOTE, wxNullBitmap, "Add Note"); //Cursor will Place Note when clicking on Network Field
+
+        this->tb->AddSeparator();
+
+        auto tb_ZoomIn = this->tb->AddTool(this->ID_ZOOMIN, "Zoom In", *TB_ZOOM_IN, "Zoom In"); //Network Field will be Zoomed In
+        auto tb_ZoomOut = this->tb->AddTool(this->ID_ZOOMOUT, "Zoom Out", *TB_ZOOM_OUT, "Zoom Out"); //Network Field will be Zoomed Out
+        auto tb_ZoomReset = this->tb->AddTool(this->ID_RESETZOOM, "Reset Zoom", *TB_ZOOM_FIT, "Reset Zoom"); //Network Field Zoom will be set to Default
+
+
+
+	//Apply Toolbar
+	SetToolBar(this->tb);
+        this->tb->Realize();
+
+}
+
+void MainFrame::CreateStatusBar() {
+
+	//Create Statusbar Fields
+	this->sb->SetFieldsCount(sizeof(this->SB_WIDTHS)); //Declare how many Status Bar Fields are there
+        this->sb->SetStatusWidths(sizeof(this->SB_WIDTHS), this->SB_WIDTHS); //Set Width of each Field
+        this->sb->SetStatusStyles(sizeof(this->SB_STYLES), this->SB_STYLES); //Set Style of each Field
+	
+
+
+	//Apply Statusbar
+	SetStatusBar(this->sb);
+
+}
+
+void MainFrame::BindMainMenu() {
+
+	//File
+	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnNew, this, wxID_NEW);
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnOpen, this, wxID_OPEN);
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSave, this, wxID_SAVE);
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSaveAs, this, wxID_SAVEAS);
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLogOut, this, this->ID_LOGOUT);
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExit, this, wxID_EXIT);
+
+	//Edit
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnUndo, this, wxID_UNDO);
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnRedo, this, wxID_REDO);
+
+	//Network
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnManageDevices, this, this->ID_MANAGEDEVICES);
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnViewInfo, this, this->ID_VIEWNETWORK);
+
+	//Users
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnManageUsers, this, this->ID_MANAGEUSERS);
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnUpdateAccount, this, this->ID_UPDATEUSER);
+
+	//Help
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnOpenDocs, this, this->ID_OPENDOCS);
+
+}
+ 
+void MainFrame::BindToolBar() {
+
+	this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSelectionMode, this, this->ID_SELECT);
+        this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnAddDeviceMode, this, this->ID_ADDDEVICE);
+        this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnTestingMode, this, this->ID_TESTCONNECTION);
+        this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnPlaceNoteMode, this, this->ID_NOTE);
+
+        this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnZoomIn, this, this->ID_ZOOMIN);
+        this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnZoomOut, this, this->ID_ZOOMOUT);
+        this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnResetZoom, this, this->ID_RESETZOOM);
+
+}
+
 
 
 //Event Handler Functions

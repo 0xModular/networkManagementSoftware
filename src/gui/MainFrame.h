@@ -35,32 +35,21 @@ class MainFrame : public wxFrame {
 	public:
 
 		MainFrame(const wxString& title, ReferenceValidationMechanism* rvm); //Constructor
+		~MainFrame() noexcept {}; //Destructor
 
-	protected:
-
-		//Toolbar Events
-
-                void OnHoverToolbarSelection(wxCommandEvent & event); //Display on Statusbar "Set to... Mode" or "Zoom..."
-
-                //--Modes--//
-                void OnSelectionMode(wxCommandEvent & event); //Default Mode of the Program, allows you to select devices
-                void OnAddDeviceMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field prompts Device Addition Menu
-                void OnTestingMode(wxCommandEvent & event); //When in this mode, user selects one device, then another, which triggers tests, where results are shown in Testing Suite Window
-                void OnPlaceNoteMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field add a text note
-
-                //---Zoom---//                          //These are Self Explanatory
-                void OnZoomIn(wxCommandEvent & event);
-                void OnZoomOut(wxCommandEvent & event);
-                void OnResetZoom(wxCommandEvent & event);
-		
-		//--Toolbar Mode IDs--//
-		inline static const int SELECTION_MODE = 0;
-                inline static const int ADD_DEVICE_MODE = 1;
-                inline static const int TEST_CONNECTION_MODE = 2;
-                inline static const int ADD_NOTE_MODE = 3;
-
-	
 	private:
+
+		//Construction Functions
+		void CreateMainMenu();
+        	void CreateToolBar();
+        	void CreateStatusBar();
+        	void BindMainMenu();
+       		void BindToolBar();
+
+		//--Construction Variable--//
+		int userType; // = Account->GetUserType(); or something like that
+		
+
 		
 		//RVM
 		ReferenceValidationMechanism* rvm;
@@ -78,7 +67,7 @@ class MainFrame : public wxFrame {
 
 		//Resources
 
-		//--TOOLBOX ICONS--//
+		//--TOOLBAR ICONS--//
 		inline static const wxIcon* TB_ADD_DEVICE = new wxIcon(TOOLBAR_ADD_DEVICE);
 		inline static const wxIcon* TB_ADD_NOTE = new wxIcon(TOOLBAR_ADD_NOTE);
 		inline static const wxIcon* TB_SELECT = new wxIcon(TOOLBAR_SELECT);
@@ -98,8 +87,7 @@ class MainFrame : public wxFrame {
 		inline static const int ID_VIEWNETWORK = 3;
 		inline static const int ID_MANAGEUSERS = 4;
 		inline static const int ID_UPDATEUSER = 5;
-		inline static const int ID_OPENDOCS = 6;
-
+		inline static const int ID_OPENDOCS = 6;		
 
 
 		//Toolbar
@@ -115,7 +103,29 @@ class MainFrame : public wxFrame {
 		inline static const int ID_ZOOMOUT = 12;
 		inline static const int ID_RESETZOOM = 13;
 
-		//--TOOLBAR MODE IDS--// --SEE PROTECTED
+		
+		//--TOOLBAR EVENTS--//
+                void OnHoverToolbarSelection(wxCommandEvent & event); //Display on Statusbar "Set to... Mode" or "Zoom..."
+
+                //---Modes---//
+                void OnSelectionMode(wxCommandEvent & event); //Default Mode of the Program, allows you to select devices
+                void OnAddDeviceMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field prompts Device Addition Menu
+                void OnTestingMode(wxCommandEvent & event); //When in this mode, user selects one device, then another, which triggers tests, where results are shown in Testing Suite Window
+                void OnPlaceNoteMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field add a text note
+
+                //---Zoom---//                          //These are Self Explanatory
+                void OnZoomIn(wxCommandEvent & event);
+                void OnZoomOut(wxCommandEvent & event);
+                void OnResetZoom(wxCommandEvent & event);
+
+                //---ToolBar Mode IDs---//
+                inline static const int SELECTION_MODE = 0;
+                inline static const int ADD_DEVICE_MODE = 1;
+                inline static const int TEST_CONNECTION_MODE = 2;
+                inline static const int ADD_NOTE_MODE = 3;
+
+
+
 
 		//Statusbar
 		wxStatusBar* sb = new wxStatusBar(this);
