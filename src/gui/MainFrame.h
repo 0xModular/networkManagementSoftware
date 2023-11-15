@@ -27,7 +27,6 @@
 
 #include "subwindows/DeviceManagementSubWindow.h"
 #include "subwindows/UserManagementSubWindow.h"
-#include "subwindows/UserUpdateSubWindow.h"
 
 
 
@@ -62,6 +61,11 @@ class MainFrame : public wxFrame {
 
 	
 	private:
+		
+		//RVM
+		ReferenceValidationMechanism* rvm;
+
+		
 		
 		//Sizer
 		wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -175,8 +179,10 @@ class MainFrame : public wxFrame {
 		//--Sub Window Objects--//
 		DeviceManagementSubWindow* deviceManagementSubWindow = new typename DeviceManagementSubWindow::DeviceManagementSubWindow(this, this->SUBWIN_DEVICEMANAGEMENT, wxDefaultPosition, wxDefaultSize);
 		UserManagementSubWindow* userManagementSubWindow = new typename UserManagementSubWindow::UserManagementSubWindow(this, this->SUBWIN_USERMANAGEMENT, wxDefaultPosition, wxDefaultSize);
-		UserUpdateSubWindow* userUpdateSubWindow = new typename UserUpdateSubWindow::UserUpdateSubWindow(this, this->SUBWIN_USERUPDATE, wxDefaultPosition, wxDefaultSize);
 
+
+
+		//Dialogs
 };
 
 

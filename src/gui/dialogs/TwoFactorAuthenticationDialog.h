@@ -50,4 +50,6 @@ class TwoFactorAuthenticationDialog : public wxDialog {
 		int enteredCode; //Process wxString into std::string into int;
 		int code;
 
+		ReferenceValidationMechanism* rvm;
+
 };

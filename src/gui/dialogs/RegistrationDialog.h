@@ -51,4 +51,13 @@ class RegistrationDialog : public wxDialog {
 		wxButton* cancel;
 		wxButton* submit;
 
+
+
+		//Misc
+		ReferenceValidationMechanism* rvm;
+		
+		std::string username;
+		std::string password;
+		std::string password2;
+
 };

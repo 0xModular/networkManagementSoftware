@@ -13,6 +13,11 @@
 
 MainFrame::MainFrame(const wxString& title, ReferenceValidationMechanism* rvm) : wxFrame(nullptr, wxID_ANY, title) {
 
+	//Set RVM
+	this->rvm = rvm;
+
+
+	
 	//Set Sizer
 	SetSizer(this->sizer);
 	SetAutoLayout(true);
@@ -231,7 +236,7 @@ void MainFrame::OnManageDevices(wxCommandEvent & event) {
 
 
 	//Update Manager
-	this->subWindowManager->Update();
+	this->subWindowManager;
 
 }
 
@@ -270,30 +275,6 @@ void MainFrame::OnManageUsers(wxCommandEvent & event) {
                 
 void MainFrame::OnUpdateAccount(wxCommandEvent & event) {
         std::cout << "Updating Accout" << std::endl; //Temp
-
-	//Clear Old Sub Window
-	this->subWindowManager->DetachPane(this->userUpdateSubWindow);
-	this->userUpdateSubWindow->Destroy();
-
-
-
-	//Create New Sub Window
-        this->userUpdateSubWindow = new typename UserUpdateSubWindow::UserUpdateSubWindow(this, this->SUBWIN_USERUPDATE, wxDefaultPosition, wxDefaultSize);
-
-
-
-	//Add Sub Window to Manager
-        this->subWindowManager->AddPane(this->userUpdateSubWindow,
-
-                wxAuiPaneInfo().Float().Caption("Update User Information").FloatingPosition({400, 300}).FloatingSize({300, 200}).CloseButton()
-
-        );
-
-
-
-	//Update Manager
-        this->subWindowManager->Update();
-
 }
 
 //---Help---//

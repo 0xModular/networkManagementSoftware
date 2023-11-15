@@ -47,7 +47,6 @@ class App : public wxApp {
 
 
 		//Misc
-		struct Credentials cred;
 		ReferenceValidationMechanism* rvm;
 
 };

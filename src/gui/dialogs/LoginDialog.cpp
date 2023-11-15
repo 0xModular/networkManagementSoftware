@@ -8,9 +8,10 @@
 #include "LoginDialog.h"
 
 //Constructor
-LoginDialog::LoginDialog(wxWindow* parent, int maxAttempts, struct Credentials* credentials, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Network Manager Login")) {
+LoginDialog::LoginDialog(wxWindow* parent, int maxAttempts, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Network Manager Login")) {
 
-	this->cred = credentials;
+	//Set RVM
+        this->rvm = rvm;
 
 	this->attempts = 0;
 	this->maxAttempts = maxAttempts;
@@ -152,22 +153,55 @@ void LoginDialog::OnRegister(wxCommandEvent & event) {
 }
 
 void LoginDialog::OnOk(wxCommandEvent & event) {
-
-	//this->warningText->Show();	
-	//GetSizer()->SetSizeHints(this);
 	
 	//Get Input
 	wxString wx_Username = this->usernameEntry->GetValue();
 	wxString wx_Password = this->passwordEntry->GetValue();
 
+
+
+	//Convert Input to String
 	this->username = std::string(wx_Username.mb_str(wxConvUTF8));
 	this->password = std::string(wx_Password.mb_str(wxConvUTF8));
 
-	struct Credentials credentials;
-	credentials.username = this->username;
-	credentials.password = this->password;
+	
+	
+	//Process Input
+	int status = 0; //rvm->AccessLogin(this->username, this->password);
 
-	*cred = credentials;	
+	switch (status) {
+	
+		case 0: //Successful Login
+	
+			this->EndModal(wxID_OK);
+			return;
 
-	this->EndModal(wxID_OK);
+		case 1: //Account Not Found
+			
+			return;
+
+		case 2: //Wrong Password
+
+			return;
+
+		case 3: //Too Many Login Attempts
+			
+			return;
+
+		case 4: //Field Left Empty
+			
+			return;
+
+		case -1: //Could Not Connect
+
+                        return;
+		
+		default:
+
+			//Exit
+			this->EndModal(wxID_CANCEL);
+			return;
+	
+	}
+	
 }

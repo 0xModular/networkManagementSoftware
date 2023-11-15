@@ -9,6 +9,11 @@
 
 TwoFactorAuthenticationDialog::TwoFactorAuthenticationDialog(wxWindow* parent, int currentCode, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Two Factor Authentication")) {
 
+	//Set RVM
+        this->rvm = rvm;
+
+
+
 	this->code = currentCode;
 
 	wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
