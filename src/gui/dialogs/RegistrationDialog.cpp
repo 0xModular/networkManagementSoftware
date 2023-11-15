@@ -83,7 +83,7 @@ void RegistrationDialog::CreateControls() {
         horizontalSizer->Add(this->cancel, 0, wxRIGHT, 0);
 
 	this->submit = new wxButton(this, wxID_OK, _T("Submit"));
-	horizontalSizer->Add(this->cancel, 0, wxRIGHT, 0);
+	horizontalSizer->Add(this->submit, 0, wxRIGHT, 0);
 
 	mainSizer->Add(horizontalSizer, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10);
 

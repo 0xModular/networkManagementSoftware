@@ -19,7 +19,34 @@ class App : public wxApp {
 	
 	public:
 
+		//Main Event Handlers
 		bool OnInit() override;
+		int OnExit() override;
+		
+
+
+		//Program Windows/Dialog Handlers
+		void Login();
+		void TwoFactorAuthentication();
+		void Register();
+		void MainApp();
+
+	private:
+
+		//Dialogs
+		LoginDialog* login;
+		TwoFactorAuthenticationDialog* tfa;
+		RegistrationDialog* rgstr;
+
+
+
+		//Frames
+		MainFrame* app;
+
+
+
+		//Misc
+		struct Credentials cred;
 
 };
 
