@@ -16,9 +16,9 @@
 int ReferenceValidationMechanism::AccessLogin(std::string name, std::string password){
     
 
-    	Login *l = new Login(name, password);
-    	std::string accountType;
-    	std::string accountCategory;
+    Login *l = new Login(name, password);
+    std::string accountType;
+    std::string accountCategory;
 	Account *user;
 	int errorCode = l->SendInfoAndGetResponseStatus(user);
 

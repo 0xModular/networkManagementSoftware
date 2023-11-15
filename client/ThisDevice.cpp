@@ -6,11 +6,13 @@
  */
 
 #include "ThisDevice.h"
+#include "Connection.h"
 #include <regex>
+#include <iostream>
 
 ThisDevice::ThisDevice(){
 
-	GetAllMembers(GetDefaultAdapater());
+	UpdateAllMembers(GetDefaultAdapater());
 
 }
 
@@ -18,45 +20,57 @@ ThisDevice::ThisDevice(){
 
 std::string ThisDevice::GetDefaultAdapater(){
 
-    	char buffer[256];
+
+    	char buffer[10000];
+    	std::string temp;
 
     	FILE* pipe = _popen("ipconfig", "r"); //Execute "arp -a" and capture output
 
     	if (!pipe) {
         	
-		std::cerr << "Error running arp -a command." << std::endl;
+		//std::cerr << "Error running arp -a command." << std::endl;
     	//handle
+    	std::cout << "error ";
 		}
 
-    	std::regex deviceRegex(R"([a-zA-Z]+\sadapter\s([a-zA-Z0-9]+):\n\n\s\s\sConnection-specific\sDNS\sSuffix)");
 
+
+    	std::regex deviceRegex(R"([a-zA-Z0-9\-\#\,\%\.\:\s\*\(\)]+\sadapter\s([a-zA-Z0-9\-]+):\s\s\s\s\sConnection\-specific\sDNS\sSuffix[\s\.]+:\s[a-zA-Z0-9\.\-]+\s)");
     	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+    	    temp += buffer;
+    	}
         	
-		std::string line(buffer);
         std::smatch match;
 
-        if (std::regex_search(line, match, deviceRegex)) {
-            
-		if (match.size() == 2) {
+        if (std::regex_search(temp, match, deviceRegex)) {
+        	if (match.size() == 2) {
             		
-			std::string whole = match[0];
-            std::string adapter = match[1];
+        		std::string whole = match[0];
+        		std::string adapter = match[1];
 
-            this->defaultAdapter = adapter;
-            return defaultAdapter;
+            	std::cout << adapter << "\n";
+            	this->defaultAdapter = adapter;
+            	return defaultAdapter;
             	
-			}
+        	}
+        	else
+        		return "error";
+
         
 		}
+        else
+        	return "error";
     
-	}
+
 
 }
 
-void ThisDevice::GetAllMembers(std::string adapter){
+
+void ThisDevice::UpdateAllMembers(std::string adapter){
 
     	std::string dhcp;
     	std::string whole;
+    	std::string temp;
 
     	std::vector<std::tuple<std::string, std::string, std::string>> devices;
     	char buffer[256];
@@ -65,20 +79,19 @@ void ThisDevice::GetAllMembers(std::string adapter){
     
 	if (!pipe) {
         
-		std::cerr << "Error running arp -a command." << std::endl;
-        	return devices;
+		//std::cerr << "Error running arp -a command." << std::endl;
     
 	}
 
-    	std::regex deviceRegex(R"(Windows\sIP\sConfiguration\n\n\s\s\sHost\sName[\s.]+:\s([a-zA-Z0-9\-.\(\)\#]+)[a-zA-Z0-9\s.:\(\)\-%,]+[a-zA-Z]+\sadapter\s[a-zA-Z0-9]+:\n\n\s\s\sConnection-specific\sDNS\sSuffix[a-zA-Z0-9\s.:\(\)\-%,]+Physical\sAddress[.\s]+:\s([a-fA-F0-9-]+)\n[a-zA-Z0-9\s.:\(\)\-%,]+DHCP\sEnabled[.\s]+:\s([YesNo]+)\n[a-zA-Z0-9\s.:\(\)\-%,]+IPv6\sAddress[.\s]+:\s([a-zA-Z0-9:%]+)[a-zA-Z0-9\s.:\(\)\-%,]+IPv4\sAddress[.\s]+:\s([0-9.]+)[a-zA-Z0-9\s.:\(\)\-%,]+Default\sGateway[.\s]+:\s([0-9.]+))");
-
+    	std::regex deviceRegex(R"(Windows\sIP\sConfiguration\s\s\s\s\sHost\sName[\s\.]+:\s([a-zA-Z0-9\.\(\)\#\-]+)[a-zA-Z0-9\s\.\:\(\)\%\,\-]+[a-zA-Z]+\sadapter\s[a-zA-Z0-9]+:\s\s\s\s\sConnection-specific\sDNS\sSuffix[a-zA-Z0-9\s\.\:\(\)\%\,\-]+Physical\sAddress[\.\s]+:\s([a-fA-F0-9\-]+)\n[a-zA-Z0-9\s\.\:\(\)\%\,\-]+DHCP\sEnabled[\.\s]+:\s([YesNo]+)\n[a-zA-Z0-9\s\.\:\(\)\%\,\-]+IPv6\sAddress[\.\s]+:\s([a-zA-Z0-9\:\%\-]+)[a-zA-Z0-9\s.:\(\)\%\,\-]+IPv4\sAddress[.\s]+:\s([0-9.]+)[a-zA-Z0-9\s.:\(\)\%\,\-]+Default\sGateway[\.\s]+:\s([0-9\.]+))");
     	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        	
-		std::string line(buffer);
+    		temp += buffer;
+    	}
+        	std::cout << temp <<"temp\n";
         	std::smatch match;
 
-        	if (std::regex_search(line, match, deviceRegex)) {
-            
+        	if (std::regex_search(temp, match, deviceRegex)) {
+
 			if (match.size() == 7) {
             	
 				whole = match[0];
@@ -89,18 +102,21 @@ void ThisDevice::GetAllMembers(std::string adapter){
                 localIpv4 = match[5];
                 defaultGateway = match[6];
 
+                std::cout << "\n" << name << "\n" << macAddress << "\n" << dhcp << "\n" << localIpv6 << "\n" << localIpv4 << "\n" << defaultGateway << "\n";
+
                 if(dhcp.compare("Yes") == 0) 
 					staticIp = false;
 				else  
 					staticIp = true;
-                
-				return;
-            
 			}
+             else{
+            	 std::cout << "what";
+             }
+			return;
+            
+
         
 		}
-    
-	}
 
 }
 
@@ -122,10 +138,11 @@ std::vector<Connection> ThisDevice::GetConnections(){
 
     if (!pipe) {
         
-	std::cerr << "Error running arp -a command." << std::endl;
+	//std::cerr << "Error running arp -a command." << std::endl;
 	//handle
 	}
 
+    std::cout << "wow1";
     std::regex deviceRegex(R"(TCP[\s]+[0-9.]+:([0-9]+)[\s]+([0-9.]+):([0-9])+[\s]+([A-Z_]+)[\s]+([0-9]+))");
 
     while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
@@ -144,7 +161,11 @@ std::vector<Connection> ThisDevice::GetConnections(){
                 state = match[4];
                 pid = std::stoi(match[5]);
 
-                ports.push_back(Connection(localPort, remoteAddress, remotePort, state, pid));
+                Connection *c = new Connection(localPort, remoteAddress, remotePort, state, pid);
+
+                ports.push_back(*c);
+
+                delete c;
 
 			}
         
@@ -165,10 +186,8 @@ void ThisDevice::setStaticIP(){
 
     	if (!pipe) {
         
-		std::cerr << "Error running arp -a command." << std::endl;
-        	return devices;
-    	
-	}
+		//std::cerr << "Error running arp -a command." << std::endl;
+    	}
 
     	std::regex deviceRegex(R"((\d+\.\d+\.\d+\.\d+)\s+([0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+-[0-9A-Fa-f]+)\s+(\w+))");
 
@@ -182,22 +201,17 @@ void ThisDevice::setStaticIP(){
 			if (match.size() == 4) {
             	
 				std::string whole = match[0];
-                		std::string ipv4Address = match[1];
-                		std::string physicalAddress = match[2];
-                		std::string type = match[3];
+                std::string ipv4Address = match[1];
+                std::string physicalAddress = match[2];
+                std::string type = match[3];
 
-                		bool isStatic;
-                		if (strcmp(type) == "static") {
-                    
-					isStatic = true;
+                if (type.compare("static") == 0)
+					this->staticIp = true;
 
-				} else {
-					
-					isStatic = false;
+                else
+                	this->staticIp = false;
 				
-				}
-
-                		//ipv4, ipv6, gateway, wired/wireless, flags, ports, static/dynamic, mac
+   		//ipv4, ipv6, gateway, wired/wireless, flags, ports, static/dynamic, mac
             		
 			}
         	
@@ -206,6 +220,32 @@ void ThisDevice::setStaticIP(){
 	}
 
     	_pclose(pipe);
-    	return devices;
+
+}
+
+std::string ThisDevice::GetAllMembers(){
+
+	std::string all = macAddress;
+	all += " ";
+	all += localIpv4;
+	all += " ";
+	all += localIpv6;
+	all += " ";
+	all += name;
+	all += " ";
+
+	if(staticIp == true)
+		all += "true";
+	else
+		all += "false";
+
+	all += " ";
+
+	if(defaultAdapter.compare("Ethernet") == 0)
+		all += "true";
+	else
+		all += "false";
+
+	return all;
 
 }

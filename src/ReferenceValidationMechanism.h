@@ -29,6 +29,7 @@ class ReferenceValidationMechanism{
                 bool CheckAuthorization(int level);
                 Network getNetwork();
 
+                Network *n = r->getNetwork();
                 //returns error code, 0 is success, 1 - 3 are normal issues with login, -1 is defined but should never occur so notify me if it happens.
                 int AccessLogin(std::string name, std::string password); 
 
