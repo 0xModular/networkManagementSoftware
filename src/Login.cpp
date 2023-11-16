@@ -60,7 +60,7 @@ int Login::SendInfoAndGetResponseStatus(Account *a){
         return -1;
     }
 
-    sql::MYSQL_RES* result = mysql_store_result(con);
+    sql::MYSQL_RES* result = sql::mysql_store_result(con);
     if (result == nullptr) {
         std::cerr << "Error retrieving result: " << sql::mysql_error(conn) << std::endl;
         sql::mysql_close(con);
