@@ -8,7 +8,6 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/artprov.h>
-#include <wx/aui/aui.h>
 #include <map>
 #include <vector>
 
@@ -135,11 +134,6 @@ class MainFrame : public wxFrame {
 	
 	        //--SET STYLES--//
 	        inline static const int SB_STYLES[] = {wxSB_SUNKEN, wxSB_SUNKEN};
-
-
-
-		//Aui Manager
-		wxAuiManager* subWindowManager = new wxAuiManager(this, wxAUI_MGR_DEFAULT);
 
 
 

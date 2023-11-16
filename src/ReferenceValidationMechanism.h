@@ -28,7 +28,7 @@ class ReferenceValidationMechanism{
                 static std::string decryptString(std:: string s, int key);
                 bool CheckAuthorization(int level);
                 Network getNetwork();
-                int AccountCreation(std::string name, std::string password, std::string type, std::string cat, Account *a);
+                int AccountCreation(std::string name, std::string password1, std::string password2, std::string type, std::string cat);
 
                 
                 int AccessLogin(std::string name, std::string password); 
