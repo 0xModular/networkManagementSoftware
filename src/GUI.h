@@ -15,8 +15,8 @@ bool App::OnInit() {
 
 
 	//Dialogs
-	this->login = new LoginDialog(NULL, 3, &(this->cred), this->rvm);
-	this->tfa = new TwoFactorAuthenticationDialog(NULL, 0, this->rvm);
+	this->login = new LoginDialog(NULL, this->rvm);
+	this->tfa = new TwoFactorAuthenticationDialog(NULL, this->rvm);
 	this->rgstr = new RegistrationDialog(NULL, this->rvm);
 
 

@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 
-#include "../structures/Credentials.h"
 #include "../../ReferenceValidationMechanism.h"
 
 class ReferenceValidationMechanism;
@@ -21,7 +20,7 @@ class LoginDialog : public wxDialog {
 	
 	public:
 		
-		LoginDialog(wxWindow* parent, int maxAttempts, struct Credentials* cred, ReferenceValidationMechanism* rvm); //Constuctor
+		LoginDialog(wxWindow* parent, ReferenceValidationMechanism* rvm); //Constuctor
 		virtual ~LoginDialog() noexcept {}; //Destructor
 
 		inline static const int ID_RGSTR = 2;
@@ -29,7 +28,7 @@ class LoginDialog : public wxDialog {
 		struct Credentials GetCredentials();
 
 	private:
-		
+
 		//Misc Functions
 		void CreateControls();
 		void ConnectControls();
@@ -63,9 +62,18 @@ class LoginDialog : public wxDialog {
 		int attempts;
 		int maxAttempts;
 
-		struct Credentials* cred;
-
 		std::string username;
 		std::string password;
 
+		ReferenceValidationMechanism* rvm;
+
+
+
+		//Status Constants
+		inline static const int ID_NOCONNECTION = -1;
+		inline static const int ID_SUCCESSFUL = 0;
+		inline static const int ID_NOTFOUND = 1;
+		inline static const int ID_WRONGPASSWORD = 2;
+		inline static const int ID_TOOMANYATTEMPTS = 3;
+		inline static const int ID_EMPTYFIELD = 4;
 };

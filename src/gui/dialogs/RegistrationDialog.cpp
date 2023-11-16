@@ -11,6 +11,11 @@
 
 RegistrationDialog::RegistrationDialog (wxWindow* parent, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Network Management Registration")) {
 	
+	//Set RVM
+	this->rvm = rvm;
+
+
+	
 	CreateControls();
 	ConnectControls();
 
@@ -112,13 +117,6 @@ void RegistrationDialog::ConnectControls() {
 
 }
 
-//Misc Functions
-bool RegistrationDialog::ComparePasswords() {
-
-	return true;
-
-}
-
 
 
 //Event Handler Functions
@@ -163,7 +161,51 @@ void RegistrationDialog::OnShowPassword(wxCommandEvent & event) {
 
 void RegistrationDialog::OnSubmit(wxCommandEvent & event) {
 
-	this->EndModal(wxID_OK);
+	//Get Input
+	wxString wx_Username = this->usernameEntry->GetValue();
+	wxString wx_Password = this->passwordEntry->GetValue();
+	wxString wx_Password2 = this->passwordReentry->GetValue();
+	
+
+
+	//Convert Input to String
+	this->username = std::string(wx_Username.mb_str(wxConvUTF8));
+        this->password = std::string(wx_Password.mb_str(wxConvUTF8));
+	this->password2 = std::string(wx_Password2.mb_str(wxConvUTF8));
+
+
+	//Process Input
+	int status = 0; //Enter Function here a la Login
+	
+	switch (status) {
+	
+		case this->ID_SUCCESSFUL:
+
+			this->EndModal(wxID_OK);
+			return;
+
+		case this->ID_ALREADYEXISTS:
+	
+			return;
+
+		case this->ID_NOTMATCHING:
+
+			return;
+
+		case this->ID_EMPTYFIELD:
+
+			return;
+
+		case this->ID_NOCONNECTION:
+
+			return;
+
+		default:
+
+			this->EndModal(wxID_CANCEL);
+			return;
+
+	}
 
 }
 
