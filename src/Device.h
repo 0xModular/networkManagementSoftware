@@ -45,7 +45,7 @@ class Device{
 
 		//private function
 		void ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP);
-		std::string* SendMessageToDeviceAndGetResponse(std::string address, std::string *message);
+		std::string SendMessageToDeviceAndGetResponse(std::string address, std::string *message);
 		//members
 		std::string macAddress;
 		std::string localIpv4;

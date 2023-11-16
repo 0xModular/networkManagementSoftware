@@ -78,10 +78,10 @@ void Device::ResetPrivacyFlags(){
 bool Device::ConnectToUpdateDeviceDetails(){
 
     std::string *s = new std::string("init");
-    SendMessageToDeviceAndGetResponse(this->localIpv4, s);
+    std::string wow = SendMessageToDeviceAndGetResponse(this->localIpv4, s);
 
-
-    std::stringstream ss(s->c_str());
+    std::cout << wow << "\n";
+    std::stringstream ss(wow.c_str());
     std::string temp;
 
     if (s == nullptr){
@@ -107,6 +107,7 @@ bool Device::ConnectToUpdateDeviceDetails(){
         else
             this->wired = true;
         this->limitedMembers = false;
+        std::cout << name << "\n";
         return true;
     }  
         
@@ -121,10 +122,9 @@ bool Device::GetDeviceConnections(){
 
 }
 
-std::string* Device::SendMessageToDeviceAndGetResponse(std::string address, std::string *message){
+std::string Device::SendMessageToDeviceAndGetResponse(std::string address, std::string *message){
 
     //message = new std::string(ReferenceValidationMechanism::encryptString(*message, 3));
-
 	const int port = 12345;
 
 	 // Create a socket
@@ -134,6 +134,7 @@ std::string* Device::SendMessageToDeviceAndGetResponse(std::string address, std:
         return nullptr;
     }
 
+	std::cerr << address;
     // Set up server address and port
     struct sockaddr_in serverAddr;
     serverAddr.sin_family = AF_INET;
@@ -147,7 +148,7 @@ std::string* Device::SendMessageToDeviceAndGetResponse(std::string address, std:
         return nullptr;
     }
 
-    std::cout << "Connected to the server" << std::endl;
+    std::cerr << "Connected to the server" << std::endl;
 
     // Send data to the server
     send(clientSocket, message->c_str(), strlen(message->c_str()), 0);
@@ -155,16 +156,17 @@ std::string* Device::SendMessageToDeviceAndGetResponse(std::string address, std:
     // Receive and display the echoed data
     char buffer[10000];
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+    std::string response;
     if (bytesRead > 0) {
-        message = new std::string(buffer, bytesRead);
+    	response.assign(buffer, bytesRead);
+        //message = new std::string(buffer, bytesRead);
+       
         //message = new std::string(ReferenceValidationMechanism::decryptString(*new std::string(buffer, bytesRead), 3));
     }
-
-    // Close the socket
     close(clientSocket);
-
-    return message;
+    // Close the socket
+    
+    return response;
 }
 
 	
-

@@ -29,8 +29,11 @@ int Login::SendInfoAndGetResponseStatus(Account *a){
 
 	auto con = DatabaseConnection::GetSecureConnection("sample", "sample");
 
+	if(con == nullptr)
+		return -1;
+
 	sql::PreparedStatement* pstmt;
-	pstmt = con->prepareStatement("SELECT username FROM users WHERE username = ? AND password = ?");
+	pstmt = con->prepareStatement("SELECT type FROM users WHERE username = ? AND password = ?");
 	pstmt->setString(1, this->username);
 	pstmt->setString(2, this->password);
 
@@ -38,19 +41,26 @@ int Login::SendInfoAndGetResponseStatus(Account *a){
 
 	if (result->next()) {
     
-		// A matching record was found, so the login information is correct.
+		std::string type;
+		a = new Account(&(this->username), &type, new std::string("1"));
+		delete con;
+		delete result;
+		delete pstmt;
+		return 0; 
 
-	} else {
-    
-		// No matching record found; the login information is incorrect.
+	} 
+	else {
+
+		pstmt = con->prepareStatement("SELECT username FROM users WHERE username = ?");
+		pstmt->setString(1, this->username);
+
+		if (result->next())
+			return 1;
+		else
+			return 2;
 
 	}
 
-
-	delete con;
-	delete result;
-	delete pstmt;
-	a = new Account(&(this->username), new std::string("admin"), new std::string("1"));
-	return 1; //errorCode in future
+	
 
 }

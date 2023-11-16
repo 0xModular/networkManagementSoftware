@@ -75,3 +75,42 @@ Account::~Account(){
 
 
 }
+
+int Account::CreateNewAccountInDB(std::string name, std::string password1, std::string password2, std::string type, std::string cat, Account *a){
+
+	auto con = DatabaseConnection::GetSecureConnection("account", "account");
+	if(con == nullptr)
+		return -1;
+
+	if (password1.compare(password2) != 0)
+		return 2;
+
+	if (name.compare(NULL) || password1.compare(NULL) || password2.compare(NULL))
+		return 3;
+
+	
+
+	sql::PreparedStatement* pstmt;
+
+	pstmt = con->prepareStatement("SELECT username FROM users WHERE username = ?");
+	pstmt->setString(1, name);
+
+	sql::ResultSet* result = pstmt->executeQuery();
+
+	if (result->next()) {
+    
+		return 1;
+
+	} 
+	//create account in db
+	else {
+
+	
+
+	}
+
+	
+
+
+
+}

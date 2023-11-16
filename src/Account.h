@@ -10,6 +10,11 @@
 #include <vector>
 #include "Device.h"
 #include "ReferenceValidationMechanism.h"
+#include "mysql_connection.h"
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/prepared_statement.h>
+#include "DatabaseConnection.h"
 
 class Device;
 class ReferenceValidationMechanism;
@@ -20,6 +25,7 @@ class Account{
 
 		//public static methods
 		static std::vector<Account> GetManagableAccounts(ReferenceValidationMechanism *r); //Gets accounts that an admin account can manage.
+		static int CreateNewAccountInDB(std::string name, std::string password1, std::string password2, std::string type, std::string cat, Account *a);
 
 		//public methods
 		void RemoveAccount(ReferenceValidationMechanism *r); //Sends a request to the database to remove an account. First it checks if that account exists in the database using checkIfAccountExists.

@@ -126,4 +126,25 @@ bool ReferenceValidationMechanism::CheckAuthorization(int level){
 
 //wip \/\/\/
 
+int ReferenceValidationMechanism::AccountCreation(std::string name, std::string password1, std::string password2, std::string type, std::string cat){
 
+	Account *a;
+    int errorCode = Account::CreateNewAccountInDB(name, password1, password2, type, cat, a);
+
+	if (errorCode = 0){
+
+		this->activeAccount = a;
+		this->n = new Network();
+		delete a;
+		return errorCode;
+
+	} 
+	else{
+
+		delete a;
+		return errorCode;
+
+	}
+
+
+}

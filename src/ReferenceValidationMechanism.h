@@ -28,9 +28,9 @@ class ReferenceValidationMechanism{
                 static std::string decryptString(std:: string s, int key);
                 bool CheckAuthorization(int level);
                 Network getNetwork();
+                int AccountCreation(std::string name, std::string password, std::string type, std::string cat, Account *a);
 
-                Network *n = r->getNetwork();
-                //returns error code, 0 is success, 1 - 3 are normal issues with login, -1 is defined but should never occur so notify me if it happens.
+                
                 int AccessLogin(std::string name, std::string password); 
 
 
