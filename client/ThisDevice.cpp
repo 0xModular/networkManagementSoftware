@@ -83,11 +83,13 @@ void ThisDevice::UpdateAllMembers(std::string adapter){
     
 	}
 
-    	std::regex deviceRegex(R"(Windows\sIP\sConfiguration\s\s\s\s\sHost\sName[\s\.]+:\s([a-zA-Z0-9\.\(\)\#\-]+)[a-zA-Z0-9\s\.\:\(\)\%\,\-]+[a-zA-Z]+\sadapter\s[a-zA-Z0-9]+:\s\s\s\s\sConnection-specific\sDNS\sSuffix[a-zA-Z0-9\s\.\:\(\)\%\,\-]+Physical\sAddress[\.\s]+:\s([a-fA-F0-9\-]+)\n[a-zA-Z0-9\s\.\:\(\)\%\,\-]+DHCP\sEnabled[\.\s]+:\s([YesNo]+)\n[a-zA-Z0-9\s\.\:\(\)\%\,\-]+IPv6\sAddress[\.\s]+:\s([a-zA-Z0-9\:\%\-]+)[a-zA-Z0-9\s.:\(\)\%\,\-]+IPv4\sAddress[.\s]+:\s([0-9.]+)[a-zA-Z0-9\s.:\(\)\%\,\-]+Default\sGateway[\.\s]+:\s([0-9\.]+))");
+    	std::regex deviceRegex(R"(Windows\sIP\sConfiguration\s\s\s\s\sHost\sName[\s\.]+:\s([a-zA-Z0-9\.\(\)\#\-]+)[a-zA-Z0-9\s\.\:\(\)\%\,\-]+[a-zA-Z]+\sadapter\s[a-zA-Z0-9\s\.\:\%\*\#\(\)\,\-]+Connection-specific\sDNS\sSuffix[a-zA-Z0-9\s\.\:\(\)\%\,\-]+Physical\sAddress[\.\s]+:\s([a-fA-F0-9\-]+)\n[a-zA-Z0-9\s\.\:\(\)\%\,\-]+DHCP\sEnabled[\.\s]+:\s([YesNo]+)\n[a-zA-Z0-9\s\.\:\(\)\%\,\-]+IPv6\sAddress[\.\s]+:\s([a-zA-Z0-9\:\%\-]+)[a-zA-Z0-9\s.:\(\)\%\,\-]+IPv4\sAddress[.\s]+:\s([0-9.]+)[a-zA-Z0-9\s.:\(\)\%\,\-]+Default\sGateway[\.\s]+:\s([0-9a-fA-F\%\:\.]+)\s)");
     	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
     		temp += buffer;
     	}
-        	std::cout << temp <<"temp\n";
+
+    	std::cout << "temp" << temp;
+
         	std::smatch match;
 
         	if (std::regex_search(temp, match, deviceRegex)) {
@@ -108,15 +110,19 @@ void ThisDevice::UpdateAllMembers(std::string adapter){
 					staticIp = false;
 				else  
 					staticIp = true;
+
+                return;
 			}
-             else{
-            	 std::cout << "what";
-             }
+            else{
+
+            }
+
 			return;
             
 
         
 		}
+
 
 }
 

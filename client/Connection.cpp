@@ -19,4 +19,8 @@ Connection::Connection(int lPort, std::string rAddress, int rPort, std::string c
 }
 
 
+Connection::~Connection(){
 
+
+
+}
