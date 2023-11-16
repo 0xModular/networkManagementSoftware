@@ -37,33 +37,52 @@ int Login::SendInfoAndGetResponseStatus(Account *a){
 	query << "SELECT UserName FROM Accounts WHERE UserName = " << this->username; // Change 'column_name', 'your_table_name', and 'id' as needed
     if (sql::mysql_query(con, query.str().c_str())) {
         sql::mysql_close(con);
+        return -1;
+    }
+
+	 sql::MYSQL_RES* result = mysql_store_result(con);
+    if (result == nullptr) {
+        std::cerr << "Error retrieving result: " << sql::mysql_error(conn) << std::endl;
+        sql::mysql_close(con);
+        return -1;
+    }
+
+    sql::MYSQL_ROW row;
+    if (!(row = sql::mysql_fetch_row(result))) {
+        sql::mysql_close(con);
         return 1;
     }
 
-	std::stringstream query;
+
 	query << "SELECT UserName FROM Accounts WHERE UserName = " << this->username << " AND Password = " << this->password; // Change 'column_name', 'your_table_name', and 'id' as needed
     if (sql::mysql_query(con, query.str().c_str())) {
         sql::mysql_close(con);
-        return 2;
+        return -1;
     }
 
-    MYSQL_RES* result = mysql_store_result(cnn);
+    sql::MYSQL_RES* result = mysql_store_result(con);
     if (result == nullptr) {
-        std::cerr << "Error retrieving result: " << mysql_error(conn) << std::endl;
-        mysql_close(con);
-        return 1;
+        std::cerr << "Error retrieving result: " << sql::mysql_error(conn) << std::endl;
+        sql::mysql_close(con);
+        return -1;
     }
 
-    MYSQL_ROW row;
-    if ((row = mysql_fetch_row(result))) {
-        std::cout << "Value: " << row[0] << std::endl; // Access the value from the column
+    sql::MYSQL_ROW row;
+    if ((row = sql::mysql_fetch_row(result))) {
+        std::string *type = new std::string(row[0]); 
+		sql::mysql_free_result(result);
+		sql::mysql_close(con);
+		std::string *cat = new std::string("1");
+		a = new Account(&(this->username), type, cat);
+		return 0;
     } else {
-        std::cout << "No data found" << std::endl;
+        sql::mysql_close(con);
+		return 2;
     }
 
-    mysql_free_result(result);
-    mysql_close(con);
-    return 0;
+    
+    sql::mysql_close(con);
+    return -1;
 }
 
  /*
