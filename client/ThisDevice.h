@@ -15,12 +15,13 @@ class ThisDevice{
 
 	public:
 
-		void setStaticIP();
+		bool setStaticIP(std::string newIp);
 		ThisDevice();
-		void UpdateAllMembers(std::string adapter);
+		bool UpdateAllMembers(std::string adapter);
 		std::string GetDefaultAdapater();
 		std::vector<Connection> GetConnections();
 		std::string GetAllMembers();
+		std::string ConnectionVectorToString();
 
 	private:
 
