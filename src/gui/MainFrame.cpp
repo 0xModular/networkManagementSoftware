@@ -36,7 +36,10 @@ MainFrame::MainFrame(const wxString& title, ReferenceValidationMechanism* rvm) :
 	//Set to Default Mode
 	wxCommandEvent defaultMode(wxEVT_COMMAND_MENU_SELECTED, this->ID_SELECT);
         MainFrame::OnSelectionMode(defaultMode);
-	
+
+	//Prepare Dialogs
+	this->deviceManagementDialog = new DeviceManagementDialog(this, this->rvm);
+
 }
 
 //Construction Functions
@@ -233,30 +236,9 @@ void MainFrame::OnRedo(wxCommandEvent & event) {
 //---Network---//
 void MainFrame::OnManageDevices(wxCommandEvent & event) {
         std::cout << "Managing Devices" << std::endl; //Temp
-
-	//Clear Old Sub Window
-	this->subWindowManager->DetachPane(this->deviceManagementSubWindow);
-	this->deviceManagementSubWindow->Destroy();
-
-
-
-	//Create New Sub Window
-	this->deviceManagementSubWindow = new typename DeviceManagementSubWindow::DeviceManagementSubWindow(this, this->SUBWIN_DEVICEMANAGEMENT, wxDefaultPosition, wxDefaultSize);
-
-
-
-	//Add Sub Window to Manager
-	this->subWindowManager->AddPane(this->deviceManagementSubWindow, 
 	
-		wxAuiPaneInfo().Float().Caption("Device Managment").FloatingPosition({400, 300}).FloatingSize({300, 200}).CloseButton()
+	this->deviceManagementDialog->ShowModal();
 	
-	);
-
-
-
-	//Update Manager
-	this->subWindowManager;
-
 }
 
 void MainFrame::OnViewInfo(wxCommandEvent & event) {
@@ -266,30 +248,6 @@ void MainFrame::OnViewInfo(wxCommandEvent & event) {
 //---Users---//
 void MainFrame::OnManageUsers(wxCommandEvent & event) {
         std::cout << "Managing Users" << std::endl; //Temp
-
-	//Clear Old Sub Window
-	this->subWindowManager->DetachPane(this->userManagementSubWindow);
-	this->userManagementSubWindow->Destroy();
-
-
-
-	//Create New Sub Window
-        this->userManagementSubWindow = new typename UserManagementSubWindow::UserManagementSubWindow(this, this->SUBWIN_USERMANAGEMENT, wxDefaultPosition, wxDefaultSize);
-
-
-
-	//Add Sub Window to Manager
-        this->subWindowManager->AddPane(this->userManagementSubWindow,
-
-                wxAuiPaneInfo().Float().Caption("User Managment").FloatingPosition({400, 300}).FloatingSize({300, 200}).CloseButton()
-
-        );
-
-
-
-	//Update Manager
-        this->subWindowManager->Update();
-
 }
                 
 void MainFrame::OnUpdateAccount(wxCommandEvent & event) {

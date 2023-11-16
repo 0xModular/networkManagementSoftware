@@ -25,8 +25,8 @@
 #include "NetworkField.h"
 #include "../ReferenceValidationMechanism.h"
 
-#include "subwindows/DeviceManagementSubWindow.h"
-#include "subwindows/UserManagementSubWindow.h"
+#include "dialogs/DeviceManagementDialog.h"
+#include "dialogs/UserManagementDialog.h"
 
 
 
@@ -177,22 +177,9 @@ class MainFrame : public wxFrame {
 
 
 
-		//Sub Windows
-
-		//--Sub Window IDs--//
-		inline static const wxWindowID SUBWIN_DEVICEMANAGEMENT = 0;
-		inline static const wxWindowID SUBWIN_USERMANAGEMENT = 1;
-		inline static const wxWindowID SUBWIN_USERUPDATE = 2;
-
-		inline static const wxWindowID SUBWIN_ADDDEVICE = 3;
-
-		//--Sub Window Objects--//
-		DeviceManagementSubWindow* deviceManagementSubWindow = new typename DeviceManagementSubWindow::DeviceManagementSubWindow(this, this->SUBWIN_DEVICEMANAGEMENT, wxDefaultPosition, wxDefaultSize);
-		UserManagementSubWindow* userManagementSubWindow = new typename UserManagementSubWindow::UserManagementSubWindow(this, this->SUBWIN_USERMANAGEMENT, wxDefaultPosition, wxDefaultSize);
-
-
-
 		//Dialogs
+		DeviceManagementDialog* deviceManagementDialog;
+		UserManagementDialog* userManagementDialog;
 };
 
 
