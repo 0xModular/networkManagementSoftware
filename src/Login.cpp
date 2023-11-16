@@ -73,7 +73,8 @@ int Login::SendInfoAndGetResponseStatus(Account *a){
 		sql::mysql_free_result(result);
 		sql::mysql_close(con);
 		std::string *cat = new std::string("1");
-		a = new Account(&(this->username), type, cat);
+		std::string *name = new std::string(this->username); 
+		a = new Account(name, type, cat);
 		return 0;
     } else {
         sql::mysql_close(con);
