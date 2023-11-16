@@ -78,7 +78,7 @@ Account::~Account(){
 
 int Account::CreateNewAccountInDB(std::string name, std::string password1, std::string password2, std::string type, std::string cat, Account *a){
 
-	auto con = DatabaseConnection::GetSecureConnection("account", "account");
+	sql::Connection* con = DatabaseConnection::GetSecureConnection("account", "account");
 	if(con == nullptr)
 		return -1;
 
@@ -89,7 +89,6 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
 		return 3;
 
 	
-
 	sql::PreparedStatement* pstmt;
 
 	pstmt = con->prepareStatement("SELECT username FROM users WHERE username = ?");
@@ -97,19 +96,18 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
 
 	sql::ResultSet* result = pstmt->executeQuery();
 
-	if (result->next()) {
-    
+	if (result->next()) 
 		return 1;
 
-	} 
-	//create account in db
-	else {
 
-	
+    std::string query = "INSERT INTO Accounts (UserName, Type, Password, LoginAttempts) VALUES ('" + name + "', '" + type + "', " + std::to_string(0) + ", '" + cat +"')";
 
+    if (sql::mysql_query(con, query.c_str())) 
+		return -1;
+    else{
+		a = new Account(&name, &type, &cat);
+		return 0;
 	}
-
-	
 
 
 
