@@ -24,7 +24,7 @@ sql::Connection* DatabaseConnection::GetSecureConnection(std::string sqlUsername
     	try {
         
 		// Initialize the MySQL Connector/C++ driver
-        	driver = sql::get_driver_instance();
+		driver = get_driver_instance();
 
         	// Set SSL/TLS options
         	sql::ConnectOptionsMap connection_properties;
@@ -43,7 +43,7 @@ sql::Connection* DatabaseConnection::GetSecureConnection(std::string sqlUsername
         }
         catch (sql::SQLException e) {
         
-		close
+		close;
 		return nullptr;  // Exit the program or handle the error as needed.
     
 	}

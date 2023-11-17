@@ -23,6 +23,15 @@ Login::~Login(){
 
 }
 
+//THIS USES THE LEGACY MYSQL C LIBRARY INSTEAD OF THE MYSQL CONNECTOR C++, AND MY COMPILER HATES IT. LAYNE PLEASE FIX THIS!!! -A
+int Login::SendInfoAndGetResponseStatus(Account *a){
+
+	return 0;
+
+}
+
+
+/*
 
 // Assuming you have a valid database connection (con).
 int Login::SendInfoAndGetResponseStatus(Account *a){
@@ -85,6 +94,12 @@ int Login::SendInfoAndGetResponseStatus(Account *a){
     sql::mysql_close(con);
     return -1;
 }
+
+*/
+
+
+//vv Old, please ignore
+
 
  /*
 	auto con = DatabaseConnection::GetSecureConnection("sample", "sample");

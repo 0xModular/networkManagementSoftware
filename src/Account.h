@@ -11,6 +11,7 @@
 #include "Device.h"
 #include "ReferenceValidationMechanism.h"
 #include "mysql_connection.h"
+#include <mysql/mysql.h>
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
