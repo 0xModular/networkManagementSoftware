@@ -45,10 +45,10 @@ int ReferenceValidationMechanism::AccessLogin(std::string name, std::string pass
 }
 
 
-Network ReferenceValidationMechanism::getNetwork(){
+Network* ReferenceValidationMechanism::GetNetwork(){
 
 	if (activeAccount != nullptr && (activeAccount->GetAccountType().compare("admin") == 0 || activeAccount->GetAccountType().compare("engineer") == 0)){
-		return *n;
+		return n;
 	}
 	else if (activeAccount == nullptr){
 		std::cout << "\nno account logged in, getNetwork() will return garbage code. In later versions this error will exit(1)\n";
@@ -60,7 +60,7 @@ Network ReferenceValidationMechanism::getNetwork(){
 }
 
 
-std::string ReferenceValidationMechanism::encryptString(std:: string s, int key){
+std::string ReferenceValidationMechanism::EncryptString(std:: string s, int key){
 
 	char temp;
 	int i;
@@ -75,7 +75,7 @@ std::string ReferenceValidationMechanism::encryptString(std:: string s, int key)
 }
 
 
-std::string ReferenceValidationMechanism::decryptString(std:: string s, int key){
+std::string ReferenceValidationMechanism::DecryptString(std:: string s, int key){
 
 	char temp;
 	int i;

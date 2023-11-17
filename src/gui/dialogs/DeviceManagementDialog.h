@@ -11,7 +11,7 @@
 #include <wx/statline.h>
 
 #include <vector>
-#include <numeric>
+//#include <numeric>
 
 #include "../../ReferenceValidationMechanism.h"
 
@@ -27,6 +27,7 @@ class DeviceManagementDialog : public wxDialog {
 		//Construction Functions
 		void CreateControls();
 		void ConnectControls();
+		void Populate();
 
 
 
@@ -37,8 +38,8 @@ class DeviceManagementDialog : public wxDialog {
 
 		//Components
 		wxScrolledWindow* devicesArea;
-		wxPanel* buttonPanel;
 		wxListView* devices;
+	
 
 
 		//Buttons
@@ -50,21 +51,23 @@ class DeviceManagementDialog : public wxDialog {
 		//--Other--//
 		wxButton* refresh;
 		wxButton* close;
-		
+		wxButton* edit;
+
 		//--Button IDs--//
 		inline static const int ID_SORTNAME = 0;
 		inline static const int ID_SORTMAC = 1;
 		inline static const int ID_SORTIP = 2;
 		inline static const int ID_REFRESH = 3;
-	
+		inline static const int ID_EDIT = 4;
 
 
 		//Event Handlers
-		void onSortByName();
-		void onSortByMAC();
-		void onSortByIP();
-		void onRefresh();
-		void onClose();
+		void OnSortByName(wxCommandEvent & event);
+		void OnSortByMAC(wxCommandEvent & event);
+		void OnSortByIP(wxCommandEvent & event);
+		void OnRefresh(wxCommandEvent & event);
+		void OnClose(wxCommandEvent & event);
+		void OnEdit(wxCommandEvent & event);
 
 };
 

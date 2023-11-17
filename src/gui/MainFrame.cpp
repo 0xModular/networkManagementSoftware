@@ -39,7 +39,7 @@ MainFrame::MainFrame(const wxString& title, ReferenceValidationMechanism* rvm) :
 
 	//Prepare Dialogs
 	this->deviceManagementDialog = new DeviceManagementDialog(this, this->rvm);
-
+	this->userManagementDialog = new UserManagementDialog(this, this->rvm);
 }
 
 //Construction Functions
@@ -248,6 +248,9 @@ void MainFrame::OnViewInfo(wxCommandEvent & event) {
 //---Users---//
 void MainFrame::OnManageUsers(wxCommandEvent & event) {
         std::cout << "Managing Users" << std::endl; //Temp
+	
+	this->userManagementDialog->ShowModal();
+
 }
                 
 void MainFrame::OnUpdateAccount(wxCommandEvent & event) {

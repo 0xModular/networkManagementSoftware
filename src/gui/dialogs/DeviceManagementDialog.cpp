@@ -15,6 +15,7 @@ DeviceManagementDialog::DeviceManagementDialog(wxWindow *parent, ReferenceValida
 
 	CreateControls();
 	ConnectControls();
+	Populate();
 
 }
 
@@ -48,8 +49,6 @@ void DeviceManagementDialog::CreateControls() {
 
 	mainSizer->Add(horizontalSizer, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10);
 	
-	mainSizer->Add(new wxStaticLine(this, wxID_ANY), 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10);
-
 
 
 	//Create List Foundation
@@ -83,9 +82,11 @@ void DeviceManagementDialog::CreateControls() {
 	horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
 
 	this->refresh = new wxButton(this, this->ID_REFRESH, _T("Refresh"));
+	this->edit = new wxButton(this, this->ID_EDIT, _T("Edit Selected Device"));
 	this->close = new wxButton(this, wxID_CANCEL, _T("Close"));
 
 	horizontalSizer->Add(this->refresh, 0, wxRIGHT, 0);
+	horizontalSizer->Add(this->edit, 0, wxRIGHT, 0);
 	horizontalSizer->Add(this->close, 0, wxRIGHT, 0);
 	
 	mainSizer->Add(horizontalSizer, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10);
@@ -96,62 +97,64 @@ void DeviceManagementDialog::CreateControls() {
 	SetSizer(mainSizer);
 	mainSizer->SetSizeHints(this);
 
-
-	
-	//Get Initial Devices Populated
-	
-	//TEMP
-	this->devices->InsertItem(0, "Test");
-	this->devices->SetItem(0, 1, "Test");
-	this->devices->SetItem(0, 2, "Test");
-
-	this->devices->InsertItem(1, "Test");
-        this->devices->SetItem(1, 1, "Test");
-        this->devices->SetItem(1, 2, "Test");
-
-	this->devices->InsertItem(2, "Test");
-        this->devices->SetItem(2, 1, "Test");
-        this->devices->SetItem(2, 2, "Test");
-
-	this->devices->InsertItem(3, "Test");
-        this->devices->SetItem(3, 1, "Test");
-        this->devices->SetItem(3, 2, "Test");
-
-	this->devices->InsertItem(4, "Test");
-        this->devices->SetItem(4, 1, "Test");
-        this->devices->SetItem(4, 2, "Test");
-
-	this->devices->InsertItem(5, "Test");
-        this->devices->SetItem(5, 1, "Test");
-        this->devices->SetItem(5, 2, "Test");
-
-	this->devices->InsertItem(6, "Test");
-        this->devices->SetItem(6, 1, "Test");
-        this->devices->SetItem(6, 2, "Test");
-
-	this->devices->InsertItem(7, "Test");
-        this->devices->SetItem(7, 1, "Test");
-        this->devices->SetItem(7, 2, "Test");
-
-	this->devices->InsertItem(8, "Test");
-        this->devices->SetItem(8, 1, "Test");
-        this->devices->SetItem(8, 2, "Test");
-
-	this->devices->InsertItem(9, "Test");
-        this->devices->SetItem(9, 1, "Test");
-        this->devices->SetItem(9, 2, "Test");
-
-	this->devices->InsertItem(10, "Test");
-        this->devices->SetItem(10, 1, "Test");
-        this->devices->SetItem(10, 2, "Test");
-
-	this->devices->InsertItem(11, "Test");
-        this->devices->SetItem(11, 1, "Test");
-        this->devices->SetItem(11, 2, "Test");
-
 }
 
 void DeviceManagementDialog::ConnectControls() {
+
+	this->sortByName->Bind(wxEVT_BUTTON, &DeviceManagementDialog::OnSortByName, this);
+	this->sortByMAC->Bind(wxEVT_BUTTON, &DeviceManagementDialog::OnSortByMAC, this);
+	this->sortByIP->Bind(wxEVT_BUTTON, &DeviceManagementDialog::OnSortByIP, this);
+
+	this->refresh->Bind(wxEVT_BUTTON, &DeviceManagementDialog::OnRefresh, this);
+	this->close->Bind(wxEVT_BUTTON, &DeviceManagementDialog::OnClose, this);
+	this->edit->Bind(wxEVT_BUTTON, &DeviceManagementDialog::OnEdit, this);
+
+}
+
+void DeviceManagementDialog::Populate() {
+/*
+	Network* network = this->rvm->GetNetwork();
+
+	std::vector<Device> devices = network->GetDeviceList(this->rvm);
+
+	//Iterate Through Device Vector, fill appropriate info to each column
+*/
+}
+
+
+
+//Event Handler Functions
+void DeviceManagementDialog::OnSortByName(wxCommandEvent & event) {
+
+
+
+}
+
+void DeviceManagementDialog::OnSortByMAC(wxCommandEvent & event) {
+
+
+
+}
+
+void DeviceManagementDialog::OnSortByIP(wxCommandEvent & event) {
+
+
+
+}
+
+void DeviceManagementDialog::OnRefresh(wxCommandEvent & event) {
+
+	Populate();
+
+}
+
+void DeviceManagementDialog::OnClose(wxCommandEvent & event) {
+
+	this->EndModal(wxID_CANCEL);
+
+}
+
+void DeviceManagementDialog::OnEdit(wxCommandEvent & event) {
 
 
 

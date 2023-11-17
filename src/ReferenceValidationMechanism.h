@@ -24,10 +24,10 @@ class ReferenceValidationMechanism{
 
                 //useable
                 ReferenceValidationMechanism();
-                static std::string encryptString(std:: string s, int key);
-                static std::string decryptString(std:: string s, int key);
+                static std::string EncryptString(std:: string s, int key);
+                static std::string DecryptString(std:: string s, int key);
                 bool CheckAuthorization(int level);
-                Network getNetwork();
+                Network* GetNetwork();
                 int AccountCreation(std::string name, std::string password1, std::string password2, std::string type, std::string cat);
 
                 
@@ -41,7 +41,7 @@ class ReferenceValidationMechanism{
                 void CreateAccount();
                 void NetworkEngineerTools(std::string option);
                 ~ReferenceValidationMechanism(); //Destructor
-                Account getAccount();
+                Account GetAccount();
 
 	private:
 
