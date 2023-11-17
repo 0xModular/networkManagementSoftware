@@ -8,17 +8,20 @@
 #pragma once
 #include <string>
 #include <vector>
+
 #include "Connection.h"
 
 class ThisDevice{
 
 	public:
 
-		void setStaticIP();
+		bool setStaticIP(std::string newIp);
 		ThisDevice();
-		void GetAllMembers(std::string adapter);
+		bool UpdateAllMembers(std::string adapter);
 		std::string GetDefaultAdapater();
 		std::vector<Connection> GetConnections();
+		std::string GetAllMembers();
+		std::string ConnectionVectorToString();
 
 	private:
 
@@ -32,7 +35,5 @@ class ThisDevice{
 		std::vector<std::string> privacyFlags;
 		std::vector<Connection> ports;
 		bool staticIp;
-		bool limitedMembers;
-		bool wired;
 
 };
