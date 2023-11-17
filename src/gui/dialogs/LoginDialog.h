@@ -25,8 +25,6 @@ class LoginDialog : public wxDialog {
 
 		inline static const int ID_RGSTR = 2;
 		
-		struct Credentials GetCredentials();
-
 	private:
 
 		//Misc Functions
@@ -59,12 +57,12 @@ class LoginDialog : public wxDialog {
 
 
 		//Misc Variables
-		int attempts;
-		int maxAttempts;
-
 		std::string username;
 		std::string password;
 
+		
+
+		//RVM
 		ReferenceValidationMechanism* rvm;
 
 
