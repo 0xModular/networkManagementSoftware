@@ -9,10 +9,12 @@
 #include <iostream>
 #include <string>
 #include "Account.h"
-#include "mysql_connection.h"
+#include <cppconn/connection.h>
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
+#include <cppconn/resultset.h>
+#include <cppconn/statement.h>
 #include "DatabaseConnection.h"
 
 class Account;

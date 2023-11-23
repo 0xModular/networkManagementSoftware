@@ -10,11 +10,11 @@
 #include <vector>
 #include "Device.h"
 #include "ReferenceValidationMechanism.h"
-#include "mysql_connection.h"
-#include <mysql/mysql.h>
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
+#include <mysql_connection.h>
+#include <cppconn/connection.h>
 #include <cppconn/prepared_statement.h>
+#include <cppconn/resultset.h>
+#include <cppconn/exception.h>
 #include "DatabaseConnection.h"
 
 class Device;
@@ -24,33 +24,30 @@ class Account{
 
 	public:
 
-		//public static methods
-		static std::vector<Account> GetManagableAccounts(ReferenceValidationMechanism *r); //Gets accounts that an admin account can manage.
-		static int CreateNewAccountInDB(std::string name, std::string password1, std::string password2, std::string type, std::string cat, Account *a);
 
-		//public methods
-		void RemoveAccount(ReferenceValidationMechanism *r); //Sends a request to the database to remove an account. First it checks if that account exists in the database using checkIfAccountExists.
+		//finished and ready
+		static int CreateNewAccountInDB(std::string name, std::string password1, std::string password2, std::string type, std::string cat, Account *a);
+		std::string GetAccountType();
+		std::string GetAccountName();
+		std::string GetAccountCat();
+		Account(std::string name, std::string t, std::string cat); //Constructor
+
+		
+		
+		//wip
+		static std::vector<Account> GetManagableAccounts(ReferenceValidationMechanism *r); //Gets accounts that an admin account can manage.
+		void RemoveAccount(ReferenceValidationMechanism *r); 
 		Account EditAccount(ReferenceValidationMechanism *r);
 		Account LinkDevice(Device d, ReferenceValidationMechanism *r);
 		Account UnlinkDevice(Device d, ReferenceValidationMechanism *r);
-		void GetAccountDetails(std::string *name, std::string *type, std::string *category, std::vector<Device> *linkedDevices);
-		std::string GetAccountType();
-		std::string GetAccountName();
-
-		Account(std::string *name, std::string *t, std::string *cat); //Constructors
 		Account();
 		~Account(); //Destructor
 
 	private:
 
-		//private static methods
-		static void EncryptOutgoingInfo(std::string *d);
-		static bool CheckIfAccountExists();
-
-		//private function
+		//wip
 		bool SendDeviceLinkNotifications();
 		void NotifyAccountandDevice(Device d);
-		Account OverwriteAccountDetailsInDB(); 
 		Account ResetPassword(); 
 
 

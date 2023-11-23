@@ -13,7 +13,7 @@ class Connection{
 	
 	public:
 		
-		Connection(int lPort, std::string rAddress, int rPort, std::string connectionState, int pid); //Constructor
+		Connection(int lPort, int rPort, std::string rAddress, std::string connectionState, int pid); //Constructor
 	    ~Connection(); //Destructor
 
 	private:

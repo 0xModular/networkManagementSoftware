@@ -20,6 +20,12 @@ std::string Account::GetAccountName(){
 
 }
 
+std::string Account::GetAccountCat(){
+
+	return this->category;
+
+}
+
 std::vector<Account> Account::GetManagableAccounts(ReferenceValidationMechanism *r){
 
 
@@ -27,7 +33,7 @@ std::vector<Account> Account::GetManagableAccounts(ReferenceValidationMechanism 
 
 void Account::RemoveAccount(ReferenceValidationMechanism *r){
 
-} //Sends a request to the database to remove an account. First it checks if that account exists in the database using checkIfAccountExists.
+} 
 
 Account Account::EditAccount(ReferenceValidationMechanism *r){
 
@@ -44,25 +50,11 @@ Account Account::UnlinkDevice(Device d, ReferenceValidationMechanism *r){
 
 }
 
-void Account::GetAccountDetails(std::string *name, std::string *type, std::string *category, std::vector<Device> *linkedDevices){
+Account::Account(std::string name, std::string t, std::string cat){
 
-
-}
-
-void Account::EncryptOutgoingInfo(std::string *d){
-
-}
-
-bool Account::CheckIfAccountExists(){
-
-	return false;
-}
-
-Account::Account(std::string *name, std::string *t, std::string *cat){
-
-	this->type = *t;
-	this->userName = *name;
-	this->category = *cat;
+	this->type = t;
+	this->userName = name;
+	this->category = cat;
 
 }
 
@@ -76,68 +68,57 @@ Account::~Account(){
 
 }
 
-int Account::CreateNewAccountInDB(std::string name, std::string password1, std::string password2, std::string type, std::string cat, Account *a){
+int Account::CreateNewAccountInDB(std::string name, std::string password1, std::string password2, std::string type, std::string cat, Account *&a) {
 
-	sql::Connection* con = DatabaseConnection::GetSecureConnection("account", "account");
-	if(con == nullptr){
+    sql::Connection* con = DatabaseConnection::GetSecureConnection("account", "account");
 
-		con->close();
-		return -1;
-
-	}
-
-	if (password1.compare(password2) != 0){
-
-		con->close();
-		return 2;
-
-	}
-
-	if (name.compare(NULL) || password1.compare(NULL) || password2.compare(NULL)){
-
-		con->close();
-		return 3;
-
-	}
-	
-	sql::PreparedStatement* pstmt;
-
-	pstmt = con->prepareStatement("SELECT username FROM users WHERE username = ?");
-	pstmt->setString(1, name);
-
-	sql::ResultSet* result = pstmt->executeQuery();
-
-	if (result->next()) {
-		con->close();
-		return 1;
-	}
-
-
-    //std::string query = "INSERT INTO Accounts (UserName, Type, Password, LoginAttempts) VALUES ('" + name + "', '" + type + "', " + std::to_string(0) + ", '" + cat +"')";
-
-    std::string query = "INSERT INTO Accounts (UserName, Type, Cat, Password, LoginAttempts) VALUES (?, ?, ?, ?, ?)";
-
-    pstmt = con->prepareStatement(query);
-
-    pstmt->setString(1, name);
-    pstmt->setString(2, type);
-    pstmt->setString(3, cat);
-    pstmt->setString(4, password1);
-    pstmt->setInt(5, 0);
-    
-    if (pstmt->executeUpdate() != 1) {
-		
-	    con->close();	
-	    return -1;
-	
-    } else {
-	
-		a = new Account(&name, &type, &cat);
-		con->close();
-		return 0;	
-	
+    if (con == nullptr) {
+        return -1;
     }
 
-	return -1;
+    if (password1 != password2) {
+        sql::mysql_close(con);
+        return 2;
+    }
 
+    if (name.empty() || password1.empty() || password2.empty()) {
+        sql::mysql_close(con);
+        return 3;
+    }
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *result;
+
+    pstmt = con->prepareStatement("SELECT username FROM users WHERE username = ?");
+    pstmt->setString(1, name);
+
+    result = pstmt->executeQuery();
+
+    if (result->next()) {
+        sql::mysql_close(con);
+        return 1;
+    }
+
+    delete pstmt;
+    delete result;
+
+    pstmt = con->prepareStatement("INSERT INTO Accounts (UserName, Type, Password, LoginAttempts) VALUES (?, ?, ?, ?)");
+    pstmt->setString(1, name);
+    pstmt->setString(2, type);
+    pstmt->setString(3, ReferenceValidationMechanism::encryptString(password1, 34)); // Ensure proper encryption or hashing for passwords
+    pstmt->setInt(4, 0); // Assuming LoginAttempts default value is 0
+
+    try {
+        pstmt->executeUpdate();
+        delete pstmt;
+
+        // Create Account object (ensure proper constructor for Account class)
+        a = new Account(name, type, "cat");
+        sql::mysql_close(con);
+        return 0;
+    } catch (sql::SQLException& e) {
+        // Handle any exceptions or errors that might occur during the query execution
+        sql::mysql_close(con);
+        return -1;
+    }
 }

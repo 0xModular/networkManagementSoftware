@@ -17,6 +17,7 @@
 #include <string>
 #include <vector>
 #include "ReferenceValidationMechanism.h"
+#include "Connection.h"
 
 class ReferenceValidationMechanism;
 
@@ -24,28 +25,32 @@ class Device{
 
 	public:
 
-		//public functions 
-
-		//only use these methods for now
-		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName); //Constructors
-		Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac);
-		~Device(); //Destructor
+		//working 
+		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName); //Constructor
 		std::string GetIpv4(ReferenceValidationMechanism *r);
 		std::string GetMac(ReferenceValidationMechanism *r);
 		bool GetWired(ReferenceValidationMechanism *r);
 		std::string GetName(ReferenceValidationMechanism *r);
+
+
+		Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac);
+		~Device(); //Destructor
+		
 		
 		//ignore for now
 		std::vector<std::string> SetPrivacyFlags(std::vector<std::string> newFlags);	
 		void ResetPrivacyFlags();
 		bool ConnectToUpdateDeviceDetails();
 		bool GetDeviceConnections();
-
+		
 	private:
+
+		//working
+		std::string SendMessageToDeviceAndGetResponse(std::string message);
 
 		//private function
 		void ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP);
-		std::string SendMessageToDeviceAndGetResponse(std::string address, std::string *message);
+		
 		//members
 		std::string macAddress;
 		std::string localIpv4;
@@ -54,7 +59,7 @@ class Device{
 		std::string defaultGateway;
 		std::string connectionType;
 		std::vector<std::string> privacyFlags;
-		std::vector<int> openPorts;
+		std::vector<Connection> connections;
 		bool staticIp;
 		bool limitedMembers;
 		bool wired;

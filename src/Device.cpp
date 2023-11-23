@@ -77,16 +77,14 @@ void Device::ResetPrivacyFlags(){
 
 bool Device::ConnectToUpdateDeviceDetails(){
 
-    std::string *s = new std::string("init");
-    std::string wow = SendMessageToDeviceAndGetResponse(this->localIpv4, s);
+    std::string response = SendMessageToDeviceAndGetResponse("init");
 
-    std::cout << wow << "\n";
-    std::stringstream ss(wow.c_str());
+    std::stringstream ss(response.c_str());
     std::string temp;
 
-    if (s == nullptr){
+    if (response.compare("error"))
         return false;
-    }
+    
     else{
         ss >> temp;
         this->macAddress = temp;
@@ -117,12 +115,41 @@ bool Device::ConnectToUpdateDeviceDetails(){
 
 bool Device::GetDeviceConnections(){
 
+    std::string response = SendMessageToDeviceAndGetResponse("connection");
 
+    std::stringstream ss(response.c_str());
+    std::string temp;
 
+    if (response.compare("error"))
+        return false;
+    
+    int localPort;
+	int remotePort;
+	std::string remoteIp;
+	std::string status;
+	int PID;
+
+    while(ss >> temp){
+
+        localPort = stoi(temp);
+        ss >> temp;
+        remotePort = stoi(temp);
+        ss >> temp;
+        remoteIp = temp;
+        ss >> temp;
+        status = temp;
+        ss >> temp;
+        PID = stoi(temp);
+
+        this->connections.push_back(Connection(localPort, remotePort, remoteIp, status, PID));
+
+    }  
+
+    return true;
 
 }
 
-std::string Device::SendMessageToDeviceAndGetResponse(std::string address, std::string *message){
+std::string Device::SendMessageToDeviceAndGetResponse(std::string message){
 
     //message = new std::string(ReferenceValidationMechanism::encryptString(*message, 3));
 	const int port = 12345;
@@ -134,12 +161,12 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string address, std::
         return nullptr;
     }
 
-	std::cerr << address;
+	std::cerr << this->localIpv4;
     // Set up server address and port
     struct sockaddr_in serverAddr;
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);  // Use the same port as the server
-    serverAddr.sin_addr.s_addr = inet_addr(address.c_str());  // Use the server's IP address
+    serverAddr.sin_addr.s_addr = inet_addr(this->localIpv4.c_str());  // Use the server's IP address
 
     // Connect to the server
     if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
@@ -151,7 +178,7 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string address, std::
     std::cerr << "Connected to the server" << std::endl;
 
     // Send data to the server
-    send(clientSocket, message->c_str(), strlen(message->c_str()), 0);
+    send(clientSocket, message.c_str(), strlen(message.c_str()), 0);
 
     // Receive and display the echoed data
     char buffer[10000];
@@ -159,10 +186,10 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string address, std::
     std::string response;
     if (bytesRead > 0) {
     	response.assign(buffer, bytesRead);
-        //message = new std::string(buffer, bytesRead);
-       
         //message = new std::string(ReferenceValidationMechanism::decryptString(*new std::string(buffer, bytesRead), 3));
     }
+    else
+        response = "error";
     close(clientSocket);
     // Close the socket
     
