@@ -32,7 +32,7 @@ class Device{
 		std::string GetMac(ReferenceValidationMechanism *r);
 		bool GetWired(ReferenceValidationMechanism *r);
 		std::string GetName(ReferenceValidationMechanism *r);
-
+		std::vector<Connection> GetConnectionVector();
 
 		Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac);
 		~Device(); //Destructor

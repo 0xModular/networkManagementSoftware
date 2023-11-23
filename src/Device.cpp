@@ -28,6 +28,13 @@ std::string Device::GetIpv4(ReferenceValidationMechanism *r){
 
 }
 
+std::vector<Connection> Device::GetConnectionVector(){
+
+    if(this->connections.size() > 0)
+        return this->connections;
+
+}
+
 std::string Device::GetMac(ReferenceValidationMechanism *r){
 
 	if(r->CheckAuthorization(1)){
@@ -78,7 +85,7 @@ void Device::ResetPrivacyFlags(){
 bool Device::ConnectToUpdateDeviceDetails(){
 
     std::string response = SendMessageToDeviceAndGetResponse("init");
-
+    
     std::stringstream ss(response.c_str());
     std::string temp;
 
@@ -117,20 +124,20 @@ bool Device::GetDeviceConnections(){
 
     std::string response = SendMessageToDeviceAndGetResponse("connection");
 
-    std::stringstream ss(response.c_str());
+    std::stringstream ss(response);
     std::string temp;
 
-    if (response.compare("error"))
+    if (response.compare("error") == 0)  // Correcting the condition
         return false;
     
     int localPort;
-	int remotePort;
-	std::string remoteIp;
-	std::string status;
-	int PID;
+    int remotePort;
+    std::string remoteIp;
+    std::string status;
+    int PID;
 
     while(ss >> temp){
-
+        
         localPort = stoi(temp);
         ss >> temp;
         remotePort = stoi(temp);
@@ -142,7 +149,7 @@ bool Device::GetDeviceConnections(){
         PID = stoi(temp);
 
         this->connections.push_back(Connection(localPort, remotePort, remoteIp, status, PID));
-
+        
     }  
 
     return true;
@@ -179,7 +186,7 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message){
 
     // Send data to the server
     send(clientSocket, message.c_str(), strlen(message.c_str()), 0);
-
+    std::cout << "here1\n";
     // Receive and display the echoed data
     char buffer[10000];
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
@@ -188,8 +195,9 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message){
     	response.assign(buffer, bytesRead);
         //message = new std::string(ReferenceValidationMechanism::decryptString(*new std::string(buffer, bytesRead), 3));
     }
-    else
+    else{
         response = "error";
+    }
     close(clientSocket);
     // Close the socket
     
