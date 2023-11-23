@@ -17,8 +17,8 @@
 #include <cppconn/connection.h>
 #include <cppconn/prepared_statement.h>
 
-class ReferenceValidationMechanism;
 class DatabaseConnection;
+class ReferenceValidationMechanism; 
 class Account;
 
 class RemoteNetworkChangesLogEvent{
@@ -26,7 +26,7 @@ class RemoteNetworkChangesLogEvent{
 	public:
 
 		//working
-		bool RemoteNetworkChangesLogEvent::CreateNewEventLogInDB(std::string event, ReferenceValidationMechanism *r);
+		bool CreateNewEventLogInDB(std::string event, ReferenceValidationMechanism *r);
 		RemoteNetworkChangesLogEvent(std::string event);
 
 		//wip

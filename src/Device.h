@@ -6,9 +6,9 @@
  */
 
 #pragma once
-
 #include <iostream>
 #include <cstring>
+#include <sstream>
 #include <arpa/inet.h>
 #include <cstring>
 #include <unistd.h>
@@ -19,6 +19,7 @@
 #include "ReferenceValidationMechanism.h"
 #include "Connection.h"
 
+class Connection;
 class ReferenceValidationMechanism;
 
 class Device{

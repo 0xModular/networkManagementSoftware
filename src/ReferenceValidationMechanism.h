@@ -13,10 +13,9 @@
 #include "Login.h"
 #include "Device.h"
 
-class Account;
 class Network;
 class Login;
-class Device;
+class Account; 
 
 class ReferenceValidationMechanism{
 
@@ -40,7 +39,6 @@ class ReferenceValidationMechanism{
                 void CreateAccount();
                 void NetworkEngineerTools(std::string option);
                 ~ReferenceValidationMechanism(); //Destructor
-                Account GetAccount();
 
 	private:
 

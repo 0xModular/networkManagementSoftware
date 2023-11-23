@@ -17,3 +17,7 @@ Connection::Connection(int lPort, int rPort, std::string rAddress, std::string c
 	this->PID = pid;
 
 }
+
+Connection::~Connection(){
+	
+}

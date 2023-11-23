@@ -10,6 +10,8 @@
 #include <vector>
 #include "Device.h"
 
+class Device;
+
 class Connection{
 	
 	public:
