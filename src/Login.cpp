@@ -23,15 +23,6 @@ Login::~Login(){
 
 }
 
-//THIS USES THE LEGACY MYSQL C LIBRARY INSTEAD OF THE MYSQL CONNECTOR C++, AND MY COMPILER HATES IT. LAYNE PLEASE FIX THIS!!! -A
-int Login::SendInfoAndGetResponseStatus(Account *a){
-
-	return 0;
-
-}
-
-
-/*
 
 //login to database
 int Login::SendInfoAndGetResponseStatus(Account *&a) {
