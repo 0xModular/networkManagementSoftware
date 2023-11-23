@@ -6,13 +6,11 @@
                 "${workspaceFolder}/**"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/g++-11",
+            "compilerPath": "/usr/bin/g++",
             "cStandard": "c17",
             "cppStandard": "c++14",
             "intelliSenseMode": "linux-clang-x64",
-            "compilerArgs": [
-                "-I/home/ubuntu/Downloads/mysql-connector-c++-8.2.0-linux-glibc2.28-x86-64bit/include/jdbc"
-            ]
+            "compilerArgs": []
         }
     ],
     "version": 4
