@@ -26,7 +26,7 @@ class Account{
 
 
 		//finished and ready
-		static int CreateNewAccountInDB(std::string name, std::string password1, std::string password2, std::string type, std::string cat, Account *a);
+		static int CreateNewAccountInDB(std::string name, std::string password1, std::string password2, std::string type, std::string cat, Account *&a);
 		std::string GetAccountType();
 		std::string GetAccountName();
 		std::string GetAccountCat();

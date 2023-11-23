@@ -31,9 +31,9 @@ bool RemoteNetworkChangesLogEvent::CreateNewEventLogInDB(std::string event, Refe
 
     sql::PreparedStatement* pstmt;
     pstmt = con->prepareStatement(query.str());
-    pstmt->setString(1, r->getAccount().GetAccountCat());
+    pstmt->setString(1, r->GetAccount().GetAccountCat());
     pstmt->setInt(2, currentTime);
-    pstmt->setString(3, r->getAccount().GetAccountName());
+    pstmt->setString(3, r->GetAccount().GetAccountName());
     pstmt->setString(4, event);
 
     bool success = false;

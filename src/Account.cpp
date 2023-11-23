@@ -73,16 +73,17 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
     sql::Connection* con = DatabaseConnection::GetSecureConnection("account", "account");
 
     if (con == nullptr) {
+        delete con;
         return -1;
     }
 
     if (password1 != password2) {
-        sql::mysql_close(con);
+        delete con;
         return 2;
     }
 
     if (name.empty() || password1.empty() || password2.empty()) {
-        sql::mysql_close(con);
+        delete con;
         return 3;
     }
 
@@ -95,7 +96,7 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
     result = pstmt->executeQuery();
 
     if (result->next()) {
-        sql::mysql_close(con);
+        delete con;
         return 1;
     }
 
@@ -105,7 +106,7 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
     pstmt = con->prepareStatement("INSERT INTO Accounts (UserName, Type, Password, LoginAttempts) VALUES (?, ?, ?, ?)");
     pstmt->setString(1, name);
     pstmt->setString(2, type);
-    pstmt->setString(3, ReferenceValidationMechanism::encryptString(password1, 34)); // Ensure proper encryption or hashing for passwords
+    pstmt->setString(3, ReferenceValidationMechanism::EncryptString(password1, 34)); // Ensure proper encryption or hashing for passwords
     pstmt->setInt(4, 0); // Assuming LoginAttempts default value is 0
 
     try {
@@ -114,11 +115,11 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
 
         // Create Account object (ensure proper constructor for Account class)
         a = new Account(name, type, "cat");
-        sql::mysql_close(con);
+        delete con;
         return 0;
     } catch (sql::SQLException& e) {
         // Handle any exceptions or errors that might occur during the query execution
-        sql::mysql_close(con);
+        delete con;
         return -1;
     }
 }

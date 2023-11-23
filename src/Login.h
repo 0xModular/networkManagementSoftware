@@ -27,7 +27,7 @@ class Login{
 		Login(std::string name, std::string password); //Constructor
 		~Login(); //Destructor
 		Account CreateAccount();
-		int SendInfoAndGetResponseStatus(Account *a);
+		int SendInfoAndGetResponseStatus(Account *&a);
 
 	private:
 

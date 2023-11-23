@@ -64,7 +64,7 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
             sql::PreparedStatement *prep_stmt2;
             prep_stmt2 = con->prepareStatement("SELECT Type FROM Accounts WHERE UserName = ? AND Password = ?");
             prep_stmt2->setString(1, this->username);
-            prep_stmt2->setString(2, ReferenceValidationMechanism::encryptString(this->password, 34));
+            prep_stmt2->setString(2, ReferenceValidationMechanism::EncryptString(this->password, 34));
 
             sql::ResultSet *res2 = prep_stmt2->executeQuery();
 
