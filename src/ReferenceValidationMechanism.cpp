@@ -83,6 +83,12 @@ Network* ReferenceValidationMechanism::GetNetwork(){
 
 }
 
+Account ReferenceValidationMechanism::GetAccount(){
+
+	return *this->activeAccount;
+
+}
+
 
 std::string ReferenceValidationMechanism::EncryptString(std:: string s, int key){
 
