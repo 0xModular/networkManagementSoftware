@@ -30,11 +30,14 @@ class Log{
 		static bool CreateNewEventLogInDB(std::string event, ReferenceValidationMechanism *r);
 		static bool CreateNewEventLogInDB(std::string event, Account a);
 		static bool CreateNewEventLogInDB(std::stringstream &eventss, ReferenceValidationMechanism *r);
-		Log(std::string event);
+		Log(std::string event, int Time, Account &User);
+		std::string GetLogEvent();
+		int GetLogTime();
+		Account GetLogAccount();
+		~Log();
 
 		//wip
-		static std::vector<Log> ReadLogs(ReferenceValidationMechanism *r);
-		~Log();
+		static std::vector<Log> ReadAllNetworkLogs(ReferenceValidationMechanism *r);
 
 	private:
 

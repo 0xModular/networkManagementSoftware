@@ -35,7 +35,9 @@ class Device{
 		std::vector<Connection> GetConnectionVector();
 		bool ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r);
 		bool GetDeviceConnections(ReferenceValidationMechanism *r);
-
+		bool ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r);
+		bool ChangeToDHCP(ReferenceValidationMechanism *r);
+		int PingAnotherDevice(Device d, ReferenceValidationMechanism *r);
 		~Device(); //Destructor
 		
 		
@@ -48,7 +50,7 @@ class Device{
 	private:
 
 		//working
-		std::string SendMessageToDeviceAndGetResponse(std::string message);
+		std::string SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory);
 
 		//private function
 		void ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP);

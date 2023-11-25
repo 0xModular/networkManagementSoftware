@@ -32,17 +32,14 @@ class Account{
 		std::string GetAccountName();
 		std::string GetAccountCat();
 		Account(std::string name, std::string t, std::string cat); //Constructor
-
-		
+		static std::vector<Account> GetManagableAccounts(ReferenceValidationMechanism *r); //Gets accounts that an admin account can manage.
+		bool RemoveAccount(ReferenceValidationMechanism *r); 
+		bool EditAccountName(std::string newName, ReferenceValidationMechanism *r);
+		~Account(); //Destructor
 		
 		//wip
-		static std::vector<Account> GetManagableAccounts(ReferenceValidationMechanism *r); //Gets accounts that an admin account can manage.
-		void RemoveAccount(ReferenceValidationMechanism *r); 
-		Account EditAccount(ReferenceValidationMechanism *r);
 		Account LinkDevice(Device d, ReferenceValidationMechanism *r);
 		Account UnlinkDevice(Device d, ReferenceValidationMechanism *r);
-		Account();
-		~Account(); //Destructor
 
 	private:
 

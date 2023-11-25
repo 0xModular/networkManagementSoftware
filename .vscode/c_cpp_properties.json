@@ -16,8 +16,7 @@
             "cppStandard": "c++14",
             "intelliSenseMode": "linux-clang-x64",
             "compilerArgs": [
-                "-L/usr/local/lib ",
-                "`wx-config --cxxflags --libs std,aui`"
+                "-L/usr/local/lib `wx-config --cxxflags --libs std,aui`"
             ]
         }
     ],

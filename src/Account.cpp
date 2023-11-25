@@ -8,35 +8,128 @@
 
 #include "Account.h"
 
-std::string Account::GetAccountType(){
-
-	return this->type;
-
-}
-
-std::string Account::GetAccountName(){
-
-	return this->userName;
-
-}
-
-std::string Account::GetAccountCat(){
-
-	return this->category;
-
-}
-
 std::vector<Account> Account::GetManagableAccounts(ReferenceValidationMechanism *r){
+    
+    auto con = DatabaseConnection::GetSecureConnection("login", "login");
 
+    std::vector<Account> accountVec;
+
+    if (con == nullptr || !r->CheckAuthorization(2)){
+		delete con;
+        std::stringstream logMessage;
+        logMessage << "Accounts for network category " << r->GetAccount().GetAccountCat() << " retrieve attempt failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+        return accountVec;
+	}
+
+    try {
+
+            std::string query = "SELECT UserName, Type, Category FROM Accounts WHERE Category = ? AND Type != ?";
+            std::unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement(query));
+            pstmt->setString(1, r->GetAccount().GetAccountCat());
+            pstmt->setString(2, "admin");
+
+            std::unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+            while (res->next()) {
+                
+                std::string name = res->getString("col1");
+                std::string accType = res->getString("col2");
+                std::string cat = res->getString("col3");
+                Account a(name, accType, cat);
+                accountVec.push_back(a);
+            }
+        }
+    
+    catch (sql::SQLException& e) {
+        std::stringstream logMessage;
+        logMessage << "Accounts for network category " << r->GetAccount().GetAccountCat() << " retrieve attempt failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+		accountVec.clear();
+        return accountVec; 
+    }
+
+    std::stringstream logMessage;
+    logMessage << "Accounts for network category " << r->GetAccount().GetAccountCat() << " retrieved successfully";
+	if(!Log::CreateNewEventLogInDB(logMessage, r))
+		accountVec.clear(); //if log fails then this function fails
+     
+
+    return accountVec;
 
 }
 
-void Account::RemoveAccount(ReferenceValidationMechanism *r){
+bool Account::RemoveAccount(ReferenceValidationMechanism *r){
+
+    auto con = DatabaseConnection::GetSecureConnection("login", "login");
+
+    if (con == nullptr || !r->CheckAuthorization(2)){
+		delete con;
+        std::stringstream logMessage;
+        logMessage << "Attempt to delete account " << this->userName << " failed";
+	    Log::CreateNewEventLogInDB(logMessage, r);
+	    return false; 
+	}
+
+    try{
+
+        std::string query = "DELETE FROM Accounts WHERE type != ? AND UserName = ? AND Category = ?";
+        std::unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement(query));
+        pstmt->setString(1, "admin");
+        pstmt->setString(2, this->userName);
+        pstmt->setString(3, r->GetAccount().userName);
+        pstmt->execute();
+
+    } 
+    catch (sql::SQLException& e) {
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to delete account " << this->userName << " failed";
+	    Log::CreateNewEventLogInDB(logMessage, r);
+	    return false; 
+    
+    }
+
+    std::stringstream logMessage;
+    logMessage << "Account " << this->userName << " succesfully deleted";
+	if(!Log::CreateNewEventLogInDB(logMessage, r))
+		return false; //if log fails then this function fails
 
 } 
 
-Account Account::EditAccount(ReferenceValidationMechanism *r){
+bool Account::EditAccountName(std::string newName, ReferenceValidationMechanism *r){
+  
+    auto con = DatabaseConnection::GetSecureConnection("login", "login");
 
+    if (con == nullptr || !r->CheckAuthorization(2)){
+		delete con;
+        std::stringstream logMessage;
+        logMessage << "Attempt to update account name for account " << this->userName << " to " << newName << " failed";
+	    Log::CreateNewEventLogInDB(logMessage, r);
+	    return false; 
+	}
+
+    try{
+
+        std::string query = "UPDATE Accounts SET UserName = ? WHERE UserName = ?";
+        std::unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement(query));
+        pstmt->setString(1, newName);
+        pstmt->setString(2, this->userName);
+        pstmt->execute();
+
+    } 
+    catch (sql::SQLException& e) {
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to update account name for account " << this->userName << " to " << newName << " failed";
+	    Log::CreateNewEventLogInDB(logMessage, r);
+	    return false; 
+    
+    }
+
+    std::stringstream logMessage;
+    logMessage << "Attempt to update account name for account " << this->userName << " to " << newName << " failed";
+	if(!Log::CreateNewEventLogInDB(logMessage, r))
+		return false; //if log fails then this function fails
 
 }
 
@@ -55,11 +148,6 @@ Account::Account(std::string name, std::string t, std::string cat){
 	this->type = t;
 	this->userName = name;
 	this->category = cat;
-
-}
-
-Account::Account(){
-
 
 }
 
@@ -126,4 +214,23 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
         delete con;
         return -1;
     }
+}
+
+
+std::string Account::GetAccountType(){
+
+	return this->type;
+
+}
+
+std::string Account::GetAccountName(){
+
+	return this->userName;
+
+}
+
+std::string Account::GetAccountCat(){
+
+	return this->category;
+
 }

@@ -84,7 +84,7 @@ void Device::ResetPrivacyFlags(){
 
 bool Device::ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r){
 
-    std::string response = SendMessageToDeviceAndGetResponse("init");
+    std::string response = SendMessageToDeviceAndGetResponse("init", r->GetAccount().GetAccountCat());
     
     std::stringstream ss(response.c_str());
     std::string temp;
@@ -135,7 +135,7 @@ bool Device::ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r){
 
 bool Device::GetDeviceConnections(ReferenceValidationMechanism *r){
 
-    std::string response = SendMessageToDeviceAndGetResponse("connection");
+    std::string response = SendMessageToDeviceAndGetResponse("connection", r->GetAccount().GetAccountCat());
 
     std::stringstream ss(response);
     std::string temp;
@@ -183,7 +183,102 @@ bool Device::GetDeviceConnections(ReferenceValidationMechanism *r){
 
 }
 
-std::string Device::SendMessageToDeviceAndGetResponse(std::string message){
+bool Device::ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r){
+
+    std::string message;
+    message = "static " + newIP;
+    std::string response = SendMessageToDeviceAndGetResponse(message, r->GetAccount().GetAccountCat());
+    
+    std::stringstream ss(response.c_str());
+    std::string temp;
+
+    if (response.compare("error") == 0){  // Correcting the condition
+        
+        //log failure
+        std::stringstream logMessage;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to update it's static IP";
+        Log::CreateNewEventLogInDB(logMessage, r);
+         
+        return false;
+    } 
+    else{
+
+        //make log for success
+        std::stringstream logMessage;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully updated it's static IP to " << newIP;
+
+        this->ConnectToUpdateDeviceDetails(r);
+        return true;
+    }  
+        
+    return false;
+
+}
+
+bool Device::ChangeToDHCP(ReferenceValidationMechanism *r){
+
+    std::string response = SendMessageToDeviceAndGetResponse("dhcp", r->GetAccount().GetAccountCat());
+    
+    std::stringstream ss(response.c_str());
+    std::string temp;
+
+    if (response.compare("error") == 0){  // Correcting the condition
+        
+        //log failure
+        std::stringstream logMessage;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to set it to use DHCP";
+        Log::CreateNewEventLogInDB(logMessage, r);
+         
+        return false;
+    } 
+    else{
+
+        //make log for success
+        std::stringstream logMessage;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully set it to use DHCP";
+
+        this->ConnectToUpdateDeviceDetails(r);
+        return true;
+    }  
+        
+    return false;
+
+}
+
+int Device::PingAnotherDevice(Device d, ReferenceValidationMechanism *r){
+
+    std::string message;
+    message = "ping " + d.localIpv4;
+    std::string response = SendMessageToDeviceAndGetResponse(message, r->GetAccount().GetAccountCat());
+    
+    std::stringstream ss(response.c_str());
+    std::string temp;
+
+    if (response.compare("error") == 0){  // Correcting the condition
+        
+        //log failure
+        std::stringstream logMessage;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed ping ip " << d.localIpv4;
+        Log::CreateNewEventLogInDB(logMessage, r);
+         
+        return -1;
+    } 
+    else{
+
+        //make log for success
+        std::stringstream logMessage;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully pinged " << d.localIpv4;
+
+        ss >> temp;
+        ss >> temp;
+        return std::stoi(temp);
+    }  
+        
+    return -1;
+
+}
+
+std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory){
 
     //message = new std::string(ReferenceValidationMechanism::encryptString(*message, 3));
 	const int port = 12345;
@@ -213,13 +308,13 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message){
 
     // Send data to the server
     send(clientSocket, ReferenceValidationMechanism::EncryptString(message, 29).c_str(), strlen(message.c_str()), 0);
-    std::cout << "here1\n";
     // Receive and display the echoed data
     char buffer[10000];
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     std::string response;
     if (bytesRead > 0) {
     	response.assign(buffer, bytesRead);
+        response = networyCategory + " " + response;
         response = ReferenceValidationMechanism::DecryptString(response, 29);
     }
     else{
