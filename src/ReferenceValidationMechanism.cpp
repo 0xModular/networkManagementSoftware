@@ -21,7 +21,7 @@ int ReferenceValidationMechanism::AccountCreation(std::string name, std::string 
 	if (errorCode = 0){
 
 		this->activeAccount = a;
-		this->n = new Network();
+		this->n = new Network(this);
 		delete a;
 		return errorCode;
 
@@ -47,25 +47,32 @@ int ReferenceValidationMechanism::AccessLogin(std::string name, std::string pass
 	int errorCode = l->SendInfoAndGetResponseStatus(user);
 
 
+	if (errorCode == 0){
 
-	if (errorCode = 0){
+		//log successful login
+		std::stringstream logMessage;
+		logMessage << "Login on account " << name << " success";
+		if(!Log::CreateNewEventLogInDB(logMessage, this))
+			return -1; //if log fails then login fails
 
    		delete l;
 		this->activeAccount = user;
-		this->n = new Network();
-		delete user;
+		this->n = new Network(this);
 	
 		return errorCode;
 
-	} else{
+	} 
+	else{
 
+		std::stringstream logMessage;
+		logMessage << "Attempted login on account " << name << " failed";
+		Log::CreateNewEventLogInDB(logMessage, this);
 		delete l;
 		delete user;
 	
-		return errorCode;
-
 	}
 
+	return errorCode;
 }
 
 
@@ -90,33 +97,28 @@ Account ReferenceValidationMechanism::GetAccount(){
 }
 
 
-std::string ReferenceValidationMechanism::EncryptString(std:: string s, int key){
+std::string ReferenceValidationMechanism::EncryptString(std::string s, int key) {
+    int length = s.length();
 
-	char temp;
-	int i;
-	for(i = 0; i < key; i++){
-		temp = s.at(s.size() - 1);
-		s.pop_back();
-		s = temp + s;
-	}
+    for (int i = 0; i < key; ++i) {
+        char lastChar = s.back();  // Get the last character
+        s.pop_back();  // Remove the last character
+        s = lastChar + s;  // Add the last character to the beginning
+    }
 
-	return s;
-
+    return s;
 }
 
 
-std::string ReferenceValidationMechanism::DecryptString(std:: string s, int key){
+std::string ReferenceValidationMechanism::DecryptString(std::string s, int key) {
 
-	char temp;
-	int i;
-	for(i = 0; i < key; i++){
-		temp = s.at(0);
-		s.pop_back();
-		s = s + temp;
-	}
+    for (int i = 0; i < key; ++i) {
+        char firstChar = s[0];  // Get the first character
+        s.erase(0, 1);  // Remove the first character
+        s += firstChar;  // Add the first character to the end
+    }
 
-	return s;
-
+    return s;
 }
 
 

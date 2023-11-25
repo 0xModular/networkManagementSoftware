@@ -33,16 +33,17 @@ class Device{
 		bool GetWired(ReferenceValidationMechanism *r);
 		std::string GetName(ReferenceValidationMechanism *r);
 		std::vector<Connection> GetConnectionVector();
+		bool ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r);
+		bool GetDeviceConnections(ReferenceValidationMechanism *r);
 
-		Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac);
 		~Device(); //Destructor
 		
 		
 		//ignore for now
 		std::vector<std::string> SetPrivacyFlags(std::vector<std::string> newFlags);	
 		void ResetPrivacyFlags();
-		bool ConnectToUpdateDeviceDetails();
-		bool GetDeviceConnections();
+		Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac);
+		
 		
 	private:
 

@@ -7,14 +7,18 @@
                 "/usr/include/wx-3.0/",
                 "/usr/include/wx-3.0/gtk3/",
                 "/usr/include/gtk-3.0/",
-                "/usr/include/glib-2.0/"
+                "/usr/include/glib-2.0/",
+                "/usr/local/lib"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c17",
             "cppStandard": "c++14",
             "intelliSenseMode": "linux-clang-x64",
-            "compilerArgs": []
+            "compilerArgs": [
+                "-L/usr/local/lib ",
+                "`wx-config --cxxflags --libs std,aui`"
+            ]
         }
     ],
     "version": 4

@@ -21,24 +21,24 @@ class ReferenceValidationMechanism{
 
 	public:
 
-                //useable
-                ReferenceValidationMechanism();
-                static std::string EncryptString(std:: string s, int key);
-                static std::string DecryptString(std:: string s, int key);
-                bool CheckAuthorization(int level);
-                Network* GetNetwork();
-                int AccountCreation(std::string name, std::string password1, std::string password2, std::string type, std::string cat);
-                Account GetAccount();
-                int AccessLogin(std::string name, std::string password); 
+        //useable
+        ReferenceValidationMechanism();
+        static std::string EncryptString(std:: string s, int key);
+        static std::string DecryptString(std:: string s, int key);
+        bool CheckAuthorization(int level);
+        Network* GetNetwork();
+        int AccountCreation(std::string name, std::string password1, std::string password2, std::string type, std::string cat);
+        Account GetAccount();
+        int AccessLogin(std::string name, std::string password); 
 
 
-                //ignore for now
-                ReferenceValidationMechanism(std::string type); //Constructors
-                ReferenceValidationMechanism(std::string type, Account *a);
-                void NetworkAdminTools(std::string option);
-                void CreateAccount();
-                void NetworkEngineerTools(std::string option);
-                ~ReferenceValidationMechanism(); //Destructor
+        //ignore for now
+        ReferenceValidationMechanism(std::string type); //Constructors
+        ReferenceValidationMechanism(std::string type, Account *a);
+        void NetworkAdminTools(std::string option);
+        void CreateAccount();
+        void NetworkEngineerTools(std::string option);
+        ~ReferenceValidationMechanism(); //Destructor
 
 	private:
 

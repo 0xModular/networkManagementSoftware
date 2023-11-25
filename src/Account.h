@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "Device.h"
+#include "Log.h"
 #include "ReferenceValidationMechanism.h"
 #include <mysql_connection.h>
 #include <cppconn/connection.h>

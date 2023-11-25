@@ -11,6 +11,7 @@ wxIMPLEMENT_APP(App);
 
 /*
 #include "Device.h"
+
 int main(){
 
     Device d("temp", "192.168.135.32", false, "target");
@@ -22,3 +23,4 @@ int main(){
 
 }
 */
+

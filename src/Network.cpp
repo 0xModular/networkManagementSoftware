@@ -8,22 +8,33 @@
 
 #include "Network.h"
 
-Network::Network() {
+Network::Network(ReferenceValidationMechanism *r) {
 
-	//Missing Constructor
+	if (!r->CheckAuthorization(1))
+    		return;
+
+	if(!Log::CreateNewEventLogInDB("Created new network and obtained it's details", r))
+		return;
+
+	GetDevices();
+    GetGeneralNetworkDetails();
+    timeSinceRefresh = 0;
 
 }
 
 void Network::Refresh(ReferenceValidationMechanism *r){
 
-	if (r->CheckAuthorization(1)){
+	if (!r->CheckAuthorization(1))
+		return;
+
+	if(!Log::CreateNewEventLogInDB("Refreshed network details", r))
+		return;
     		
-		GetDevices();
-    		GetGeneralNetworkDetails();
-    		GetConnections();
-    		timeSinceRefresh = 0;
+	GetDevices();
+    GetGeneralNetworkDetails();
+    timeSinceRefresh = 0;
 	
-	}
+	
 
 }
 
@@ -117,17 +128,7 @@ void Network::GetGeneralNetworkDetails(){
 
 }
 
-void Network::GetConnections(){
-
- //while(/*?/*/){
-        
-        //Connection c = new Connection();
-        //connectionList.push_back(c);
-
-    //}
-
-}
-
+/*
 void Network::EditDevices(Device d, std::string requestType, std::string AdditionalData){
 
 	std::string message;
@@ -147,7 +148,7 @@ void Network::EditDevices(Device d, std::string requestType, std::string Additio
 	char cStringMessage[message.length() + 1]; 
 	strcpy(cStringMessage, message.c_str());
 	
-	/*
+	
 	
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
@@ -182,20 +183,6 @@ void Network::EditDevices(Device d, std::string requestType, std::string Additio
 
     closesocket(clientSocket);
     WSACleanup();
-
+}
     */
-}
-
-
-void Network::EditGeneralNetworkDetails(ReferenceValidationMechanism *r){
-
-
-
-}
-
-void Network::EditConnections(ReferenceValidationMechanism *r){
-
-
-
-}
 

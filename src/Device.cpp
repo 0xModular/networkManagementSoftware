@@ -82,17 +82,30 @@ void Device::ResetPrivacyFlags(){
 
 }
 
-bool Device::ConnectToUpdateDeviceDetails(){
+bool Device::ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("init");
     
     std::stringstream ss(response.c_str());
     std::string temp;
 
-    if (response.compare("error"))
+    if (response.compare("error") == 0){  // Correcting the condition
+        
+        //log failure
+        std::stringstream logMessage;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to get it's network connections";
+        Log::CreateNewEventLogInDB(logMessage, r);
+         
         return false;
-    
+    } 
     else{
+
+        //make log for success
+        std::stringstream logMessage;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully got it's network details";
+        if (!Log::CreateNewEventLogInDB(logMessage, r))
+            return false; //if log fails then this function fails
+
         ss >> temp;
         this->macAddress = temp;
         ss >> temp;
@@ -120,16 +133,30 @@ bool Device::ConnectToUpdateDeviceDetails(){
 
 }
 
-bool Device::GetDeviceConnections(){
+bool Device::GetDeviceConnections(ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("connection");
 
     std::stringstream ss(response);
     std::string temp;
 
-    if (response.compare("error") == 0)  // Correcting the condition
+    if (response.compare("error") == 0){  // Correcting the condition
+        
+        //log failure
+        std::stringstream logMessage;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to get it's network connections";
+        Log::CreateNewEventLogInDB(logMessage, r);
+         
         return false;
-    
+    }
+
+
+    //make log for success
+    std::stringstream logMessage;
+    logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully updated got it's network connections";
+    if (!Log::CreateNewEventLogInDB(logMessage, r))
+        return false; //if log fails then this function fails
+
     int localPort;
     int remotePort;
     std::string remoteIp;
@@ -185,7 +212,7 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message){
     std::cerr << "Connected to the server" << std::endl;
 
     // Send data to the server
-    send(clientSocket, message.c_str(), strlen(message.c_str()), 0);
+    send(clientSocket, ReferenceValidationMechanism::EncryptString(message, 29).c_str(), strlen(message.c_str()), 0);
     std::cout << "here1\n";
     // Receive and display the echoed data
     char buffer[10000];
@@ -193,7 +220,7 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message){
     std::string response;
     if (bytesRead > 0) {
     	response.assign(buffer, bytesRead);
-        //message = new std::string(ReferenceValidationMechanism::decryptString(*new std::string(buffer, bytesRead), 3));
+        response = ReferenceValidationMechanism::DecryptString(response, 29);
     }
     else{
         response = "error";

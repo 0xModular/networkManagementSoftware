@@ -113,12 +113,16 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
         pstmt->executeUpdate();
         delete pstmt;
 
-        // Create Account object (ensure proper constructor for Account class)
+        // Create Account object
         a = new Account(name, type, "cat");
-        delete con;
-        return 0;
+        if (!Log::CreateNewEventLogInDB("new account created success", *a))
+            return -1;
+        else{
+            delete con;
+            return 0;
+        }
     } catch (sql::SQLException& e) {
-        // Handle any exceptions or errors that might occur during the query execution
+        //Log::CreateNewEventLogInDB("new account created failed");
         delete con;
         return -1;
     }
