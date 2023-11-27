@@ -94,7 +94,7 @@ bool Account::RemoveAccount(ReferenceValidationMechanism *r){
 	if(!Log::CreateNewEventLogInDB(logMessage, r))
 		return false; //if log fails then this function fails
 
-} 
+} //ON DELETE CASCADE
 
 bool Account::EditAccountName(std::string newName, ReferenceValidationMechanism *r){
   

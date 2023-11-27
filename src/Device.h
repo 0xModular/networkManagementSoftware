@@ -16,6 +16,7 @@
 #include <netinet/in.h>
 #include <string>
 #include <vector>
+#include <unordered_set>
 #include "ReferenceValidationMechanism.h"
 #include "Connection.h"
 
@@ -35,6 +36,9 @@ class Device{
 		bool ChangeToDHCP(ReferenceValidationMechanism *r);
 		int PingAnotherDevice(Device d, ReferenceValidationMechanism *r);
 		int PingAnotherDevice(std::string, ReferenceValidationMechanism *r);
+		bool TerminateConnection(Connection c, ReferenceValidationMechanism *r);
+		bool TerminateConnection(int pid, ReferenceValidationMechanism *r);
+		bool GetDeviceConnections(ReferenceValidationMechanism *r);
 
 		std::string GetIpv4();
 		std::string GetMac();
@@ -43,8 +47,12 @@ class Device{
 		std::string GetIpv6(); //!!! WILL NOT RETURN ANYTHING IF ConnectToUpdateDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
 		std::string GetDefaultGateway(); //!!! WILL NOT RETURN ANYTHING IF ConnectToUpdateDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
 		bool GetIsStaticIp(); //!!! WILL NOT RETURN ANYTHING IF ConnectToUpdateDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
-		std::vector<Connection> GetConnectionVector(ReferenceValidationMechanism *r); //!!! WILL RETURN EMPTY VECTOR IF CONNECTION TO END DEVICE FAILS !!!
+		std::vector<Connection> GetConnectionVector(); //!!! WILL RETURN EMPTY VECTOR IF GetDeviceConnections HASNT COMPLETED SUCCESFULLY YET !!!
+		int GetX();
+		int GetY();
 
+		void SetX(int x);
+		void SetY(int y);
 
 		//ignore for now
 		std::vector<std::string> SetPrivacyFlags(std::vector<std::string> newFlags);	
@@ -54,8 +62,7 @@ class Device{
 
 		//working
 		std::string SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory);
-		bool GetDeviceConnections(ReferenceValidationMechanism *r);
-
+		static int NewRandomNumber();
 		//ignore for now
 		
 		//members
@@ -70,5 +77,7 @@ class Device{
 		bool staticIp;
 		bool limitedMembers;
 		bool wired;
+		int posX;
+		int posY;
 
 };

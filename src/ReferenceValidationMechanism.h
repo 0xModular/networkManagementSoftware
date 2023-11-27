@@ -33,7 +33,7 @@ class ReferenceValidationMechanism{
 
 
         //ignore for now
-        ReferenceValidationMechanism(std::string type); //Constructors
+        ReferenceValidationMechanism(bool b); //Constructors
         ReferenceValidationMechanism(std::string type, Account *a);
         void NetworkAdminTools(std::string option);
         void CreateAccount();

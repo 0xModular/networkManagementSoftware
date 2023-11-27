@@ -21,6 +21,8 @@ CREATE TABLE Logs (
 CREATE TABLE Devices (
     MacAddress varchar(12) NOT NULL,
     LinkedAccount varchar(255) null,
+    PositionX INT(10000) null,
+    PositionY INT(10000) null,
     PRIMARY KEY (MacAddress),
     FOREIGN KEY (LinkedAccount) REFERENCES Accounts(UserName)
 );
@@ -55,5 +57,6 @@ CREATE TABLE AccountMessages(
     PRIMARY KEY (messgaeID),
     FOREIGN KEY (Account) REFERENCES Accounts(UserName)
 )
+
  
 

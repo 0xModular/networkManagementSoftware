@@ -159,3 +159,9 @@ bool ReferenceValidationMechanism::CheckAuthorization(int level){
 //wip \/\/\/
 
 
+ReferenceValidationMechanism::ReferenceValidationMechanism(bool b){ //will be removed
+
+	this->activeAccount = new Account("wow", "admin", "wow");
+
+
+}

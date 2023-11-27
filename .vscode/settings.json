@@ -57,7 +57,8 @@
         "shared_mutex": "c",
         "hash_map": "cpp",
         "list": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "unordered_set": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled",
     "C_Cpp.default.browse.limitSymbolsToIncludedHeaders": false

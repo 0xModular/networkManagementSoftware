@@ -25,9 +25,32 @@ std::string Device::GetIpv4(){
 
 }
 
-std::vector<Connection> Device::GetConnectionVector(ReferenceValidationMechanism *r){
+int Device::GetX(){
 
-    this->GetDeviceConnections(r);
+	return this->posX;
+
+}
+
+int Device::GetY(){
+
+	return this->posY;
+
+}
+
+void Device::SetX(int x){
+
+	this->posX = x;
+
+}
+
+void Device::SetY(int y){
+
+	this->posY = y;
+
+}
+
+std::vector<Connection> Device::GetConnectionVector(){
+
     return this->connections;
 
 }
@@ -288,6 +311,79 @@ int Device::PingAnotherDevice(std::string ip, ReferenceValidationMechanism *r){
 
 }
 
+bool Device::TerminateConnection(Connection c, ReferenceValidationMechanism *r){
+
+    return TerminateConnection(c.PID, r);
+
+}
+
+
+bool Device::TerminateConnection(int pid, ReferenceValidationMechanism *r){
+
+    std::string response = SendMessageToDeviceAndGetResponse("terminate " + std::to_string(pid), r->GetAccount().GetAccountCat());
+
+    std::stringstream ss(response);
+    std::string temp;
+
+    if (response.compare("error") == 0){  // Correcting the condition
+        
+        //log failure
+        std::stringstream logMessage;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to kill a connection";
+        Log::CreateNewEventLogInDB(logMessage, r);
+         
+        return false;
+    }
+
+
+    //make log for success
+    std::stringstream logMessage;
+    logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully killed a connections";
+    if (!Log::CreateNewEventLogInDB(logMessage, r))
+        return false; //if log fails then this function fails
+
+    int localPort;
+    int remotePort;
+    std::string remoteIp;
+    std::string status;
+    int PID;
+
+    while(ss >> temp){
+        
+        localPort = stoi(temp);
+        ss >> temp;
+        remotePort = stoi(temp);
+        ss >> temp;
+        remoteIp = temp;
+        ss >> temp;
+        status = temp;
+        ss >> temp;
+        PID = stoi(temp);
+
+        this->connections.push_back(Connection(localPort, remotePort, remoteIp, status, PID));
+        
+    }  
+
+    return true;
+
+}
+
+int Device::NewRandomNumber(){
+
+    static std::unordered_set<int> usedNumbers;
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    
+    while(true){
+        
+        int newint = std::rand();
+        if(usedNumbers.find(newint) == usedNumbers.end()){
+            usedNumbers.insert(newint);
+            return newint;
+        }
+    }      
+
+}
+
 std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory){
 
     //message = new std::string(ReferenceValidationMechanism::encryptString(*message, 3));
@@ -296,8 +392,7 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::
 	 // Create a socket
     int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
-        std::cerr << "Error creating socket" << std::endl;
-        return nullptr;
+        return "error";
     }
 
 	std::cerr << this->localIpv4;
@@ -309,31 +404,36 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::
 
     // Connect to the server
     if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
-        std::cerr << "Error connecting to the server" << std::endl;
+        //std::cerr << "Error connecting to the server" << std::endl;
         close(clientSocket);
-        return nullptr;
+        return "error";
     }
 
-    std::cerr << "Connected to the server" << std::endl;
+    std::cout << "Connected to the server" << std::endl;
 
     // Send data to the server
-    send(clientSocket, ReferenceValidationMechanism::EncryptString(message, 29).c_str(), strlen(message.c_str()), 0);
+    std::string toSend = ReferenceValidationMechanism::EncryptString(std::to_string(NewRandomNumber()) + " " + networyCategory + " " + message, 29);
+    send(clientSocket, toSend.c_str(), strlen(toSend.c_str()), 0);
     // Receive and display the echoed data
     char buffer[10000];
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     std::string response;
+    std::cout << "bread " << bytesRead << "\n";
     if (bytesRead > 0) {
     	response.assign(buffer, bytesRead);
-        response = networyCategory + " " + response;
         response = ReferenceValidationMechanism::DecryptString(response, 29);
+        close(clientSocket);
+        std::cout << "m: " << response << "\n";
+        return response;
     }
     else{
-        response = "error";
+        close(clientSocket);
+        return "error";
     }
+
     close(clientSocket);
-    // Close the socket
-    
-    return response;
+    return "error";
+ 
 }
 
 	
