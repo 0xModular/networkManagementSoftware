@@ -20,7 +20,7 @@ CREATE TABLE Logs (
 
 CREATE TABLE Devices (
     MacAddress varchar(12) NOT NULL,
-    LinkedAccount varchar(255) NOT NULL,
+    LinkedAccount varchar(255) null,
     PRIMARY KEY (MacAddress),
     FOREIGN KEY (LinkedAccount) REFERENCES Accounts(UserName)
 );

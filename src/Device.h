@@ -28,32 +28,35 @@ class Device{
 
 		//working 
 		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName); //Constructor
-		std::string GetIpv4(ReferenceValidationMechanism *r);
-		std::string GetMac(ReferenceValidationMechanism *r);
-		bool GetWired(ReferenceValidationMechanism *r);
-		std::string GetName(ReferenceValidationMechanism *r);
-		std::vector<Connection> GetConnectionVector();
+		~Device(); //Destructor
+
 		bool ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r);
-		bool GetDeviceConnections(ReferenceValidationMechanism *r);
-		bool ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r);
+		bool ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r); //this will eventualy return int. -1 is cant connect, 0 is success, 1 is invalid input.
 		bool ChangeToDHCP(ReferenceValidationMechanism *r);
 		int PingAnotherDevice(Device d, ReferenceValidationMechanism *r);
-		~Device(); //Destructor
-		
-		
+		int PingAnotherDevice(std::string, ReferenceValidationMechanism *r);
+
+		std::string GetIpv4();
+		std::string GetMac();
+		bool GetWired();
+		std::string GetName();
+		std::string GetIpv6(); //!!! WILL NOT RETURN ANYTHING IF ConnectToUpdateDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
+		std::string GetDefaultGateway(); //!!! WILL NOT RETURN ANYTHING IF ConnectToUpdateDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
+		bool GetIsStaticIp(); //!!! WILL NOT RETURN ANYTHING IF ConnectToUpdateDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
+		std::vector<Connection> GetConnectionVector(ReferenceValidationMechanism *r); //!!! WILL RETURN EMPTY VECTOR IF CONNECTION TO END DEVICE FAILS !!!
+
+
 		//ignore for now
 		std::vector<std::string> SetPrivacyFlags(std::vector<std::string> newFlags);	
 		void ResetPrivacyFlags();
-		Device(std::string IPv4, std::string IPv6, std::string deafaultGatway, std::string connectionType, std::vector<std::string> flags, std::vector<int> openPorts, bool staticIP, std::string mac);
-		
 		
 	private:
 
 		//working
 		std::string SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory);
+		bool GetDeviceConnections(ReferenceValidationMechanism *r);
 
-		//private function
-		void ValidateDeviceDetailInputs(std::string *IPv4, std::string *IPv6, std::string *defaultGateway, std::vector<int> *openPorts, bool *staticIP);
+		//ignore for now
 		
 		//members
 		std::string macAddress;
@@ -61,7 +64,7 @@ class Device{
 		std::string localIpv6;
 		std::string name;
 		std::string defaultGateway;
-		std::string connectionType;
+		std::string adapter;
 		std::vector<std::string> privacyFlags;
 		std::vector<Connection> connections;
 		bool staticIp;

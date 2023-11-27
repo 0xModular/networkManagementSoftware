@@ -45,7 +45,7 @@ class Account{
 
 		//wip
 		bool SendDeviceLinkNotifications();
-		void NotifyAccountandDevice(Device d);
+		bool NotifyAccount(std::string message, Account a, ReferenceValidationMechanism *r);
 		Account ResetPassword(); 
 
 

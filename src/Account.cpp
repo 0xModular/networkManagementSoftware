@@ -10,7 +10,7 @@
 
 std::vector<Account> Account::GetManagableAccounts(ReferenceValidationMechanism *r){
     
-    auto con = DatabaseConnection::GetSecureConnection("login", "login");
+    auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
 
     std::vector<Account> accountVec;
 
@@ -60,7 +60,7 @@ std::vector<Account> Account::GetManagableAccounts(ReferenceValidationMechanism 
 
 bool Account::RemoveAccount(ReferenceValidationMechanism *r){
 
-    auto con = DatabaseConnection::GetSecureConnection("login", "login");
+    auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
 
     if (con == nullptr || !r->CheckAuthorization(2)){
 		delete con;
@@ -214,6 +214,43 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
         delete con;
         return -1;
     }
+}
+
+bool Account::NotifyAccount(std::string message, Account a, ReferenceValidationMechanism *r){
+
+    auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
+
+     if (con == nullptr) {
+        delete con;
+        return false;
+    }
+
+    try{
+
+    sql::PreparedStatement *pstmt;
+    sql::ResultSet *result;
+
+    pstmt = con->prepareStatement("INSERT INTO Accounts (Account, message) VALUES (?, ?)");
+    pstmt->setString(1, a.GetAccountName());
+    pstmt->setString(2, message);
+
+    } 
+    catch (sql::SQLException& e) {
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to delete account " << this->userName << " failed";
+	    Log::CreateNewEventLogInDB(logMessage, r);
+	    return false; 
+    
+    }
+
+    std::stringstream logMessage;
+    logMessage << "Account " << this->userName << " succesfully deleted";
+	if(!Log::CreateNewEventLogInDB(logMessage, r))
+		return false; //if log fails then this function fails
+
+    return true;
+
 }
 
 

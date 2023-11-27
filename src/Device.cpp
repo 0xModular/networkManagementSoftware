@@ -15,59 +15,63 @@ Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::str
 	this->wired = wiredConnection;
 	this->macAddress = mac;
 	this->limitedMembers = true; 
+    this->connections = *new std::vector<Connection>;
 
 }
 
-std::string Device::GetIpv4(ReferenceValidationMechanism *r){
+std::string Device::GetIpv4(){
 
-	if(r->CheckAuthorization(1)){
-
-		return this->localIpv4;
-
-	}
+	return this->localIpv4;
 
 }
 
-std::vector<Connection> Device::GetConnectionVector(){
+std::vector<Connection> Device::GetConnectionVector(ReferenceValidationMechanism *r){
 
-    if(this->connections.size() > 0)
-        return this->connections;
-
-}
-
-std::string Device::GetMac(ReferenceValidationMechanism *r){
-
-	if(r->CheckAuthorization(1)){
-
-		return this->macAddress;
-
-	}
+    this->GetDeviceConnections(r);
+    return this->connections;
 
 }
 
-bool Device::GetWired(ReferenceValidationMechanism *r){
+std::string Device::GetMac(){
 
-
-	if(r->CheckAuthorization(1)){
-
-		return this->wired;
-	}
+	return this->macAddress;
 
 }
 
-std::string Device::GetName(ReferenceValidationMechanism *r){
+bool Device::GetWired(){
 
-	if(r->CheckAuthorization(1)){
+	return this->wired;
+
+}
+
+std::string Device::GetName(){
+
+	return this->name;
 	
-		return this->name;
-	
-	}
+}
+
+std::string Device::GetIpv6(){
+
+    if(!limitedMembers)
+        return this->localIpv6;
+
+}
+
+std::string Device::GetDefaultGateway(){
+
+    if(!limitedMembers)
+        return this->defaultGateway;
+
+}
+
+bool Device::GetIsStaticIp(){
+
+    if(!limitedMembers)
+        return this->staticIp;
 
 }
 
 Device::~Device(){
-
-
 
 }
 
@@ -247,8 +251,14 @@ bool Device::ChangeToDHCP(ReferenceValidationMechanism *r){
 
 int Device::PingAnotherDevice(Device d, ReferenceValidationMechanism *r){
 
+    return PingAnotherDevice(d.localIpv4, r);
+
+}
+
+int Device::PingAnotherDevice(std::string ip, ReferenceValidationMechanism *r){
+
     std::string message;
-    message = "ping " + d.localIpv4;
+    message = "ping " + ip;
     std::string response = SendMessageToDeviceAndGetResponse(message, r->GetAccount().GetAccountCat());
     
     std::stringstream ss(response.c_str());
@@ -258,7 +268,7 @@ int Device::PingAnotherDevice(Device d, ReferenceValidationMechanism *r){
         
         //log failure
         std::stringstream logMessage;
-        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed ping ip " << d.localIpv4;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed ping ip " << ip;
         Log::CreateNewEventLogInDB(logMessage, r);
          
         return -1;
@@ -267,7 +277,7 @@ int Device::PingAnotherDevice(Device d, ReferenceValidationMechanism *r){
 
         //make log for success
         std::stringstream logMessage;
-        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully pinged " << d.localIpv4;
+        logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully pinged " << ip;
 
         ss >> temp;
         ss >> temp;
