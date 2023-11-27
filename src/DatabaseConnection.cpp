@@ -2,7 +2,7 @@
  * DatabaseConnection.cpp
  * Created on Nov 11, 2023
  *
- * Author:
+ * Author: 
  */
 
 #include "DatabaseConnection.h"
