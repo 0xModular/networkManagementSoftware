@@ -25,18 +25,22 @@ class Network{
 
 	public:
 
-		//public methods
+		//working
 		Network(ReferenceValidationMechanism *r); //Calls getDevices, getGeneralNetworkDetails, and getConnections to get information needed for  the current network.
 		void Refresh(ReferenceValidationMechanism *r); //get updated information for the network
-		std::vector<Device> GetDeviceList(ReferenceValidationMechanism *r);
+		std::vector<Device> GetDeviceList();
+		Device GetGatewayDevice(ReferenceValidationMechanism *r);
+
+		//untested but compiles and probably works
+		bool UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r);
+		bool UpdateDevicesFromDB(ReferenceValidationMechanism *r);
 
 	private:
 
 		//private methods
 		void GetDevices();
 		void GetGeneralNetworkDetails();
-		void ValidateDeviceDetailInputs(std::string gate, std::string DNS);
-		Device GetGatewayDevice(ReferenceValidationMechanism *r);
+		
 
 
 		//members

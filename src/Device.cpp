@@ -19,6 +19,19 @@ Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::str
 
 }
 
+Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, int x, int y){
+
+	this->name = deviceName;
+	this->localIpv4 = IPv4;
+	this->wired = wiredConnection;
+	this->macAddress = mac;
+	this->limitedMembers = true; 
+    this->connections = *new std::vector<Connection>;
+    this->posX = x;
+    this->posY = y;
+
+}
+
 std::string Device::GetIpv4(){
 
 	return this->localIpv4;

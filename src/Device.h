@@ -27,8 +27,9 @@ class Device{
 
 	public:
 
-		//working 
+		//working \/\/\/
 		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName); //Constructor
+		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, int x, int y); //Constructor
 		~Device(); //Destructor
 
 		bool ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r);
@@ -39,7 +40,9 @@ class Device{
 		bool TerminateConnection(Connection c, ReferenceValidationMechanism *r);
 		bool TerminateConnection(int pid, ReferenceValidationMechanism *r);
 		bool GetDeviceConnections(ReferenceValidationMechanism *r);
+		
 
+		//getters
 		std::string GetIpv4();
 		std::string GetMac();
 		bool GetWired();
@@ -51,10 +54,12 @@ class Device{
 		int GetX();
 		int GetY();
 
+		//setters
 		void SetX(int x);
 		void SetY(int y);
 
-		//ignore for now
+
+		//ignore for now \/\/\/
 		std::vector<std::string> SetPrivacyFlags(std::vector<std::string> newFlags);	
 		void ResetPrivacyFlags();
 		

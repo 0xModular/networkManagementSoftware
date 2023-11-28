@@ -23,8 +23,13 @@ CREATE TABLE Devices (
     LinkedAccount varchar(255) null,
     PositionX INT(10000) null,
     PositionY INT(10000) null,
+    Ipv4 varchar(255),
+    DeviceName varchar(255),
+    Wired BOOLEAN,
+    Network varchar(255) NOT NULL,
     PRIMARY KEY (MacAddress),
-    FOREIGN KEY (LinkedAccount) REFERENCES Accounts(UserName)
+    FOREIGN KEY (LinkedAccount) REFERENCES Accounts(UserName),
+    FOREIGN KEY (Network) REFERENCES Network(Category)
 );
 
 CREATE TABLE DevicePrivacyFlags (

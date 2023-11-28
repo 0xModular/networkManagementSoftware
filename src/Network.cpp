@@ -38,13 +38,9 @@ void Network::Refresh(ReferenceValidationMechanism *r){
 
 }
 
-std::vector<Device> Network::GetDeviceList(ReferenceValidationMechanism *r){
+std::vector<Device> Network::GetDeviceList(){
 
-	if(r->CheckAuthorization(1)){
-
-		return deviceList;
-
-	}
+	return deviceList;
 
 }
 
@@ -113,12 +109,8 @@ void Network::GetDevices(){
 }
 
 Device Network::GetGatewayDevice(ReferenceValidationMechanism *r){
-    
-	if (r->CheckAuthorization(1)){
-        
-		return *gateway;
-    
-	}
+         
+	return *gateway;
 
 }
 
@@ -127,6 +119,126 @@ void Network::GetGeneralNetworkDetails(){
 
 
 }
+
+bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
+
+	auto con = DatabaseConnection::GetSecureConnection("login", "login");
+
+    if (con == nullptr || !r->CheckAuthorization(1)){
+		delete con;
+		Log::CreateNewEventLogInDB("Attempt to upload all devices from current network failed", r);
+	    return false; 
+	}
+
+	try{
+
+	    for (Device d: this->deviceList) {
+            // Check if the object with the given ID already exists
+            sql::PreparedStatement *pstmt;
+			pstmt = con->prepareStatement("SELECT * FROM Devices WHERE MacAddress = ?");
+            pstmt->setString(1, d.GetMac());
+            sql::ResultSet *res = pstmt->executeQuery();
+
+            if (res->next()) {
+                // If the object exists, update its values
+                pstmt = con->prepareStatement("UPDATE Devices SET PositionX = ?, PositionY = ?, Ipv4 = ?, DeviceName = ?, Wired = ? WHERE id = ?");
+                pstmt->setInt(1, d.GetX());
+                pstmt->setInt(2, d.GetY());
+				pstmt->setString(3, d.GetIpv4());
+				pstmt->setString(4, d.GetName());
+				pstmt->setBoolean(5, d.GetWired());
+                pstmt->executeUpdate();
+            } else {
+                // If the object doesn't exist, insert a new row
+                pstmt = con->prepareStatement("INSERT INTO Devices (MacAddress, PositionX, PositionY, Ipv4, DeviceName, Wired, Network) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                pstmt->setString(1, d.GetMac());
+				pstmt->setInt(2, d.GetX());
+				pstmt->setInt(3, d.GetY());
+				pstmt->setString(4, d.GetIpv4());
+				pstmt->setString(5, d.GetName());
+				pstmt->setBoolean(6, d.GetWired());
+				pstmt->setString(7, r->GetAccount().GetAccountCat());
+                pstmt->executeUpdate();
+            }
+			delete pstmt;
+        }
+
+        
+        delete con;
+    } 
+	catch (sql::SQLException &e) {
+		delete con;
+	    Log::CreateNewEventLogInDB("Attempt to upload all devices from current network failed", r);
+		return false; 
+    
+	}
+
+	Log::CreateNewEventLogInDB("Uploaded all devices from current network to database", r);
+	return true;
+
+}
+
+bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
+
+    	auto con = DatabaseConnection::GetSecureConnection("login", "login");
+
+    if (con == nullptr || !r->CheckAuthorization(1)){
+		delete con;
+		Log::CreateNewEventLogInDB("Attempt to get all devices from the database for the network failed", r);
+	    return false; 
+	}
+
+	try{
+	
+	 // Retrieve entries that match the column value
+        sql::PreparedStatement *pstmt;
+		pstmt = con->prepareStatement("SELECT * FROM Devices WHERE Network = ?");
+        pstmt->setString(1, r->GetAccount().GetAccountCat());
+        sql::ResultSet *res = pstmt->executeQuery();
+
+        // Store retrieved objects in a vector
+        while (res->next()) {
+
+			std::string mac = res->getString("MacAddress");
+			int x = res->getInt("PositionX");
+			int y = res->getInt("PositionY");
+			bool exists = false;
+
+			for(Device &d: this->deviceList){
+				if(d.GetMac().compare(mac) == 0){
+					d.SetX(x);
+					d.SetY(y);
+					exists = true;
+				}
+
+			}
+
+			if(exists == false){
+            	int x = res->getInt("PositionX");
+				int y = res->getInt("PositionY");
+				std::string ip = res->getString("Ipv4");
+				std::string name = res->getString("DeviceName");
+				bool wired = res->getBoolean("Wired");
+            	// Assign other members accordingly
+				Device device(mac, ip, wired, name, x, y);
+				this->deviceList.push_back(device);
+			}
+		}
+
+        delete pstmt;
+        delete con;
+    } 
+	catch (sql::SQLException &e) {
+        delete con;
+	    Log::CreateNewEventLogInDB("Attempt to get all devices from the database for the network failed", r);
+		return false; 
+	}
+
+	Log::CreateNewEventLogInDB("All devices from the current network were retrieved from the database", r);
+    return true;
+
+}
+
 
 /*
 void Network::EditDevices(Device d, std::string requestType, std::string AdditionalData){
