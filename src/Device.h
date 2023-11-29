@@ -33,9 +33,9 @@ class Device{
 		~Device(); //Destructor
 
 		bool ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r);
-		bool ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r); //this will eventualy return int. -1 is cant connect, 0 is success, 1 is invalid input.
+		bool ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r);
 		bool ChangeToDHCP(ReferenceValidationMechanism *r);
-		int PingAnotherDevice(Device d, ReferenceValidationMechanism *r);
+		int PingAnotherDevice(Device d, ReferenceValidationMechanism *r); //-1 cant connect, otherwise it returns the average RTT in milliseconds
 		int PingAnotherDevice(std::string, ReferenceValidationMechanism *r);
 		bool TerminateConnection(Connection c, ReferenceValidationMechanism *r);
 		bool TerminateConnection(int pid, ReferenceValidationMechanism *r);

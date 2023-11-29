@@ -74,4 +74,5 @@ class LoginDialog : public wxDialog {
 		inline static const int ID_WRONGPASSWORD = 2;
 		inline static const int ID_TOOMANYATTEMPTS = 3;
 		inline static const int ID_EMPTYFIELD = 4;
+		inline static const int ID_NOTAPPROVED = 5;
 };

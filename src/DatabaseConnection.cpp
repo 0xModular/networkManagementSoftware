@@ -43,7 +43,7 @@ sql::Connection* DatabaseConnection::GetSecureConnection(std::string sqlUsername
         }
         catch (sql::SQLException e) {
         
-		close;
+		delete con;
 		return nullptr;  // Exit the program or handle the error as needed.
     
 	}

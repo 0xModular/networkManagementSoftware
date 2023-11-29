@@ -189,6 +189,10 @@ void LoginDialog::OnOk(wxCommandEvent & event) {
 			
 			return;
 
+		case this->ID_NOTAPPROVED:
+
+			return;
+
 		case this->ID_NOCONNECTION:
 
                         return;
