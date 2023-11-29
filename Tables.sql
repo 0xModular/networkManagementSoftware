@@ -1,3 +1,9 @@
+CREATE TABLE Network(
+    Category varchar(255) NOT NULL,
+    Location varchar(255) NOT NULL,
+    PRIMARY KEY (Category)
+);
+
 CREATE TABLE Accounts (
     UserName varchar(255) NOT NULL,
     Type varchar(8) NOT NULL,
@@ -13,7 +19,6 @@ CREATE TABLE Logs (
     Time INT(255),
     Account varchar(255) NOT NULL,
     Event varchar(4095),
-    PRIMARY KEY (LogNumber),
     FOREIGN KEY (Category) REFERENCES Network(Category),
     FOREIGN KEY (Account) REFERENCES Accounts(UserName)
 );
@@ -40,18 +45,12 @@ CREATE TABLE DevicePrivacyFlags (
     FOREIGN KEY (Device) REFERENCES Devices(MacAddress)
 );
 
-CREATE TABLE Network(
+CREATE TABLE DeviceNetwork(
+    CategoryId INT AUTO_INCREMENT PRIMARY KEY,
     Category varchar(255) NOT NULL,
-    Location varchar(255) NOT NULL,
-    PRIMARY KEY (Category)
-);
-
-CREATE TABLE AccountNetworkCategories(
-    CategoryNum varchar(255) NOT NULL,
-    Category varchar(255) NOT NULL,
-    Account varchar(255) NOT NULL,
+    Device varchar(255) NOT NULL,
     PRIMARY KEY (CategoryNum),
-    FOREIGN KEY (Account) REFERENCES Accounts(UserName),
+    FOREIGN KEY (Device) REFERENCES Devices(MacAddress),
     FOREIGN KEY (Category) REFERENCES Network(Category)
 );
  
@@ -59,9 +58,7 @@ CREATE TABLE AccountMessages(
     messageID INT AUTO_INCREMENT PRIMARY KEY,
     Account varchar(255) NOT NULL,
     message varchar(8191) NOT NULL,
-    PRIMARY KEY (messgaeID),
     FOREIGN KEY (Account) REFERENCES Accounts(UserName)
 )
 
  
-
