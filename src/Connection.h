@@ -16,8 +16,7 @@ class Connection{
 	
 	public:
 		
-		static bool testConnection(Device d1, Device d2);
-		static bool testConnection(Device d1, Device d2, std::string *details);
+		bool terminateConnection(ReferenceValidationMechanism *r);
 	
 		Connection(int lPort, int rPort, std::string rAddress, std::string connectionState, int pid); //Constructor
 	    ~Connection(); //Destructor

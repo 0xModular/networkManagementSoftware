@@ -120,8 +120,6 @@ void Network::GetGeneralNetworkDetails(){
 
 }
 
-/* Duplicate Definition???
-
 bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
 	auto con = DatabaseConnection::GetSecureConnection("login", "login");
@@ -180,8 +178,7 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
 }
 
-*/
-
+/*
 bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
     	auto con = DatabaseConnection::GetSecureConnection("login", "login");
@@ -244,7 +241,7 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 }
 
 
-/*
+
 void Network::EditDevices(Device d, std::string requestType, std::string AdditionalData){
 
 	std::string message;
