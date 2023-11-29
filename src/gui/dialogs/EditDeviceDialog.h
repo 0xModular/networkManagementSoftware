@@ -42,12 +42,13 @@ class EditDeviceDialog : public wxDialog {
 
 		wxCheckBox* staticDynamic;
 
-		//TODO Add More if Necessary
+		wxButton* manageConnections;
 
 
 
 		//Event Handler Functions
 		void OnSubmit(wxCommandEvent & event);
 		void OnCancel(wxCommandEvent & event);
+		void OnManageConnections(wxCommandEvent & event);
 
 };
