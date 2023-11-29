@@ -52,7 +52,7 @@ class MainFrame : public wxFrame {
 		
 		//RVM
 		ReferenceValidationMechanism* rvm;
-
+		Network* n;
 		
 		
 		//Sizer

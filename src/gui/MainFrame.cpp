@@ -16,6 +16,9 @@ MainFrame::MainFrame(const wxString& title, ReferenceValidationMechanism* rvm) :
 	//Set RVM
 	this->rvm = rvm;
 
+	//Get Network
+	this->n = rvm->GetNetwork();
+	
 	//Set Sizer
 	SetSizer(this->sizer);
 	SetAutoLayout(true);

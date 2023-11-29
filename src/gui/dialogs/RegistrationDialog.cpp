@@ -175,7 +175,7 @@ void RegistrationDialog::OnSubmit(wxCommandEvent & event) {
 
 
 	//Process Input
-	int status = 0; //Enter Function here a la Login
+	int status = rvm->AccountCreation(this->username, this->password, this->password2);
 	
 	switch (status) {
 	
