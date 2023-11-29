@@ -9,8 +9,10 @@
 #include <string>
 #include <vector>
 #include "Device.h"
+#include "ReferenceValidationMechanism.h"
 
 class Device;
+class ReferenceValidationMechanism;
 
 class Connection{
 	

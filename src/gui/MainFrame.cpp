@@ -58,9 +58,6 @@ void MainFrame::CreateMainMenu() {
         auto mm_FileSave = mm_File->Append(wxID_SAVE); //Save Network File
         mm_FileSave->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_MENU));
 
-        auto mm_FileSaveAs = mm_File->Append(wxID_SAVEAS); //Save Network File to Location - Restricted to Network Admin
-        mm_FileSaveAs->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_SAVE_AS, wxART_MENU));
-
         mm_File->AppendSeparator();
 
         auto mm_FileLogOut = mm_File->Append(this->ID_LOGOUT, "Log Out", "Log out of this program"); //Log Out
@@ -153,7 +150,6 @@ void MainFrame::BindMainMenu() {
 	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnNew, this, wxID_NEW);
         this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnOpen, this, wxID_OPEN);
         this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSave, this, wxID_SAVE);
-        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSaveAs, this, wxID_SAVEAS);
         this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLogOut, this, this->ID_LOGOUT);
         this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExit, this, wxID_EXIT);
 
@@ -214,10 +210,6 @@ void MainFrame::OnOpen(wxCommandEvent & event) {
 
 void MainFrame::OnSave(wxCommandEvent & event) {
         std::cout << "Saving" << std::endl; //Temp
-}
-
-void MainFrame::OnSaveAs(wxCommandEvent & event) {
-	std::cout << "Saving As" << std::endl; //Temp
 }
 
 void MainFrame::OnLogOut(wxCommandEvent & event) {

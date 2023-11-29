@@ -164,7 +164,7 @@ void LoginDialog::OnOk(wxCommandEvent & event) {
 	
 	
 	//Process Input
-	int status = 0; //rvm->AccessLogin(this->username, this->password);
+	int status = rvm->AccessLogin(this->username, this->password);
 
 	switch (status) {
 	

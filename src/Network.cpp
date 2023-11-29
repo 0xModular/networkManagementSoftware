@@ -178,7 +178,6 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
 }
 
-
 /*
 bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 

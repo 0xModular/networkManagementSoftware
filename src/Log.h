@@ -34,7 +34,7 @@ class Log{
 		std::string GetLogEvent();
 		int GetLogTime();
 		Account GetLogAccount();
-		~Log();
+		~Log() noexcept {};
 
 		//wip
 		static std::vector<Log> ReadAllNetworkLogs(ReferenceValidationMechanism *r);

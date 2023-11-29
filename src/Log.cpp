@@ -162,7 +162,7 @@ bool Log::CreateNewEventLogInDB(std::stringstream &eventss, ReferenceValidationM
 
     return success;
 }
-
+*/
 Log::Log(std::string event, int Time, Account &User){
     
 	this->logEvent = event;
@@ -171,11 +171,14 @@ Log::Log(std::string event, int Time, Account &User){
     
 }
 
+/*
+
 Log::~Log(){
 
     delete this->user;
 
 }
+
 
 std::string Log::GetLogEvent(){
 
