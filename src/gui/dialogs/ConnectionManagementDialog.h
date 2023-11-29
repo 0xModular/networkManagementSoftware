@@ -15,6 +15,8 @@
 
 #include "../../ReferenceValidationMechanism.h"
 
+class ReferenceValidationMechanism;
+
 class ConnectionManagementDialog : public wxDialog {
 
         public:
