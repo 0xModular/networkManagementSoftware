@@ -13,10 +13,10 @@
 //Working \/\/\/
 
 //create account
-int ReferenceValidationMechanism::AccountCreation(std::string name, std::string password1, std::string password2, std::string type, std::string cat){
+int ReferenceValidationMechanism::AccountCreation(std::string name, std::string password1, std::string password2){
 
 	Account *a;
-    int errorCode = Account::CreateNewAccountInDB(name, password1, password2, type, cat, a);
+    int errorCode = Account::CreateNewAccountInDB(name, password1, password2, "none", "cat", a);
 
 	if (errorCode = 0){
 
