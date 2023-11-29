@@ -148,7 +148,6 @@ class MainFrame : public wxFrame {
 		void OnNew(wxCommandEvent & event); //Creates New Network File, Gives Prompt 
 		void OnOpen(wxCommandEvent & event); //Opens Existing Network File
 		void OnSave(wxCommandEvent & event); //Saves Network State to Network File
-		void OnSaveAs(wxCommandEvent & event); //Saves Network State, and Allows User to Choose Location of Network File
 		void OnLogOut(wxCommandEvent & event); //Logs User Out and Returns to Log In Prompt
 		//OnExit 			//Exits the Program Fully - Will Prompt if Not Saved
 

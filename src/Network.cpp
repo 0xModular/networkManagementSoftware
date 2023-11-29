@@ -120,6 +120,8 @@ void Network::GetGeneralNetworkDetails(){
 
 }
 
+/* Duplicate Definition???
+
 bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
 	auto con = DatabaseConnection::GetSecureConnection("login", "login");
@@ -177,6 +179,8 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 	return true;
 
 }
+
+*/
 
 bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
