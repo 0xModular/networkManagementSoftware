@@ -1,4 +1,5 @@
-#USE test;
+CREATE DATABASE `test1` 
+USE test1;
 
 CREATE TABLE `Network` (
   `GatewayMac` varchar(20) NOT NULL,

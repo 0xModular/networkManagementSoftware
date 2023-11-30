@@ -36,10 +36,12 @@ class Account{
 		bool RemoveAccount(ReferenceValidationMechanism *r); 
 		bool EditAccountName(std::string newName, ReferenceValidationMechanism *r);
 		~Account(); //Destructor
+		bool LinkDevice(Device d, ReferenceValidationMechanism *r);
+		bool UnlinkDevice(Device d, ReferenceValidationMechanism *r);
+		bool setAccountType(std::string type, ReferenceValidationMechanism *r);
 		
 		//wip
-		Account LinkDevice(Device d, ReferenceValidationMechanism *r);
-		Account UnlinkDevice(Device d, ReferenceValidationMechanism *r);
+		
 
 	private:
 
