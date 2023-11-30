@@ -95,8 +95,8 @@ bool Account::RemoveAccount(ReferenceValidationMechanism *r)
 
     std::stringstream logMessage;
     logMessage << "Account " << this->userName << " succesfully deleted";
-    if (!Log::CreateNewEventLogInDB(logMessage, r))
-        return false; // if log fails then this function fails
+    Log::CreateNewEventLogInDB(logMessage, r);
+    return true; 
 
 } // ON DELETE CASCADE
 
