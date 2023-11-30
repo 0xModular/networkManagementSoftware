@@ -2,7 +2,7 @@
  * Account.cpp
  * Created on: Oct 24, 2023
  *
- * Author:
+ * Author: Layne
  */
 
 #include "Account.h"
