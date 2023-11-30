@@ -39,7 +39,7 @@ class Device{
 		int PingAnotherDevice(std::string, ReferenceValidationMechanism *r);
 		bool TerminateConnection(Connection c, ReferenceValidationMechanism *r);
 		bool TerminateConnection(int pid, ReferenceValidationMechanism *r);
-		bool GetDeviceConnections(ReferenceValidationMechanism *r);
+		bool RetrieveDeviceConnections(ReferenceValidationMechanism *r);
 		
 
 		//getters
@@ -68,7 +68,6 @@ class Device{
 		//working
 		std::string SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory);
 		static int NewRandomNumber();
-		//ignore for now
 		
 		//members
 		std::string macAddress;

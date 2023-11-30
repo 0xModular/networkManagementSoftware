@@ -173,7 +173,7 @@ bool Device::ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r){
 
 }
 
-bool Device::GetDeviceConnections(ReferenceValidationMechanism *r){
+bool Device::RetrieveDeviceConnections(ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("connection", r->GetAccount().GetAccountCat());
 
