@@ -37,7 +37,7 @@ sql::Connection* DatabaseConnection::GetSecureConnection(std::string sqlUsername
 
         	// Establish an SSL/TLS encrypted connection
         	con = driver->connect(connection_properties);
-
+			con->setSchema("test1");
             return con;
 
         }

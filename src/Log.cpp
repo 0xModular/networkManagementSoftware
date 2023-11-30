@@ -199,6 +199,8 @@ Account Log::GetLogAccount(){
 }
 */
 
+
+
 bool Log::CreateNewEventLogInDB(std::string event, Account a) {
 
     auto con = DatabaseConnection::GetSecureConnection("log", "log");
@@ -211,29 +213,39 @@ bool Log::CreateNewEventLogInDB(std::string event, Account a) {
     std::time(&rawTime);
     int currentTime = static_cast<int>(rawTime);
 
-	//set query
-    std::stringstream query;
-    query << "INSERT INTO Log (Category, Time, Account, Event) VALUES (?, ?, ?, ?)";
+    try {
+
 
     sql::PreparedStatement* pstmt;
-    pstmt = con->prepareStatement(query.str());
+    pstmt = con->prepareStatement("INSERT INTO Logs (Category, Time, Account, Event) VALUES (?, ?, ?, ?)");
     pstmt->setString(1, a.GetAccountCat());
     pstmt->setInt(2, currentTime);
     pstmt->setString(3, a.GetAccountName());
     pstmt->setString(4, event);
 
-    bool success = false;
+    if(!pstmt->execute()){
 
-    try {
-        success = pstmt->execute();
-    } 
-	catch (const sql::SQLException& e) {
-        success = false;
+        delete pstmt;
+        delete con;
+        return true;
+    }
+    else{
+
+        delete pstmt;
+        delete con;
+        return false;
     }
 
-    delete pstmt;
-    delete con;
+    } 
+	catch (const sql::SQLException& e) {
 
-    return success;
+        std::cerr << "SQL Exception: ";
+        std::cerr << "Error code: " << e.getErrorCode() << std::endl;
+        std::cerr << "SQL state: " << e.getSQLState() << std::endl;
+        std::cerr << "Error message: " << e.what() << std::endl;
+        delete con;
+        return false;
+    }
+
 }
 

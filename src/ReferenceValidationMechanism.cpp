@@ -15,47 +15,27 @@
 //create account
 int ReferenceValidationMechanism::AccountCreation(std::string name, std::string password1, std::string password2){
 
-	Account *a;
-    int errorCode = Account::CreateNewAccountInDB(name, password1, password2, "none", "cat", a);
-
-	if (errorCode = 0){
-
-		this->activeAccount = a;
-		this->n = new Network(this);
-		delete a;
-		return errorCode;
-
-	} 
-	else{
-
-		delete a;
-		return errorCode;
-
-	}
-
+    return Account::CreateNewAccountInDB(name, password1, password2);
 
 }
 
 //automatically updates the rvm active account if login succedes
 int ReferenceValidationMechanism::AccessLogin(std::string name, std::string password){
     
-
     Login *l = new Login(name, password);
     std::string accountType;
     std::string accountCategory;
 	Account *user;
 	int errorCode = l->SendInfoAndGetResponseStatus(user);
 
-
 	if (errorCode == 0){
 
 		//log successful login
 		std::stringstream logMessage;
 		logMessage << "Login on account " << name << " success";
-		if(!Log::CreateNewEventLogInDB(logMessage, this))
+		if(!Log::CreateNewEventLogInDB(logMessage.str(), *user))
 			return -1; //if log fails then login fails
-
-   		delete l;
+		 
 		this->activeAccount = user;
 		this->n = new Network(this);
 	
@@ -66,9 +46,7 @@ int ReferenceValidationMechanism::AccessLogin(std::string name, std::string pass
 
 		std::stringstream logMessage;
 		logMessage << "Attempted login on account " << name << " failed";
-		Log::CreateNewEventLogInDB(logMessage, this);
-		delete l;
-		delete user;
+		Log::CreateNewEventLogInDB(logMessage.str(), Account(name, "unknown", "unknown"));
 	
 	}
 

@@ -34,6 +34,7 @@ class Network{
 		//untested but compiles and probably works
 		bool UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r);
 		bool UpdateDevicesFromDB(ReferenceValidationMechanism *r);
+		static std::string GatewayMac();
 
 	private:
 

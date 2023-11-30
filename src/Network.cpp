@@ -178,6 +178,47 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
 }
 
+
+//(via\s([0-9.]+))
+std::string Network::GatewayMac(){
+
+
+    char buffer[128];
+    std::string result = "";
+    FILE* pipe = popen("arp -a | grep _gateway", "r");
+    
+	if (!pipe) {
+        
+		throw std::runtime_error("popen() failed!");
+		return "error";
+	}
+    
+	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+        
+		result += buffer;
+    
+	}
+    
+	pclose(pipe);
+
+    	std::string line(result);
+    	std::string regex;
+    	std::regex deviceRegex(R"(at\s([0-9a-zA-Z\:]+))");
+
+    	std::smatch match;
+    	auto it = line.cbegin();
+
+	if (std::regex_search(it, line.cend(), match, deviceRegex)) 
+		return match[1];
+	else
+		return "error";
+
+
+
+}
+
+
+
 /*
 bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 

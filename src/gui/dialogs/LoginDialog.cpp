@@ -165,6 +165,7 @@ void LoginDialog::OnOk(wxCommandEvent & event) {
 	
 	//Process Input
 	int status = rvm->AccessLogin(this->username, this->password);
+	std::cout << status << " code\n";
 
 	switch (status) {
 	
