@@ -110,6 +110,7 @@ FLUSH PRIVILEGES;
 
 CREATE USER 'network'@'localhost' IDENTIFIED BY 'network';
 GRANT UPDATE, SELECT, INSERT ON test1.Devices TO 'network'@'localhost';
+GRANT SELECT, INSERT ON test1.DeviceNetworks TO 'network'@'localhost';
 GRANT SELECT, UPDATE, INSERT, DELETE ON test1.NetworkNotes TO 'network'@'localhost';
 FLUSH PRIVILEGES;
 

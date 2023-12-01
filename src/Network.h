@@ -41,6 +41,8 @@ class Network{
 		//private methods
 		void GetDevices();
 		void GetGeneralNetworkDetails();
+		bool InitRetrieveAllDevicesFromDB(ReferenceValidationMechanism *r);
+
 		
 
 

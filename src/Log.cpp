@@ -15,7 +15,7 @@ std::vector<Log> Log::ReadAllNetworkLogs(ReferenceValidationMechanism *r){
     std::vector<Log> logVec;
 
     if (con == nullptr || !r->CheckAuthorization(2)){
-		delete con;
+
         std::stringstream logMessage;
         logMessage << "Logs for network category " << r->GetAccount().GetAccountCat() << " retrieve attempt failed";
         Log::CreateNewEventLogInDB(logMessage, r);
