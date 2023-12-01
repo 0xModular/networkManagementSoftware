@@ -27,20 +27,26 @@ class Device{
 
 	public:
 
-		//working \/\/\/
-		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName); //Constructor
-		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, int x, int y); //Constructor
-		~Device(); //Destructor
+		//constructors and deconstructor
+		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName); 
+		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, bool on); 
+		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, int x, int y); 
+		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, int x, int y, bool on);
+		~Device(); 
 
-		bool ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r);
+		//used to see if functions below can be used (not yet implimented, only returns true)
+		bool SeeIfDeviceIsRunningBackgroundProcess();
+
+		//usable for end devices that are running the Network Manager background process. Bool false if task failed
+		bool RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r);
 		bool ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r);
 		bool ChangeToDHCP(ReferenceValidationMechanism *r);
-		int PingAnotherDevice(Device d, ReferenceValidationMechanism *r); //-1 cant connect, otherwise it returns the average RTT in milliseconds
-		int PingAnotherDevice(std::string, ReferenceValidationMechanism *r);
 		bool TerminateConnection(Connection c, ReferenceValidationMechanism *r);
 		bool TerminateConnection(int pid, ReferenceValidationMechanism *r);
-		bool GetDeviceConnections(ReferenceValidationMechanism *r);
-		
+		bool RetrieveDeviceConnections(ReferenceValidationMechanism *r);
+		//-1 means cant connect, otherwise it returns the average RTT in milliseconds
+		int PingAnotherDevice(Device d, ReferenceValidationMechanism *r); 
+		int PingAnotherDevice(std::string, ReferenceValidationMechanism *r);
 
 		//getters
 		std::string GetIpv4();
@@ -53,10 +59,12 @@ class Device{
 		std::vector<Connection> GetConnectionVector(); //!!! WILL RETURN EMPTY VECTOR IF GetDeviceConnections HASNT COMPLETED SUCCESFULLY YET !!!
 		int GetX();
 		int GetY();
+		bool GetOnlineStatus();
 
 		//setters
 		void SetX(int x);
 		void SetY(int y);
+		void SetOnlineStatus(bool on);
 
 
 		//ignore for now \/\/\/
@@ -68,7 +76,6 @@ class Device{
 		//working
 		std::string SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory);
 		static int NewRandomNumber();
-		//ignore for now
 		
 		//members
 		std::string macAddress;
@@ -76,13 +83,16 @@ class Device{
 		std::string localIpv6;
 		std::string name;
 		std::string defaultGateway;
-		std::string adapter;
-		std::vector<std::string> privacyFlags;
 		std::vector<Connection> connections;
 		bool staticIp;
-		bool limitedMembers;
 		bool wired;
+		bool online;
 		int posX;
 		int posY;
+
+		//dont worry about
+		bool limitedMembers;
+		std::string adapter;
+		std::vector<std::string> privacyFlags;
 
 };

@@ -2,7 +2,7 @@
  * Account.cpp
  * Created on: Oct 24, 2023
  *
- * Author:
+ * Author: Layne
  */
 
 #include "Account.h"
@@ -95,8 +95,8 @@ bool Account::RemoveAccount(ReferenceValidationMechanism *r)
 
     std::stringstream logMessage;
     logMessage << "Account " << this->userName << " succesfully deleted";
-    if (!Log::CreateNewEventLogInDB(logMessage, r))
-        return false; // if log fails then this function fails
+    Log::CreateNewEventLogInDB(logMessage, r);
+    return true; 
 
 } // ON DELETE CASCADE
 
@@ -360,7 +360,7 @@ bool Account::NotifyAccount(std::string message, Account a, ReferenceValidationM
         sql::PreparedStatement *pstmt;
         sql::ResultSet *result;
 
-        pstmt = con->prepareStatement("INSERT INTO Accounts (Account, message) VALUES (?, ?)");
+        pstmt = con->prepareStatement("INSERT INTO AccountMessages (Account, message) VALUES (?, ?)");
         pstmt->setString(1, a.GetAccountName());
         pstmt->setString(2, message);
     }

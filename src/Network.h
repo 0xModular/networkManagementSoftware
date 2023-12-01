@@ -16,8 +16,10 @@
 #include <regex>
 #include <tuple>
 #include "Device.h"
+#include "Note.h"
 #include "ReferenceValidationMechanism.h"
 
+class Note;
 class Device;
 class ReferenceValidationMechanism;
 
@@ -25,30 +27,46 @@ class Network{
 
 	public:
 
-		//working
+		//constructor and deconstructor
 		Network(ReferenceValidationMechanism *r); //Calls getDevices, getGeneralNetworkDetails, and getConnections to get information needed for  the current network.
-		void Refresh(ReferenceValidationMechanism *r); //get updated information for the network
+		~Network();
+		
+		//get updated information for the network
+		void Refresh(ReferenceValidationMechanism *r);
+
+		//getters
 		std::vector<Device> GetDeviceList();
 		Device GetGatewayDevice(ReferenceValidationMechanism *r);
 
-		//untested but compiles and probably works
+		//interact with database
 		bool UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r);
-		bool UpdateDevicesFromDB(ReferenceValidationMechanism *r);
-		static std::string GatewayMac();
-
-	private:
-
-		//private methods
-		void GetDevices();
-		void GetGeneralNetworkDetails();
+		bool UploadAllCurrentNotesToDB(ReferenceValidationMechanism *r);
 		
 
 
+		//used for login. Dont worry about it. Use the normal getter
+		static std::string GatewayMac();
+
+		bool enterNewNoteToList(Note n, ReferenceValidationMechanism *r);
+		bool enterNewNoteToList(std::string message, int x, int y, ReferenceValidationMechanism *r); //needs finished
+		bool removeNote(); //nothing yet
+
+	private:
+
+		//used in constructor and refresh
+		void GetDevices();
+		void GetGeneralNetworkDetails();
+		bool RetrieveAllDevicesFromDB(ReferenceValidationMechanism *r);
+		bool RetrieveAllNotesFromDB(ReferenceValidationMechanism *r); //nothing yet
+
+		//interact with database
+		bool UpdateDevicesFromDB(ReferenceValidationMechanism *r);
+		bool UpdateNotesFromDB(ReferenceValidationMechanism *r);
+
 		//members
 		std::string defaultDNS;
-		long long timeSinceRefresh;
 		std::vector<Device> deviceList;
-		std::vector<Device> connectionList;
+		std::vector<Note> noteList;
 		Device *gateway;
 };
 
