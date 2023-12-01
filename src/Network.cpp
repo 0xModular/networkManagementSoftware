@@ -122,7 +122,7 @@ void Network::GetGeneralNetworkDetails(){
 
 bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
-	auto con = DatabaseConnection::GetSecureConnection("login", "login");
+	auto con = DatabaseConnection::GetSecureConnection("netdevices", "netdevices");
 
     if (con == nullptr || !r->CheckAuthorization(1)){
 		delete con;
@@ -133,9 +133,10 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 	try{
 
 	    for (Device d: this->deviceList) {
+			
             // Check if the object with the given ID already exists
             sql::PreparedStatement *pstmt;
-			pstmt = con->prepareStatement("SELECT * FROM Devices WHERE MacAddress = ?");
+			pstmt = con->prepareStatement("SELECT MacAddress FROM Devices WHERE MacAddress = ?");
             pstmt->setString(1, d.GetMac());
             sql::ResultSet *res = pstmt->executeQuery();
 

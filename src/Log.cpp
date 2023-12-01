@@ -10,7 +10,7 @@
 
 std::vector<Log> Log::ReadAllNetworkLogs(ReferenceValidationMechanism *r){
 
-    auto con = DatabaseConnection::GetSecureConnection("login", "login");
+    auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
 
     std::vector<Log> logVec;
 

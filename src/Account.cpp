@@ -360,7 +360,7 @@ bool Account::NotifyAccount(std::string message, Account a, ReferenceValidationM
         sql::PreparedStatement *pstmt;
         sql::ResultSet *result;
 
-        pstmt = con->prepareStatement("INSERT INTO Accounts (Account, message) VALUES (?, ?)");
+        pstmt = con->prepareStatement("INSERT INTO AccountMessages (Account, message) VALUES (?, ?)");
         pstmt->setString(1, a.GetAccountName());
         pstmt->setString(2, message);
     }

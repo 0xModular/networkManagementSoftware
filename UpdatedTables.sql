@@ -84,12 +84,38 @@ CREATE TABLE `NetworkNotes` (
   CONSTRAINT `fk_new_table_1` FOREIGN KEY (`Network`) REFERENCES `Network` (`GatewayMac`)
 );
 
+
 INSERT INTO Network (GatewayMac, FirstAdmin) VALUES ("unknown", "unknown");
+INSERT INTO Accounts (UserName, Type, Password, NetCategory, LoginAttempts) VALUES ("LayneWasHere", "admin", "wow123", "unknown", 69);
 
 
+CREATE USER 'account'@'localhost' IDENTIFIED BY 'account';
+GRANT INSERT, SELECT ON test1.Accounts TO 'account'@'localhost';
+GRANT INSERT, SELECT ON test1.Network TO 'account'@'localhost';
+FLUSH PRIVILEGES;
 
 
+CREATE USER 'login'@'localhost' IDENTIFIED BY 'login';
+GRANT UPDATE, SELECT ON test1.Accounts TO 'login'@'localhost';
+FLUSH PRIVILEGES;
 
 
+CREATE USER 'netadmin'@'localhost' IDENTIFIED BY 'netadmin';
+GRANT INSERT ON test1.AccountMessages TO 'netadmin'@'localhost';
+GRANT UPDATE, SELECT, DELETE ON test1.Accounts TO 'netadmin'@'localhost';
+GRANT UPDATE ON test1.Devices TO 'netadmin'@'localhost';
+GRANT SELECT ON test1.Logs TO 'netadmin'@'localhost';
+FLUSH PRIVILEGES;
+
+
+CREATE USER 'network'@'localhost' IDENTIFIED BY 'network';
+GRANT UPDATE, SELECT, INSERT ON test1.Devices TO 'network'@'localhost';
+GRANT SELECT, UPDATE, INSERT, DELETE ON test1.NetworkNotes TO 'network'@'localhost';
+FLUSH PRIVILEGES;
+
+
+CREATE USER 'log'@'localhost' IDENTIFIED BY 'log';
+GRANT INSERT ON test1.Logs TO 'log'@'localhost';
+FLUSH PRIVILEGES;
 
 
