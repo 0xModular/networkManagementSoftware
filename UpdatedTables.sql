@@ -1,4 +1,4 @@
-CREATE DATABASE `test1` 
+CREATE DATABASE `test1`;
 USE test1;
 
 CREATE TABLE `Network` (
@@ -84,7 +84,7 @@ CREATE TABLE `NetworkNotes` (
   CONSTRAINT `fk_new_table_1` FOREIGN KEY (`Network`) REFERENCES `Network` (`GatewayMac`)
 );
 
-INSERT INTO Network (DeviceMac, FirstAdmin) VALUES ("unknown", "unknown");
+INSERT INTO Network (GatewayMac, FirstAdmin) VALUES ("unknown", "unknown");
 
 
 
