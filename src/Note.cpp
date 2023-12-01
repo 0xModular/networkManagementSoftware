@@ -5,7 +5,7 @@ Note::Note(){
     
 }
 
-Note::Note(int x, int y, std::string m){
+Note::Note(std::string m, int x, int y){
 
     this->posX = x;
     this->posY = y;

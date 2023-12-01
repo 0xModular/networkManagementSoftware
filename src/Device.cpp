@@ -16,6 +16,19 @@ Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::str
 	this->macAddress = mac;
 	this->limitedMembers = true; 
     this->connections = *new std::vector<Connection>;
+    this->online = false;
+
+}
+
+Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, bool on){
+
+	this->name = deviceName;
+	this->localIpv4 = IPv4;
+	this->wired = wiredConnection;
+	this->macAddress = mac;
+	this->limitedMembers = true; 
+    this->connections = *new std::vector<Connection>;
+    this->online = on;
 
 }
 
@@ -29,8 +42,24 @@ Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::str
     this->connections = *new std::vector<Connection>;
     this->posX = x;
     this->posY = y;
+    this->online = false;
 
 }
+
+Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, int x, int y, bool on){
+
+	this->name = deviceName;
+	this->localIpv4 = IPv4;
+	this->wired = wiredConnection;
+	this->macAddress = mac;
+	this->limitedMembers = true; 
+    this->connections = *new std::vector<Connection>;
+    this->posX = x;
+    this->posY = y;
+    this->online = on;
+
+}
+
 
 std::string Device::GetIpv4(){
 
@@ -40,13 +69,19 @@ std::string Device::GetIpv4(){
 
 int Device::GetX(){
 
-	return this->posX;
+    if(this->posX)
+	    return this->posX;
+    else
+        return 0;
 
 }
 
 int Device::GetY(){
 
-	return this->posY;
+    if(this->posY)
+	    return this->posY;
+    else
+        return 0;
 
 }
 
@@ -107,6 +142,18 @@ bool Device::GetIsStaticIp(){
 
 }
 
+void Device::SetOnlineStatus(bool on){
+
+    this->online = on;
+
+}
+
+bool Device::GetOnlineStatus(){
+
+    return this->online;
+
+}
+
 Device::~Device(){
 
 }
@@ -122,7 +169,7 @@ void Device::ResetPrivacyFlags(){
 
 }
 
-bool Device::ConnectToUpdateDeviceDetails(ReferenceValidationMechanism *r){
+bool Device::RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("init", r->GetAccount().GetAccountCat());
     
@@ -247,7 +294,7 @@ bool Device::ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r){
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully updated it's static IP to " << newIP;
 
-        this->ConnectToUpdateDeviceDetails(r);
+        this->RetrieveMoreDeviceDetails(r);
         return true;
     }  
         
@@ -277,7 +324,7 @@ bool Device::ChangeToDHCP(ReferenceValidationMechanism *r){
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully set it to use DHCP";
 
-        this->ConnectToUpdateDeviceDetails(r);
+        this->RetrieveMoreDeviceDetails(r);
         return true;
     }  
         
@@ -394,6 +441,12 @@ int Device::NewRandomNumber(){
             return newint;
         }
     }      
+
+}
+
+bool SeeIfDeviceIsRunningBackgroundProcess(){
+
+    return true;
 
 }
 
