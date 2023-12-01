@@ -1,4 +1,4 @@
-CREATE DATABASE `test1` 
+CREATE DATABASE `test1`;
 USE test1;
 
 CREATE TABLE `Network` (
