@@ -86,7 +86,7 @@ CREATE TABLE `NetworkNotes` (
 
 
 INSERT INTO Network (GatewayMac, FirstAdmin) VALUES ("unknown", "unknown");
-INSERT INTO Accounts (UserName, Type, Password, NetCategory, LoginAttempts) VALUES ("LayneWasHere", "admin", "wow123", "unknown", 69);
+INSERT INTO Accounts (UserName, Type, Password, NetCategory, LoginAttempts) VALUES ("LayneWasHere", "admin", "ThisEasterEggIsForEva", "unknown", 12 + 5);
 
 
 CREATE USER 'account'@'localhost' IDENTIFIED BY 'account';

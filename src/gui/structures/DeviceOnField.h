@@ -14,7 +14,8 @@ struct Device_ {
 	//Associated Device
 	//Device	
 
-
+	//postitional info is saved to server. The device object in the backend also has int x and int y. Make sure
+	//to update those too so that it gets saved
 
 	//Positional Information
 	wxPoint position;

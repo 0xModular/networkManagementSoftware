@@ -35,10 +35,11 @@ int ReferenceValidationMechanism::AccessLogin(std::string name, std::string pass
 		logMessage << "Login on account " << name << " success";
 		if(!Log::CreateNewEventLogInDB(logMessage.str(), *user))
 			return -1; //if log fails then login fails
-		 
-		this->activeAccount = user;
-		this->n = new Network(this);
-	
+
+		this->activeAccount = new Account(user->GetAccountName(), user->GetAccountType(), user->GetAccountCat());
+		if(this->activeAccount->GetAccountType().compare("admin") == 0 || this->activeAccount->GetAccountType().compare("engineer") == 0) 
+			this->n = new Network(this);
+		
 		return errorCode;
 
 	} 
@@ -123,9 +124,9 @@ bool ReferenceValidationMechanism::CheckAuthorization(int level){
     
 	else {
         
-		//error
-        	exit(1);
-    	}
+		std::cerr << "Authorization Error, Exiting...";
+        exit(1);
+    }
     
 	return false;
 

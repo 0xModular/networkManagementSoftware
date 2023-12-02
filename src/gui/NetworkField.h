@@ -50,7 +50,7 @@ class NetworkField : public wxWindow {
 		wxMenu* deviceContextMenu;
 		std::vector<Device_> devices;
 		std::vector<Connection_> connections;
-		std::vector<Note> notes;
+		std::vector<Note_> notes;
 		
 		std::vector<Device_> selectionBuffer;
 

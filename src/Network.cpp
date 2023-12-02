@@ -17,7 +17,8 @@ Network::Network(ReferenceValidationMechanism *r) {
 		return;
 
 	GetDevices();
-	UpdateDevicesFromDB(r);
+	RetrieveAllDevicesFromDB(r);
+	RetrieveAllNotesFromDB(r);
     GetGeneralNetworkDetails();
 
 }
@@ -31,7 +32,8 @@ void Network::Refresh(ReferenceValidationMechanism *r){
 		return;
     		
 	GetDevices();
-	UpdateDevicesFromDB(r);
+	RetrieveAllDevicesFromDB(r);
+	RetrieveAllNotesFromDB(r);
     GetGeneralNetworkDetails();
 
 
@@ -51,8 +53,8 @@ void Network::GetDevices(){
     	FILE* pipe = popen("arp -a", "r");
     
 	if (!pipe) {
-        
-		throw std::runtime_error("popen() failed!");
+
+        std::cerr << "error";	
     
 	}
     
@@ -118,6 +120,8 @@ void Network::GetGeneralNetworkDetails(){
 
 }
 
+
+//upload device list
 bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
 	auto con = DatabaseConnection::GetSecureConnection("netdevices", "netdevices");
@@ -179,10 +183,8 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
         }
 
         
-        delete con;
     } 
 	catch (sql::SQLException &e) {
-		delete con;
 	    Log::CreateNewEventLogInDB("Attempt to upload all devices from current network failed", r);
 		return false; 
     
@@ -237,7 +239,7 @@ bool Network::RetrieveAllDevicesFromDB(ReferenceValidationMechanism *r){
 	auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
 
 
-    if (con == nullptr || !r->CheckAuthorization(2)){
+    if (con == nullptr || !r->CheckAuthorization(1)){
 
         std::stringstream logMessage;
         logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
@@ -296,6 +298,7 @@ bool Network::RetrieveAllDevicesFromDB(ReferenceValidationMechanism *r){
 
 }
 
+//new note alternative
 bool Network::enterNewNoteToList(std::string message, int x, int y, ReferenceValidationMechanism *r){
 
 	Note n(message, x, y);
@@ -303,6 +306,7 @@ bool Network::enterNewNoteToList(std::string message, int x, int y, ReferenceVal
 
 }
 
+//new note
 bool Network::enterNewNoteToList(Note n, ReferenceValidationMechanism *r){
 
 	auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
@@ -346,11 +350,102 @@ bool Network::enterNewNoteToList(Note n, ReferenceValidationMechanism *r){
 
 }
 
-static void removeNote(){
+bool Network::removeNote(Note n, ReferenceValidationMechanism *r){
+
+	auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
+
+    if (con == nullptr || !r->CheckAuthorization(1)){
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+        return false;
+	}
+
+    try {
+
+		sql::PreparedStatement *pstmt;
+		sql::ResultSet *res;
+
+		pstmt = con->prepareStatement("DELETE FROM NetworkNotes WHERE Network = ? AND PositionX = ? AND PositionY = ? AND Message = ?");
+        pstmt->setString(1, r->GetAccount().GetAccountCat());
+		pstmt->setInt(2, n.GetX());
+		pstmt->setInt(3, n.GetY());
+		pstmt->setString(4, n.GetMessage());
+        res = pstmt->executeQuery();
 
 
+		int i = 0;
+		for(Note existingNote: this->noteList){
+			if(existingNote.GetMessage().compare(n.GetMessage()) == 0 && existingNote.GetX() == n.GetX() && existingNote.GetY() == n.GetY()){
+				std::vector<Note>::iterator itr = this->noteList.begin();
+				advance(itr, i);
+				this->noteList.erase(itr);
+			}
+			i++;
+		}
+		
+    }
+	catch (sql::SQLException& e) {
+    std::stringstream logMessage;
+    logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
+    Log::CreateNewEventLogInDB(logMessage, r);
+	return false;
+	}
+
+	return true;
 
 }
+
+
+bool Network::RetrieveAllNotesFromDB(ReferenceValidationMechanism *r){
+
+	auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
+
+    if (con == nullptr || !r->CheckAuthorization(1)){
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+        return false;
+	}
+
+	std::vector<Note> temp;
+
+    try {
+
+		sql::PreparedStatement *pstmt;
+		sql::ResultSet *res;
+
+			pstmt = con->prepareStatement("SELECT * FROM NetworkNotes WHERE Category = ?");
+            pstmt->setString(1, r->GetAccount().GetAccountCat());
+            res = pstmt->executeQuery();
+
+            while (res->next()) {
+                std::string message = res->getString("Message");
+				int x = res->getInt("PositionX");
+				int y = res->getInt("PositionY");
+				temp.push_back(Note(message, x, y));
+			}
+        }
+
+    
+    catch (sql::SQLException& e) {
+        std::stringstream logMessage;
+        logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+		return false;
+    }
+
+    std::stringstream logMessage;
+    logMessage << "Retrieved devices for network " << r->GetAccount().GetAccountCat() << " successfully";
+	Log::CreateNewEventLogInDB(logMessage, r);
+	this->noteList.clear();
+	this->noteList = temp;
+	return true;
+
+}
+
 
 
 Network::~Network(){

@@ -19,7 +19,7 @@
 #include "Note.h"
 #include "ReferenceValidationMechanism.h"
 
-class Note;
+//class Note;
 class Device;
 class ReferenceValidationMechanism;
 
@@ -38,18 +38,17 @@ class Network{
 		std::vector<Device> GetDeviceList();
 		Device GetGatewayDevice(ReferenceValidationMechanism *r);
 
-		//interact with database
+		//interact with database for devices
 		bool UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r);
-		bool UploadAllCurrentNotesToDB(ReferenceValidationMechanism *r);
 		
-
+		//interact with database for notes
+		bool enterNewNoteToList(Note n, ReferenceValidationMechanism *r);
+		bool enterNewNoteToList(std::string message, int x, int y, ReferenceValidationMechanism *r); //finish log message
+		bool removeNote(Note n, ReferenceValidationMechanism *r); //finish log message
+		bool RetrieveAllNotesFromDB(ReferenceValidationMechanism *r); //finish log message
 
 		//used for login. Dont worry about it. Use the normal getter
 		static std::string GatewayMac();
-
-		bool enterNewNoteToList(Note n, ReferenceValidationMechanism *r);
-		bool enterNewNoteToList(std::string message, int x, int y, ReferenceValidationMechanism *r); //needs finished
-		bool removeNote(); //nothing yet
 
 	private:
 
@@ -57,11 +56,12 @@ class Network{
 		void GetDevices();
 		void GetGeneralNetworkDetails();
 		bool RetrieveAllDevicesFromDB(ReferenceValidationMechanism *r);
-		bool RetrieveAllNotesFromDB(ReferenceValidationMechanism *r); //nothing yet
+		
 
 		//interact with database
 		bool UpdateDevicesFromDB(ReferenceValidationMechanism *r);
 		bool UpdateNotesFromDB(ReferenceValidationMechanism *r);
+		bool UploadAllCurrentNotesToDB(ReferenceValidationMechanism *r); //DO NOT USE! this functionality is moving to another function
 
 		//members
 		std::string defaultDNS;
