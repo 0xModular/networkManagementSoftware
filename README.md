@@ -12,6 +12,8 @@ The end device background process MUST BE RUN AS ADMINISTRATOR to function prope
 
 Additionally these to programs WILL NOT WORK CORRECTLY on virtual machines, unless your VM has a bridged virtual network card that can properly interact with the LAN. These programs will properly compile on VMs and will run but they will always report network connectivity issues on VMs not using bridged NICs. 
 
+You can run "DatabaseSetup.sql" on a fresh sql server and it will complete all required setup. As long as all the code is executed and in order than no other setup is needed. It creates all the tables, initial entries, and sql accounts that are needed. 
+
 ### Dependencies:
 
 * [wxWidgets v3.2.3](https://github.com/wxWidgets/wxWidgets)
