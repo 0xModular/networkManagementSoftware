@@ -1,3 +1,5 @@
+-- These are the first-draft tables and WILL NOT WORK anymore. 
+
 CREATE TABLE Network(
     Category varchar(255) NOT NULL,
     Location varchar(255) NOT NULL,

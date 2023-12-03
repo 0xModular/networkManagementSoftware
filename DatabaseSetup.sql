@@ -1,4 +1,10 @@
 CREATE DATABASE `test1`;
+-- Author: Layne Burkhead
+
+-- Copy and paste all this code and execute it on a fresh sql server to completly set it up for use with the network managment software
+-- As long as you execute all this code in order you shouldn't need to do any other setup on the sql server
+
+CREATE DATABASE `test1` 
 USE test1;
 
 CREATE TABLE `Network` (
