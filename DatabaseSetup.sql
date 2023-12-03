@@ -1,4 +1,3 @@
-CREATE DATABASE `test1`;
 -- Author: Layne Burkhead
 
 -- Copy and paste all this code and execute it on a fresh sql server to completly set it up for use with the network managment software
