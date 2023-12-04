@@ -169,6 +169,8 @@ void Device::ResetPrivacyFlags(){
 
 }
 
+
+//connect to background process and get more device details
 bool Device::RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("init", r->GetAccount().GetAccountCat());
@@ -220,6 +222,7 @@ bool Device::RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r){
 
 }
 
+//connect to background process and get device connections. Returns success
 bool Device::RetrieveDeviceConnections(ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("connection", r->GetAccount().GetAccountCat());
@@ -270,6 +273,7 @@ bool Device::RetrieveDeviceConnections(ReferenceValidationMechanism *r){
 
 }
 
+//connect to background process and set static IP. Returns success
 bool Device::ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r){
 
     std::string message;
@@ -302,6 +306,7 @@ bool Device::ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r){
 
 }
 
+//connect to background process and reset DHCP. Returns success
 bool Device::ChangeToDHCP(ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("dhcp", r->GetAccount().GetAccountCat());
@@ -332,12 +337,14 @@ bool Device::ChangeToDHCP(ReferenceValidationMechanism *r){
 
 }
 
+//Ping another device alternate
 int Device::PingAnotherDevice(Device d, ReferenceValidationMechanism *r){
 
     return PingAnotherDevice(d.localIpv4, r);
 
 }
 
+//connect to background process and have device ping another ip. Returns -1 for fail, otherwise returns average RTT value
 int Device::PingAnotherDevice(std::string ip, ReferenceValidationMechanism *r){
 
     std::string message;
@@ -371,13 +378,14 @@ int Device::PingAnotherDevice(std::string ip, ReferenceValidationMechanism *r){
 
 }
 
+//terminate connection alternate
 bool Device::TerminateConnection(Connection c, ReferenceValidationMechanism *r){
 
     return TerminateConnection(c.PID, r);
 
 }
 
-
+//connect to background process and terminate connection. Returns success
 bool Device::TerminateConnection(int pid, ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("terminate " + std::to_string(pid), r->GetAccount().GetAccountCat());
@@ -428,6 +436,7 @@ bool Device::TerminateConnection(int pid, ReferenceValidationMechanism *r){
 
 }
 
+//used in SendMessageToDeviceAndGetResponse
 int Device::NewRandomNumber(){
 
     static std::unordered_set<int> usedNumbers;
@@ -444,12 +453,14 @@ int Device::NewRandomNumber(){
 
 }
 
+//wip
 bool SeeIfDeviceIsRunningBackgroundProcess(){
 
     return true;
 
 }
 
+//function that handles socket and security for all communication with end device
 std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory){
 
     //message = new std::string(ReferenceValidationMechanism::encryptString(*message, 3));

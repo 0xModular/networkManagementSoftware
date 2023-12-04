@@ -46,6 +46,9 @@ class Network{
 		bool enterNewNoteToList(std::string message, int x, int y, ReferenceValidationMechanism *r); //finish log message
 		bool removeNote(Note n, ReferenceValidationMechanism *r); //finish log message
 		bool RetrieveAllNotesFromDB(ReferenceValidationMechanism *r); //finish log message
+		bool AddNewNote(std::string message, int x, int y, ReferenceValidationMechanism *r); //finish
+		bool AddNewDevice(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, ReferenceValidationMechanism *r);
+		bool RemoveDevice(Device d, ReferenceValidationMechanism *r);
 
 		//used for login. Dont worry about it. Use the normal getter
 		static std::string GatewayMac();
