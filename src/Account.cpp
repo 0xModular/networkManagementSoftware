@@ -7,6 +7,9 @@
 
 #include "Account.h"
 
+
+
+//Admin: Gets the managable accounts from the DB
 std::vector<Account> Account::GetManagableAccounts(ReferenceValidationMechanism *r)
 {
 
@@ -60,6 +63,8 @@ std::vector<Account> Account::GetManagableAccounts(ReferenceValidationMechanism 
     return accountVec;
 }
 
+
+//Admin: remove an account from this network
 bool Account::RemoveAccount(ReferenceValidationMechanism *r)
 {
 
@@ -100,6 +105,8 @@ bool Account::RemoveAccount(ReferenceValidationMechanism *r)
 
 } // ON DELETE CASCADE
 
+
+//Admin: Change account name for an account on this network
 bool Account::EditAccountName(std::string newName, ReferenceValidationMechanism *r)
 {
 
@@ -138,6 +145,8 @@ bool Account::EditAccountName(std::string newName, ReferenceValidationMechanism 
     return true;
 }
 
+
+//Admin: Link a device to this user
 bool Account::LinkDevice(Device d, ReferenceValidationMechanism *r)
 {
 
@@ -176,6 +185,8 @@ bool Account::LinkDevice(Device d, ReferenceValidationMechanism *r)
     return true;
 }
 
+
+//unlink a device from this users. Returns success
 bool Account::UnlinkDevice(Device d, ReferenceValidationMechanism *r)
 {
 
@@ -215,6 +226,7 @@ bool Account::UnlinkDevice(Device d, ReferenceValidationMechanism *r)
     return true;
 }
 
+//constructor
 Account::Account(std::string name, std::string t, std::string cat)
 {
 
@@ -223,10 +235,13 @@ Account::Account(std::string name, std::string t, std::string cat)
     this->category = cat;
 }
 
-Account::~Account()
-{
+//deconstructor
+Account::~Account(){
+
 }
 
+
+//static create account. -1 cant connect, 0 success, 1 account already exists, 2 passwords dont match, 3 box left empty
 int Account::CreateNewAccountInDB(std::string name, std::string password1, std::string password2)
 {
 
@@ -238,21 +253,18 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
         // check if connection established
         if (con == nullptr)
         {
-            delete con;
             return -1;
         }
 
         // check if passwords match
         if (password1 != password2)
         {
-            delete con;
             return 2;
         }
 
         // check if any empty boxes
         if (name.empty() || password1.empty() || password2.empty())
         {
-            delete con;
             return 3;
         }
 
@@ -267,7 +279,6 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
         {
             delete pstmt;
             delete result;
-            delete con;
             return 1;
         }
 
@@ -279,7 +290,6 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
 
             delete pstmt;
             delete result;
-            delete con;
             return -1;
         }
 
@@ -322,7 +332,6 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
 
         delete pstmt;
         delete result;
-        delete con;
 
         return 0; // return success
     }
@@ -335,19 +344,20 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
         std::cerr << "Error code: " << e.getErrorCode() << std::endl;
         std::cerr << "SQL state: " << e.getSQLState() << std::endl;
         std::cerr << "Error message: " << e.what() << std::endl;
-
-        delete con;
         return -1;
+        
     }
 }
 
+
+//notifies account that some action was taken that effected it. Returns success
 bool Account::NotifyAccount(std::string message, Account a, ReferenceValidationMechanism *r)
 {
 
     auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
 
-    if (con == nullptr || !r->CheckAuthorization(2)){
-		delete con;
+    if (con == nullptr){
+
         std::stringstream logMessage;
         logMessage << "Attempt to delete account " << this->userName << " failed";
         Log::CreateNewEventLogInDB(logMessage, r);
@@ -381,12 +391,14 @@ bool Account::NotifyAccount(std::string message, Account a, ReferenceValidationM
     return true;
 }
 
-bool Account::setAccountType(std::string type, ReferenceValidationMechanism *r){
+
+//
+bool Account::SetAccountType(std::string type, ReferenceValidationMechanism *r){
 
     auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
 
     if (con == nullptr || !r->CheckAuthorization(2) || !(type.compare("admin") == 0 || type.compare("engineer") == 0 || type.compare("none") == 0)){
-		delete con;
+
         std::stringstream logMessage;
         logMessage << "Attempt to update account " << this->userName << " from type " << this->category << " to " << type << " failed";
         Log::CreateNewEventLogInDB(logMessage, r);
@@ -421,6 +433,8 @@ bool Account::setAccountType(std::string type, ReferenceValidationMechanism *r){
 
 }
 
+
+//getters
 std::string Account::GetAccountType()
 {
 
@@ -437,4 +451,10 @@ std::string Account::GetAccountCat()
 {
 
     return this->category;
+}
+
+std::vector<Device> Account::GetLinkedDeviceVec(){
+
+    return this->linkedDevices;
+
 }
