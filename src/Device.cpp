@@ -500,7 +500,7 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::
     char buffer[10000];
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     std::string response;
-    std::cout << "bread " << bytesRead << "\n";
+    //std::cout << "bread " << bytesRead << "\n";
     if (bytesRead > 0) {
         response.assign(buffer, bytesRead);
         response = ReferenceValidationMechanism::DecryptString(response, 29);

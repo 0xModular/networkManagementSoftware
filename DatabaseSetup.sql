@@ -3,7 +3,7 @@
 -- Copy and paste all this code and execute it on a fresh sql server to completly set it up for use with the network managment software
 -- As long as you execute all this code in order you shouldn't need to do any other setup on the sql server
 
-CREATE DATABASE `test1` 
+CREATE DATABASE `test1`;
 USE test1;
 
 CREATE TABLE `Network` (
@@ -47,7 +47,7 @@ CREATE TABLE `Devices` (
   KEY `fk_Devices_1_idx` (`Network`),
   CONSTRAINT `Devices_ibfk_1` FOREIGN KEY (`LinkedAccount`) REFERENCES `Accounts` (`UserName`),
   CONSTRAINT `fk_Devices_1` FOREIGN KEY (`Network`) REFERENCES `Network` (`GatewayMac`)
-) 
+);
 
 CREATE TABLE `DevicePrivacyFlags` (
   `FlagNum` varchar(255) NOT NULL,
@@ -64,12 +64,13 @@ CREATE TABLE `Logs` (
   `Time` int DEFAULT NULL,
   `Account` varchar(255) NOT NULL,
   `Event` varchar(4095) DEFAULT NULL,
+  `Urgent` tinyint DEFAULT NULL,
   PRIMARY KEY (`LogNumber`),
   KEY `Account` (`Account`),
   KEY `fk_Logs_1_idx` (`Category`),
   CONSTRAINT `fk_Logs_1` FOREIGN KEY (`Category`) REFERENCES `Network` (`GatewayMac`),
   CONSTRAINT `Logs_ibfk_2` FOREIGN KEY (`Account`) REFERENCES `Accounts` (`UserName`)
-); 
+);
 
 CREATE TABLE `NetworkNotes` (
   `GenericNoteId` int NOT NULL AUTO_INCREMENT,

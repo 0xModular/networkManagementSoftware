@@ -34,9 +34,6 @@ class Device{
 		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, int x, int y, bool on);
 		~Device(); 
 
-		//used to see if functions below can be used (not yet implimented, only returns true)
-		bool SeeIfDeviceIsRunningBackgroundProcess();
-
 		//usable for end devices that are running the Network Manager background process. Bool false if task failed
 		bool RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r);
 		bool ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r);

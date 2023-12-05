@@ -74,95 +74,13 @@ bool Log::CreateNewEventLogInDB(std::string event, ReferenceValidationMechanism 
     return CreateNewEventLogInDB(event, r->GetAccount());
 
 }
-/*
-    if(!r)
-        return false;
 
-    auto con = DatabaseConnection::GetSecureConnection("log", "log");
+void Log::SetNextLogUrgent(){
 
-    if (!con) 
-        return false;
-
-	//get time
-    time_t rawTime;
-    std::time(&rawTime);
-    int currentTime = static_cast<int>(rawTime);
-
-	//set query
-    std::stringstream query;
-    query << "INSERT INTO Log (Category, Time, Account, Event) VALUES (?, ?, ?, ?)";
-
-    sql::PreparedStatement* pstmt;
-    pstmt = con->prepareStatement(query.str());
-    pstmt->setString(1, r->GetAccount().GetAccountCat());
-    pstmt->setInt(2, currentTime);
-    pstmt->setString(3, r->GetAccount().GetAccountName());
-    pstmt->setString(4, event);
-
-    bool success = false;
-
-    try {
-        success = pstmt->execute();
-    } 
-	catch (const sql::SQLException& e) {
-        success = false;
-    }
-
-    delete pstmt;
-    delete con;
-
-    return success;
-}
-*/
-bool Log::CreateNewEventLogInDB(std::stringstream &eventss, ReferenceValidationMechanism *r) {
-
-    return CreateNewEventLogInDB(eventss.str(), r->GetAccount());
+    UrgentNext = true;
 
 }
 
-/*
-
-    std::string event = eventss.str();
-
-        if(!r)
-        return false;
-
-    auto con = DatabaseConnection::GetSecureConnection("log", "log");
-
-    if (!con) 
-        return false;
-
-	//get time
-    time_t rawTime;
-    std::time(&rawTime);
-    int currentTime = static_cast<int>(rawTime);
-
-	//set query
-    std::stringstream query;
-    query << "INSERT INTO Log (Category, Time, Account, Event) VALUES (?, ?, ?, ?)";
-
-    sql::PreparedStatement* pstmt;
-    pstmt = con->prepareStatement(query.str());
-    pstmt->setString(1, r->GetAccount().GetAccountCat());
-    pstmt->setInt(2, currentTime);
-    pstmt->setString(3, r->GetAccount().GetAccountName());
-    pstmt->setString(4, event);
-
-    bool success = false;
-
-    try {
-        success = pstmt->execute();
-    } 
-	catch (const sql::SQLException& e) {
-        success = false;
-    }
-
-    delete pstmt;
-    delete con;
-
-    return success;
-}
-*/
 Log::Log(std::string event, int Time, Account &User){
     
 	this->logEvent = event;
@@ -171,7 +89,7 @@ Log::Log(std::string event, int Time, Account &User){
     
 }
 
-/*
+
 
 Log::~Log(){
 
@@ -197,7 +115,7 @@ Account Log::GetLogAccount(){
     return *this->user;
 
 }
-*/
+
 
 
 
@@ -217,11 +135,13 @@ bool Log::CreateNewEventLogInDB(std::string event, Account a) {
 
 
     sql::PreparedStatement* pstmt;
-    pstmt = con->prepareStatement("INSERT INTO Logs (Category, Time, Account, Event) VALUES (?, ?, ?, ?)");
+    pstmt = con->prepareStatement("INSERT INTO Logs (Category, Time, Account, Event, Urgent) VALUES (?, ?, ?, ?, ?)");
     pstmt->setString(1, a.GetAccountCat());
     pstmt->setInt(2, currentTime);
     pstmt->setString(3, a.GetAccountName());
     pstmt->setString(4, event);
+    pstmt->setBoolean(4, UrgentNext);
+
 
     if(!pstmt->execute()){
 
@@ -243,6 +163,9 @@ bool Log::CreateNewEventLogInDB(std::string event, Account a) {
         std::cerr << "Error message: " << e.what() << std::endl;
         return false;
     }
+
+    if(UrgentNext)
+        UrgentNext = false;
 
 }
 
