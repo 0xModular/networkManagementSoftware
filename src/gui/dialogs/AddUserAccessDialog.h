@@ -20,7 +20,7 @@ class AddUserAccessDialog : public wxDialog {
 
         public:
 
-                AddUserAccessDialog(wxWindow* parent, ReferenceValidationMechanism* rvm); //Constructor
+                AddUserAccessDialog(wxWindow* parent, ReferenceValidationMechanism* rvm, Account* user); //Constructor
                 ~AddUserAccessDialog() noexcept {}; //Destructor
 
         private:
@@ -33,6 +33,7 @@ class AddUserAccessDialog : public wxDialog {
 
                 //RVM
                 ReferenceValidationMechanism* rvm;
+		Account* user;
 
 
 

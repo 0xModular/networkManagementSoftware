@@ -20,7 +20,7 @@ class EditUsernameDialog : public wxDialog {
 
         public:
 
-                EditUsernameDialog(wxWindow* parent, ReferenceValidationMechanism* rvm); //Constructor
+                EditUsernameDialog(wxWindow* parent, ReferenceValidationMechanism* rvm, Account* user); //Constructor
                 ~EditUsernameDialog() noexcept {}; //Destructor
 
         private:
@@ -31,8 +31,9 @@ class EditUsernameDialog : public wxDialog {
 
 
 
-                //RVM
+                //RVM and User
                 ReferenceValidationMechanism* rvm;
+		Account* user;
 
 
 
