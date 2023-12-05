@@ -52,14 +52,10 @@ void MainFrame::CreateMainMenu() {
 	//--FILE--//
         auto mm_File = new wxMenu();
 
-        auto mm_FileNew = mm_File->Append(wxID_NEW); //Make a New Network File - Restricted to Network Admin
-        mm_FileNew->SetBitmap(wxArtProvider::GetBitmap(wxART_NEW, wxART_MENU));
-
-        auto mm_FileOpen = mm_File->Append(wxID_OPEN); //Open a Network File
-        mm_FileOpen->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_OPEN, wxART_MENU));
-
-        auto mm_FileSave = mm_File->Append(wxID_SAVE); //Save Network File
-        mm_FileSave->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_MENU));
+        auto mm_FileRefresh = mm_File->Append(this->ID_REFRESH, "Refresh Network", "Refresh Network");
+	
+        auto mm_FileUpload = mm_File->Append(wxID_SAVE, "Upload Changes", "Upload Changes"); //Save Network File
+        mm_FileUpload->SetBitmap(wxArtProvider::GetBitmap(wxART_FILE_SAVE, wxART_MENU));
 
         mm_File->AppendSeparator();
 
@@ -149,9 +145,8 @@ void MainFrame::CreateStatusBar() {
 void MainFrame::BindMainMenu() {
 
 	//File
-	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnNew, this, wxID_NEW);
-        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnOpen, this, wxID_OPEN);
-        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSave, this, wxID_SAVE);
+	this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnRefresh, this, this->ID_REFRESH);
+        this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnUpload, this, wxID_SAVE);
         this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnLogOut, this, this->ID_LOGOUT);
         this->mm->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExit, this, wxID_EXIT);
 
@@ -196,21 +191,12 @@ void MainFrame::OnExit(wxCommandEvent &event) {
 //--Main Menu--//
 
 //---File---//
-void MainFrame::OnNew(wxCommandEvent & event) {
-        std::cout << "Creating New" << std::endl; //Temp
+void MainFrame::OnRefresh(wxCommandEvent & event) {
+        std::cout << "Refreshing Network" << std::endl; //Temp
 }
 
-void MainFrame::OnOpen(wxCommandEvent & event) {
-        std::cout << "Opening" << std::endl; //Temp
-
-	//Open Device File -- on Host Files
-	
-	//Process File for Adding to Network Field
-
-}
-
-void MainFrame::OnSave(wxCommandEvent & event) {
-        std::cout << "Saving" << std::endl; //Temp
+void MainFrame::OnUpload(wxCommandEvent & event) {
+        std::cout << "Uploading" << std::endl; //Temp
 }
 
 void MainFrame::OnLogOut(wxCommandEvent & event) {

@@ -12,7 +12,6 @@
 #include <vector>
 
 //XPM RESOURCES
-#include "../../assets/icons/TOOLBAR_ADD_DEVICE.xpm"
 #include "../../assets/icons/TOOLBAR_ADD_NOTE.xpm"
 #include "../../assets/icons/TOOLBAR_SELECT.xpm"
 #include "../../assets/icons/TOOLBAR_TEST_CONNECTION.xpm"
@@ -67,7 +66,6 @@ class MainFrame : public wxFrame {
 		//Resources
 
 		//--TOOLBAR ICONS--//
-		inline static const wxIcon* TB_ADD_DEVICE = new wxIcon(TOOLBAR_ADD_DEVICE);
 		inline static const wxIcon* TB_ADD_NOTE = new wxIcon(TOOLBAR_ADD_NOTE);
 		inline static const wxIcon* TB_SELECT = new wxIcon(TOOLBAR_SELECT);
 		inline static const wxIcon* TB_TEST_CONNECTION = new wxIcon(TOOLBAR_TEST_CONNECTION);
@@ -81,24 +79,25 @@ class MainFrame : public wxFrame {
 		wxMenuBar* mm = new wxMenuBar();
 		
 		//--MAIN MENU IDS--//
-		inline static const int ID_LOGOUT = 1;
-		inline static const int ID_MANAGEDEVICES = 2;
-		inline static const int ID_VIEWNETWORK = 3;
-		inline static const int ID_MANAGEUSERS = 4;
-		inline static const int ID_UPDATEUSER = 5;
-		inline static const int ID_OPENDOCS = 6;		
+		inline static const int ID_REFRESH = 1;
+		inline static const int ID_LOGOUT = 2;
+		inline static const int ID_MANAGEDEVICES = 3;
+		inline static const int ID_VIEWNETWORK = 4;
+		inline static const int ID_MANAGEUSERS = 5;
+		inline static const int ID_UPDATEUSER = 6;
+		inline static const int ID_OPENDOCS = 7;		
 
 
 		//Toolbar
 		wxToolBar* tb = new wxToolBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL);	
 
 		//--TOOLBAR IDS--//
-		inline static const int ID_SELECT = 7;
-		inline static const int ID_TESTCONNECTION = 8;
-		inline static const int ID_NOTE = 9;
-		inline static const int ID_ZOOMIN = 10;
-		inline static const int ID_ZOOMOUT = 11;
-		inline static const int ID_RESETZOOM = 12;
+		inline static const int ID_SELECT = 8;
+		inline static const int ID_TESTCONNECTION = 9;
+		inline static const int ID_NOTE = 10;
+		inline static const int ID_ZOOMIN = 11;
+		inline static const int ID_ZOOMOUT = 12;
+		inline static const int ID_RESETZOOM = 13;
 
 		
 		//--TOOLBAR EVENTS--//
@@ -141,9 +140,8 @@ class MainFrame : public wxFrame {
 		//--MAIN MENU--//
 		
 		//---File---//
-		void OnNew(wxCommandEvent & event); //Creates New Network File, Gives Prompt 
-		void OnOpen(wxCommandEvent & event); //Opens Existing Network File
-		void OnSave(wxCommandEvent & event); //Saves Network State to Network File
+		void OnRefresh(wxCommandEvent & event); //Reloads Network
+		void OnUpload(wxCommandEvent & event); //Updates Network		
 		void OnLogOut(wxCommandEvent & event); //Logs User Out and Returns to Log In Prompt
 		//OnExit 			//Exits the Program Fully - Will Prompt if Not Saved
 
