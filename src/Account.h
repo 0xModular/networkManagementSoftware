@@ -2,7 +2,7 @@
  * Account.h
  * Created on: Oct 24, 2023
  *
- * Author:
+ * Author: Layne
  */ 
 
 #pragma once
@@ -58,13 +58,14 @@ class Account{
 
 		//other
 		static void SendMessageToAdmins(std::string m);
+		static void NotifyAccount(std::string m, Account a);
 
 
 
 	private:
 
 		//finished and ready
-		bool NotifyAccount(std::string message, Account a, ReferenceValidationMechanism *r);
+
 
 		//variables
 		std::string type; 

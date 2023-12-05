@@ -2,7 +2,7 @@
  * Network.h
  * Created on Oct 24, 2023
  *
- * Author:
+ * Author: Layne
  */
 
 #pragma once
@@ -44,9 +44,9 @@ class Network{
 		bool RemoveDevice(Device d, ReferenceValidationMechanism *r); //finish
 		
 		//interact with database for notes
-		bool enterNewNoteToList(Note n, ReferenceValidationMechanism *r);
-		bool enterNewNoteToList(std::string message, int x, int y, ReferenceValidationMechanism *r); //finish log message
-		bool removeNote(Note n, ReferenceValidationMechanism *r); //finish log message
+		bool EnterNewNoteToList(Note n, ReferenceValidationMechanism *r);
+		bool EnterNewNoteToList(std::string message, int x, int y, ReferenceValidationMechanism *r); //finish log message
+		bool RemoveNote(Note n, ReferenceValidationMechanism *r); //finish log message
 		bool RetrieveAllNotesFromDB(ReferenceValidationMechanism *r); //finish log message
 
 		//used for login. Dont worry about it. Use the normal getter

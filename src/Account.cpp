@@ -142,6 +142,7 @@ bool Account::EditAccountName(std::string newName, ReferenceValidationMechanism 
     std::stringstream logMessage;
     logMessage << "Updated account name for account " << this->userName << " to " << newName;
     Log::CreateNewEventLogInDB(logMessage, r);
+    NotifyAccount("your account username was updated", *this);
     return true;
 }
 
@@ -182,6 +183,7 @@ bool Account::LinkDevice(Device d, ReferenceValidationMechanism *r)
     std::stringstream logMessage;
     logMessage << "Linked Device " << d.GetMac() << " to account " << this->userName;
     Log::CreateNewEventLogInDB(logMessage, r);
+    NotifyAccount("A device was linked to your account", *this);
     return true;
 }
 
@@ -194,7 +196,6 @@ bool Account::UnlinkDevice(Device d, ReferenceValidationMechanism *r)
 
     if (con == nullptr || !r->CheckAuthorization(2))
     {
-        delete con;
         std::stringstream logMessage;
         logMessage << "Attempt to unlink Device " << d.GetMac() << " to account " << this->userName << "failed";
         Log::CreateNewEventLogInDB(logMessage, r);
@@ -223,6 +224,7 @@ bool Account::UnlinkDevice(Device d, ReferenceValidationMechanism *r)
     std::stringstream logMessage;
     logMessage << "Unlinked Device " << d.GetMac() << " to account " << this->userName;
     Log::CreateNewEventLogInDB(logMessage, r);
+    NotifyAccount("A device was unlinked from your account", *this);
     return true;
 }
 
@@ -350,49 +352,6 @@ int Account::CreateNewAccountInDB(std::string name, std::string password1, std::
 }
 
 
-//notifies account that some action was taken that effected it. Returns success
-bool Account::NotifyAccount(std::string message, Account a, ReferenceValidationMechanism *r)
-{
-
-    auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
-
-    if (con == nullptr){
-
-        std::stringstream logMessage;
-        logMessage << "Attempt to delete account " << this->userName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
-        return false;
-    }
-
-    try
-    {
-
-        sql::PreparedStatement *pstmt;
-        sql::ResultSet *result;
-
-        pstmt = con->prepareStatement("INSERT INTO AccountMessages (Account, message) VALUES (?, ?)");
-        pstmt->setString(1, a.GetAccountName());
-        pstmt->setString(2, message);
-        pstmt->executeQuery();
-    }
-    catch (sql::SQLException &e)
-    {
-
-        std::stringstream logMessage;
-        logMessage << "Attempt to delete account " << this->userName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
-        return false;
-    }
-
-    std::stringstream logMessage;
-    logMessage << "Account " << this->userName << " succesfully deleted";
-    if (!Log::CreateNewEventLogInDB(logMessage, r))
-        return false; // if log fails then this function fails
-
-    return true;
-}
-
-
 //
 bool Account::SetAccountType(std::string type, ReferenceValidationMechanism *r){
 
@@ -431,6 +390,7 @@ bool Account::SetAccountType(std::string type, ReferenceValidationMechanism *r){
     std::stringstream logMessage;
     logMessage << "Updated account " << this->userName << " from type " << this->category << " to " << type << " successfully";
     Log::CreateNewEventLogInDB(logMessage, r);
+    NotifyAccount("your account type was reset", *this);
     return true;
 
 }
@@ -472,6 +432,7 @@ bool Account::ResetLoginAttempts(ReferenceValidationMechanism *r){
     std::stringstream logMessage;
     logMessage << "Reset login attempts for account " << this->userName << " successfully";
     Log::CreateNewEventLogInDB(logMessage, r);
+    NotifyAccount("your login attempts were reset", *this);
     return true;
 
 
@@ -521,7 +482,7 @@ bool Account::RetrieveLinkedDevices(ReferenceValidationMechanism *r){
     if (con == nullptr || !r->CheckAuthorization(2)){
 
         std::stringstream logMessage;
-        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        logMessage << "Attempt to retrieve linked devices on account " << this->userName << " failed";
         Log::CreateNewEventLogInDB(logMessage, r);
         return false;
     }
@@ -546,13 +507,13 @@ bool Account::RetrieveLinkedDevices(ReferenceValidationMechanism *r){
     {
 
         std::stringstream logMessage;
-        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        logMessage << "Attempt to retrieve linked devices on account " << this->userName << " failed";
         Log::CreateNewEventLogInDB(logMessage, r);
         return false;
     }
 
     std::stringstream logMessage;
-    logMessage << "Reset login attempts for account " << this->userName << " successfully";
+    logMessage << "Retrieved linked devices on account " << this->userName << " successfully";
     Log::CreateNewEventLogInDB(logMessage, r);
     return true;
 
@@ -567,7 +528,7 @@ bool Account::ResetPassword(std::string newPass1, std::string newPass2, Referenc
     if (con == nullptr || !r->CheckAuthorization(2)){
 
         std::stringstream logMessage;
-        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        logMessage << "Attempt to reset password on account " << this->userName << " failed";
         Log::CreateNewEventLogInDB(logMessage, r);
         return false;
     }
@@ -581,7 +542,7 @@ bool Account::ResetPassword(std::string newPass1, std::string newPass2, Referenc
          sql::PreparedStatement *pstmt;
         sql::ResultSet *result;
         pstmt = con->prepareStatement("UPDATE Accounts SET Password = ? WHERE UserName = ? AND NetCategory = ?");
-        pstmt->setString(1, newPass1);
+        pstmt->setString(1, ReferenceValidationMechanism::EncryptString(newPass1, 34));
         pstmt->setString(2, this->userName);
         pstmt->setString(3, r->GetAccount().GetAccountCat());
         pstmt->executeQuery();
@@ -592,7 +553,7 @@ bool Account::ResetPassword(std::string newPass1, std::string newPass2, Referenc
     {
 
         std::stringstream logMessage;
-        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        logMessage << "Attempt to reset password on account " << this->userName << " failed";
         Log::CreateNewEventLogInDB(logMessage, r);
         return false;
     }
@@ -600,6 +561,7 @@ bool Account::ResetPassword(std::string newPass1, std::string newPass2, Referenc
     std::stringstream logMessage;
     logMessage << "Reset login attempts for account " << this->userName << " successfully";
     Log::CreateNewEventLogInDB(logMessage, r);
+    NotifyAccount("your password was reset", *this);
     return true;
 
 
@@ -626,6 +588,33 @@ void Account::SendMessageToAdmins(std::string m){
             pstmt->executeQuery();
 
         }
+
+        
+       
+
+
+    }
+    catch (sql::SQLException &e){
+        return;
+    }
+
+}
+
+
+void Account::NotifyAccount(std::string m, Account a){
+
+     auto con = DatabaseConnection::GetSecureConnection("account", "account");
+
+    try{
+
+        sql::PreparedStatement *pstmt;
+        sql::ResultSet *result;
+
+        pstmt = con->prepareStatement("INSERT INTO AccountMessages (Account, Message) VALUES (?, ?)");
+        pstmt->setString(1, a.userName);
+        pstmt->setString(2, m);
+        pstmt->executeQuery();
+
 
         
        

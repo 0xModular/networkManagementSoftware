@@ -1,3 +1,9 @@
+/*
+ * Note.cpp
+ * Created on Oct 31, 2023
+ *
+ * Author: Layne
+ */
 
 #pragma once
 #include <string>

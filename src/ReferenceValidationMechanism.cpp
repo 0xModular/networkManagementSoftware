@@ -2,7 +2,7 @@
  * ReferenceValidationMechanism.cpp
  * Created on: Oct 24, 2023
  *
- * Author:
+ * Author: Layne
  */
 
 #include "ReferenceValidationMechanism.h"
@@ -124,6 +124,7 @@ bool ReferenceValidationMechanism::CheckAuthorization(int level){
 	}
 	else {
 		Account::SendMessageToAdmins("Attempt to use tool not authorized to use made on your network. Review logs for abnormalities");
+		Log::SetNextLogUrgent();
 		return false;	
 	}
     

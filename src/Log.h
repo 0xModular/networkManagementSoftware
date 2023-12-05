@@ -35,15 +35,16 @@ class Log{
 		int GetLogTime();
 		Account GetLogAccount();
 		~Log() noexcept {};
-
-		//wip
+		static void SetNextLogUrgent();
 		static std::vector<Log> ReadAllNetworkLogs(ReferenceValidationMechanism *r);
+		
 
 	private:
 
 		std::string logEvent;
 		int time;
 		Account *user;
+		static bool UrgentNext;
 
 };
 
