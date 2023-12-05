@@ -121,7 +121,7 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
         }
     } 
 	catch (sql::SQLException &e) {
-        delete con; // Close the connection in case of an exception
+
         return -1;  // Return error code
     }
 }

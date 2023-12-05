@@ -226,24 +226,21 @@ bool Log::CreateNewEventLogInDB(std::string event, Account a) {
     if(!pstmt->execute()){
 
         delete pstmt;
-        delete con;
         return true;
     }
     else{
 
         delete pstmt;
-        delete con;
         return false;
     }
 
     } 
 	catch (const sql::SQLException& e) {
 
-        std::cerr << "SQL Exception: ";
+        std::cerr << "SQL Exception in CreateNewEventLogInDB: ";
         std::cerr << "Error code: " << e.getErrorCode() << std::endl;
         std::cerr << "SQL state: " << e.getSQLState() << std::endl;
         std::cerr << "Error message: " << e.what() << std::endl;
-        delete con;
         return false;
     }
 

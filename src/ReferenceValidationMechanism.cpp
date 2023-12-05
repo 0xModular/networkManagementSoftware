@@ -140,7 +140,8 @@ bool ReferenceValidationMechanism::CheckAuthorization(int level){
 
 ReferenceValidationMechanism::ReferenceValidationMechanism(bool b){ //will be removed
 
-	this->activeAccount = new Account("wow", "admin", "wow");
+	std::string s = Network::GatewayMac();
+	this->activeAccount = new Account("t1", "admin", s);
 
 
 }

@@ -124,10 +124,10 @@ void Network::GetGeneralNetworkDetails(){
 //upload device list
 bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
-	auto con = DatabaseConnection::GetSecureConnection("netdevices", "netdevices");
+	auto con = DatabaseConnection::GetSecureConnection("network", "network");
 
     if (con == nullptr || !r->CheckAuthorization(1)){
-		delete con;
+
 		Log::CreateNewEventLogInDB("Attempt to upload all devices from current network failed", r);
 	    return false; 
 	}
@@ -136,8 +136,11 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
 		sql::PreparedStatement *pstmt;
 		sql::ResultSet *res;
+		sql::ResultSet *res2;
 
 	    for (Device d: this->deviceList) {
+
+			std::cout << "here1";
 
             // Check if the object with the given ID already exists
             
@@ -145,14 +148,22 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
             pstmt->setString(1, d.GetMac());
             res = pstmt->executeQuery();
 
-            if (res->next()) {
+			//check that this device is on this network
+			pstmt = con->prepareStatement("SELECT Category FROM DeviceNetworks WHERE DeviceMac = ? AND Category = ?");
+            pstmt->setString(1, d.GetMac());
+			pstmt->setString(2, r->GetAccount().GetAccountCat());
+            res2 = pstmt->executeQuery();
+
+            if (res->next() && res2->next()) {
                 // If the object exists, update its values
-                pstmt = con->prepareStatement("UPDATE Devices SET PositionX = ?, PositionY = ?, Ipv4 = ?, DeviceName = ?, Wired = ? WHERE id = ?");
+
+                pstmt = con->prepareStatement("UPDATE Devices SET PositionX = ?, PositionY = ?, Ipv4 = ?, DeviceName = ?, Wired = ? WHERE MacAddress = ?");
                 pstmt->setInt(1, d.GetX());
                 pstmt->setInt(2, d.GetY());
 				pstmt->setString(3, d.GetIpv4());
 				pstmt->setString(4, d.GetName());
 				pstmt->setBoolean(5, d.GetWired());
+				pstmt->setString(6, d.GetMac());
                 pstmt->executeUpdate();
             } else {
                 // If the object doesn't exist, insert a new row
@@ -163,7 +174,6 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 				pstmt->setString(4, d.GetIpv4());
 				pstmt->setString(5, d.GetName());
 				pstmt->setBoolean(6, d.GetWired());
-				pstmt->setString(7, r->GetAccount().GetAccountCat());
                 pstmt->executeUpdate();
 
 
@@ -185,6 +195,12 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
         
     } 
 	catch (sql::SQLException &e) {
+
+		std::cerr << "SQL Exception: ";
+        std::cerr << "Error code: " << e.getErrorCode() << std::endl;
+        std::cerr << "SQL state: " << e.getSQLState() << std::endl;
+        std::cerr << "Error message: " << e.what() << std::endl;
+
 	    Log::CreateNewEventLogInDB("Attempt to upload all devices from current network failed", r);
 		return false; 
     
