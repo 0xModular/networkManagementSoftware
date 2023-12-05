@@ -136,59 +136,43 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 
 		sql::PreparedStatement *pstmt;
 		sql::ResultSet *res;
-		sql::ResultSet *res2;
 
 	    for (Device d: this->deviceList) {
 
-			std::cout << "here1";
-
             // Check if the object with the given ID already exists
             
-			pstmt = con->prepareStatement("SELECT MacAddress FROM Devices WHERE MacAddress = ?");
-            pstmt->setString(1, d.GetMac());
-            res = pstmt->executeQuery();
-
-			//check that this device is on this network
-			pstmt = con->prepareStatement("SELECT Category FROM DeviceNetworks WHERE DeviceMac = ? AND Category = ?");
+			pstmt = con->prepareStatement("SELECT MacAddress FROM Devices WHERE MacAddress = ? AND Network = ?");
             pstmt->setString(1, d.GetMac());
 			pstmt->setString(2, r->GetAccount().GetAccountCat());
-            res2 = pstmt->executeQuery();
+            res = pstmt->executeQuery();
 
-            if (res->next() && res2->next()) {
+            if (res->next()) {
                 // If the object exists, update its values
 
-                pstmt = con->prepareStatement("UPDATE Devices SET PositionX = ?, PositionY = ?, Ipv4 = ?, DeviceName = ?, Wired = ? WHERE MacAddress = ?");
+                pstmt = con->prepareStatement("UPDATE Devices SET PositionX = ?, PositionY = ?, Ipv4 = ?, DeviceName = ?, Wired = ? WHERE MacAddress = ? AND Network = ?");
                 pstmt->setInt(1, d.GetX());
                 pstmt->setInt(2, d.GetY());
 				pstmt->setString(3, d.GetIpv4());
 				pstmt->setString(4, d.GetName());
 				pstmt->setBoolean(5, d.GetWired());
 				pstmt->setString(6, d.GetMac());
+				pstmt->setString(7, r->GetAccount().GetAccountCat());
                 pstmt->executeUpdate();
             } else {
                 // If the object doesn't exist, insert a new row
-                pstmt = con->prepareStatement("INSERT INTO Devices (MacAddress, PositionX, PositionY, Ipv4, DeviceName, Wired) VALUES (?, ?, ?, ?, ?, ?)");
+                pstmt = con->prepareStatement("INSERT INTO Devices (MacAddress, PositionX, PositionY, Ipv4, DeviceName, Wired, Network) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 pstmt->setString(1, d.GetMac());
 				pstmt->setInt(2, d.GetX());
 				pstmt->setInt(3, d.GetY());
 				pstmt->setString(4, d.GetIpv4());
 				pstmt->setString(5, d.GetName());
 				pstmt->setBoolean(6, d.GetWired());
+				pstmt->setString(7, r->GetAccount().GetAccountCat());
                 pstmt->executeUpdate();
 
 
             }
-				pstmt = con->prepareStatement("SELECT * FROM DeviceNetworks WHERE DeviceMac = ? AND Category = ?");
-				pstmt->setString(1, d.GetMac());
-				pstmt->setString(2, r->GetAccount().GetAccountCat());
-                res = pstmt->executeQuery();
 
-				if(!res->next()){
-					pstmt = con->prepareStatement("INSERT INTO DeviceNetworks (DeviceMac, Category) VALUES (?, ?)");
-					pstmt->setString(1, d.GetMac());
-					pstmt->setString(2, r->GetAccount().GetAccountCat());
-                	pstmt->executeUpdate();
-				}
 
         }
 
@@ -270,7 +254,7 @@ bool Network::RetrieveAllDevicesFromDB(ReferenceValidationMechanism *r){
 		sql::PreparedStatement *pstmt;
 		sql::ResultSet *res;
 
-			pstmt = con->prepareStatement("SELECT DeviceMac FROM DeviceNetworks WHERE Category = ?");
+			pstmt = con->prepareStatement("SELECT MacAddress FROM Devices WHERE Network = ?");
             pstmt->setString(1, r->GetAccount().GetAccountCat());
             res = pstmt->executeQuery();
 
@@ -278,10 +262,11 @@ bool Network::RetrieveAllDevicesFromDB(ReferenceValidationMechanism *r){
             while (res->next()) {
                 
 				exists = false;
-                std::string mac = res->getString("DeviceMac");
+                std::string mac = res->getString("MacAddress");
 
-				std::string query = "SELECT MacAddress, PositionX, PositionY, Ipv4, DeviceName, Wired WHERE MacAddress = ?";
+				std::string query = "SELECT MacAddress, PositionX, PositionY, Ipv4, DeviceName, Wired WHERE MacAddress = ? AND Network = ?";
             	pstmt->setString(1, mac);
+				pstmt->setString(2, r->GetAccount().GetAccountCat());
 				res = pstmt->executeQuery();
                 
 				for(Device &d: this->deviceList){
@@ -325,7 +310,7 @@ bool Network::enterNewNoteToList(std::string message, int x, int y, ReferenceVal
 //new note
 bool Network::enterNewNoteToList(Note n, ReferenceValidationMechanism *r){
 
-	auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
+	auto con = DatabaseConnection::GetSecureConnection("network", "network");
 
     if (con == nullptr || !r->CheckAuthorization(1)){
 
@@ -416,7 +401,7 @@ bool Network::removeNote(Note n, ReferenceValidationMechanism *r){
 
 bool Network::RetrieveAllNotesFromDB(ReferenceValidationMechanism *r){
 
-	auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
+	auto con = DatabaseConnection::GetSecureConnection("network", "network");
 
     if (con == nullptr || !r->CheckAuthorization(1)){
 
@@ -462,6 +447,53 @@ bool Network::RetrieveAllNotesFromDB(ReferenceValidationMechanism *r){
 
 }
 
+
+
+bool Network::RemoveDevice(Device d, ReferenceValidationMechanism *r){
+
+	auto con = DatabaseConnection::GetSecureConnection("network", "network");
+
+    if (con == nullptr || !r->CheckAuthorization(1)){
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+        return false;
+	}
+
+    try {
+
+		sql::PreparedStatement *pstmt;
+		sql::ResultSet *res;
+
+		pstmt = con->prepareStatement("DELETE FROM Devices WHERE MacAddress = ? AND Network = ?");
+        pstmt->setString(1, d.GetMac());
+		pstmt->setString(2, r->GetAccount().GetAccountCat());
+        res = pstmt->executeQuery();
+
+
+		int i = 0;
+		for(Device existingDevice: this->deviceList){
+			if(existingDevice.GetMac().compare(d.GetMac()) == 0){
+				std::vector<Note>::iterator itr = this->noteList.begin();
+				advance(itr, i);
+				this->noteList.erase(itr);
+				break;
+			}
+			i++;
+		}
+		
+    }
+	catch (sql::SQLException& e) {
+    std::stringstream logMessage;
+    logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
+    Log::CreateNewEventLogInDB(logMessage, r);
+	return false;
+	}
+
+	return true;
+	
+}
 
 
 Network::~Network(){

@@ -40,15 +40,14 @@ class Network{
 
 		//interact with database for devices
 		bool UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r);
+		bool AddNewDevice(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, ReferenceValidationMechanism *r); //finish
+		bool RemoveDevice(Device d, ReferenceValidationMechanism *r); //finish
 		
 		//interact with database for notes
 		bool enterNewNoteToList(Note n, ReferenceValidationMechanism *r);
 		bool enterNewNoteToList(std::string message, int x, int y, ReferenceValidationMechanism *r); //finish log message
 		bool removeNote(Note n, ReferenceValidationMechanism *r); //finish log message
 		bool RetrieveAllNotesFromDB(ReferenceValidationMechanism *r); //finish log message
-		bool AddNewNote(std::string message, int x, int y, ReferenceValidationMechanism *r); //finish
-		bool AddNewDevice(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, ReferenceValidationMechanism *r); //finish
-		bool RemoveDevice(Device d, ReferenceValidationMechanism *r); //finish
 
 		//used for login. Dont worry about it. Use the normal getter
 		static std::string GatewayMac();
@@ -68,6 +67,7 @@ class Network{
 
 		//members
 		std::string defaultDNS;
+		std::string subnetMask;
 		std::vector<Device> deviceList;
 		std::vector<Note> noteList;
 		Device *gateway;

@@ -43,6 +43,11 @@ class Account{
 		bool LinkDevice(Device d, ReferenceValidationMechanism *r); //link device d to this account. Returns success or not. Sends notification to account
 		bool UnlinkDevice(Device d, ReferenceValidationMechanism *r); //unlink device d from this account. Returns success or not. Sends notification to account
 		bool SetAccountType(std::string type, ReferenceValidationMechanism *r); //used to set accounts with type "none" to their roles. Returns success or not.
+		bool EditAccountName(std::string newName, ReferenceValidationMechanism *r); //change the username of an account. Returns success or not.
+		bool ResetLoginAttempts(ReferenceValidationMechanism *r);
+		std::vector<std::string> RetrieveAccountMessages(ReferenceValidationMechanism *r);
+		bool RetrieveLinkedDevices(ReferenceValidationMechanism *r);
+		bool ResetPassword(std::string newPass1, std::string newPass2, ReferenceValidationMechanism *r); 
 
 
 		//getters
@@ -52,14 +57,9 @@ class Account{
 		std::vector<Device> GetLinkedDeviceVec();
 
 		//other
-		bool EditAccountName(std::string newName, ReferenceValidationMechanism *r); //change the username of an account. Returns success or not.
+		static void SendMessageToAdmins(std::string m);
 
 
-		//wip
-		bool ResetLoginAttempts(ReferenceValidationMechanism *r);
-		bool ResetPassword(std::string newPass1, std::string newPass2, ReferenceValidationMechanism *r); 
-		bool RetrieveLinkedDevices(ReferenceValidationMechanism *r);
-		bool RetrieveAccountMessages(ReferenceValidationMechanism *r);
 
 	private:
 

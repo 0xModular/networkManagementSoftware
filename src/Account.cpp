@@ -209,7 +209,7 @@ bool Account::UnlinkDevice(Device d, ReferenceValidationMechanism *r)
         pstmt->setString(1, "");
         pstmt->setString(2, this->userName);
         pstmt->setString(3, d.GetMac());
-        pstmt->execute();
+        pstmt->executeQuery();
     }
     catch (sql::SQLException &e)
     {
@@ -373,6 +373,7 @@ bool Account::NotifyAccount(std::string message, Account a, ReferenceValidationM
         pstmt = con->prepareStatement("INSERT INTO AccountMessages (Account, message) VALUES (?, ?)");
         pstmt->setString(1, a.GetAccountName());
         pstmt->setString(2, message);
+        pstmt->executeQuery();
     }
     catch (sql::SQLException &e)
     {
@@ -415,6 +416,7 @@ bool Account::SetAccountType(std::string type, ReferenceValidationMechanism *r){
         pstmt->setString(2, this->userName);
         pstmt->setString(3, r->GetAccount().GetAccountCat());
         pstmt->setString(4, "admin");
+        pstmt->executeQuery();
 
     }
     catch (sql::SQLException &e)
@@ -430,6 +432,209 @@ bool Account::SetAccountType(std::string type, ReferenceValidationMechanism *r){
     logMessage << "Updated account " << this->userName << " from type " << this->category << " to " << type << " successfully";
     Log::CreateNewEventLogInDB(logMessage, r);
     return true;
+
+}
+
+
+bool Account::ResetLoginAttempts(ReferenceValidationMechanism *r){
+
+    auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
+
+    if (con == nullptr || !r->CheckAuthorization(2)){
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+        return false;
+    }
+
+    try
+    {
+
+        sql::PreparedStatement *pstmt;
+        sql::ResultSet *result;
+        pstmt = con->prepareStatement("UPDATE Accounts SET LoginAttempts = ? WHERE UserName = ? AND NetCategory = ?");
+        pstmt->setInt(1, 0);
+        pstmt->setString(2, this->userName);
+        pstmt->setString(3, r->GetAccount().GetAccountCat());
+        pstmt->executeQuery();
+
+    }
+    catch (sql::SQLException &e)
+    {
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+        return false;
+    }
+
+    std::stringstream logMessage;
+    logMessage << "Reset login attempts for account " << this->userName << " successfully";
+    Log::CreateNewEventLogInDB(logMessage, r);
+    return true;
+
+
+}
+
+
+std::vector<std::string> Account::RetrieveAccountMessages(ReferenceValidationMechanism *r){
+
+    auto con = DatabaseConnection::GetSecureConnection("account", "account");
+
+    std::vector<std::string> temp;
+
+    if (con == nullptr){
+        return temp;
+    }
+
+    try
+    {
+
+        sql::PreparedStatement *pstmt;
+        sql::ResultSet *result;
+        pstmt = con->prepareStatement("SELECT Message FROM AccountMessages WHERE Account = ?");
+        pstmt->setString(1, this->userName);
+        sql::ResultSet *res = pstmt->executeQuery();
+
+        while(res->next()){
+            std::string m = res->getString("Message");
+            temp.push_back(m);
+        }
+
+    }
+    catch (sql::SQLException &e)
+    {
+        temp.clear();
+        return temp;
+    }
+
+    return temp;
+
+}
+
+
+bool Account::RetrieveLinkedDevices(ReferenceValidationMechanism *r){
+
+    auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
+
+    if (con == nullptr || !r->CheckAuthorization(2)){
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+        return false;
+    }
+
+    try
+    {
+
+        sql::PreparedStatement *pstmt;
+        sql::ResultSet *result;
+        pstmt = con->prepareStatement("SELECT * FROM Devices WHERE LinkedAccount = ? AND Network = ?");
+        pstmt->setString(1, this->userName);
+        pstmt->setString(2, r->GetAccount().GetAccountCat());
+        sql::ResultSet *res = pstmt->executeQuery();
+
+        while(res->next()){
+            Device d(res->getString("MacAddress"), res->getString("Ipv4"), res->getBoolean("Wired"), res->getString("DeviceName"), res->getInt("PositionX"), res->getInt("PositionY"), false);
+            this->linkedDevices.push_back(d);
+        }
+
+    }
+    catch (sql::SQLException &e)
+    {
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+        return false;
+    }
+
+    std::stringstream logMessage;
+    logMessage << "Reset login attempts for account " << this->userName << " successfully";
+    Log::CreateNewEventLogInDB(logMessage, r);
+    return true;
+
+
+}
+
+
+bool Account::ResetPassword(std::string newPass1, std::string newPass2, ReferenceValidationMechanism *r){
+
+    auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
+
+    if (con == nullptr || !r->CheckAuthorization(2)){
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+        return false;
+    }
+
+    if(newPass1.compare(newPass2) != 0)
+        return false;
+
+    try
+    {
+
+         sql::PreparedStatement *pstmt;
+        sql::ResultSet *result;
+        pstmt = con->prepareStatement("UPDATE Accounts SET Password = ? WHERE UserName = ? AND NetCategory = ?");
+        pstmt->setString(1, newPass1);
+        pstmt->setString(2, this->userName);
+        pstmt->setString(3, r->GetAccount().GetAccountCat());
+        pstmt->executeQuery();
+
+
+    }
+    catch (sql::SQLException &e)
+    {
+
+        std::stringstream logMessage;
+        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        Log::CreateNewEventLogInDB(logMessage, r);
+        return false;
+    }
+
+    std::stringstream logMessage;
+    logMessage << "Reset login attempts for account " << this->userName << " successfully";
+    Log::CreateNewEventLogInDB(logMessage, r);
+    return true;
+
+
+}
+
+
+void Account::SendMessageToAdmins(std::string m){
+
+     auto con = DatabaseConnection::GetSecureConnection("account", "account");
+
+    try{
+
+        sql::PreparedStatement *pstmt;
+        sql::ResultSet *result;
+        pstmt = con->prepareStatement("SELECT UserName FROM Accounts WHERE Network = ?");
+        pstmt->setString(1, Network::GatewayMac());
+        sql::ResultSet *res = pstmt->executeQuery();
+
+        while(res->next()){
+
+            pstmt = con->prepareStatement("INSERT INTO AccountMessages (Account, Message) VALUES (?, ?)");
+            pstmt->setString(1, res->getString("UserName"));
+            pstmt->setString(2, m);
+            pstmt->executeQuery();
+
+        }
+
+        
+       
+
+
+    }
+    catch (sql::SQLException &e){
+        return;
+    }
 
 }
 

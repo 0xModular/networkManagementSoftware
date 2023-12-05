@@ -26,7 +26,7 @@ CREATE TABLE `Accounts` (
 CREATE TABLE `AccountMessages` (
   `messageID` int NOT NULL AUTO_INCREMENT,
   `Account` varchar(255) NOT NULL,
-  `message` varchar(8191) NOT NULL,
+  `Message` varchar(8191) NOT NULL,
   PRIMARY KEY (`messageID`),
   KEY `Account` (`Account`),
   CONSTRAINT `AccountMessages_ibfk_1` FOREIGN KEY (`Account`) REFERENCES `Accounts` (`UserName`)
@@ -40,29 +40,22 @@ CREATE TABLE `Devices` (
   `Ipv4` varchar(255) DEFAULT NULL,
   `DeviceName` varchar(255) DEFAULT NULL,
   `Wired` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`MacAddress`),
+  `GenericDeviceId` int NOT NULL AUTO_INCREMENT,
+  `Network` varchar(20) NOT NULL,
+  PRIMARY KEY (`GenericDeviceId`),
   KEY `LinkedAccount` (`LinkedAccount`),
-  CONSTRAINT `Devices_ibfk_1` FOREIGN KEY (`LinkedAccount`) REFERENCES `Accounts` (`UserName`)
-);
-
-CREATE TABLE `DeviceNetworks` (
-  `CategoryNum` int NOT NULL AUTO_INCREMENT,
-  `Category` varchar(20) NOT NULL,
-  `DeviceMac` varchar(20) NOT NULL,
-  PRIMARY KEY (`CategoryNum`),
-  KEY `AccountNetworkCategories_ibfk_1_idx` (`DeviceMac`),
-  KEY `fk_DeviceNetworks_1_idx` (`Category`),
-  CONSTRAINT `DeviceNetworks_ibfk_1` FOREIGN KEY (`DeviceMac`) REFERENCES `Devices` (`MacAddress`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_DeviceNetworks_1` FOREIGN KEY (`Category`) REFERENCES `Network` (`GatewayMac`)
-); 
+  KEY `fk_Devices_1_idx` (`Network`),
+  CONSTRAINT `Devices_ibfk_1` FOREIGN KEY (`LinkedAccount`) REFERENCES `Accounts` (`UserName`),
+  CONSTRAINT `fk_Devices_1` FOREIGN KEY (`Network`) REFERENCES `Network` (`GatewayMac`)
+) 
 
 CREATE TABLE `DevicePrivacyFlags` (
   `FlagNum` varchar(255) NOT NULL,
-  `Device` varchar(12) NOT NULL,
+  `Device` int NOT NULL,
   `Flag` varchar(63) NOT NULL,
   PRIMARY KEY (`FlagNum`),
   KEY `Device` (`Device`),
-  CONSTRAINT `DevicePrivacyFlags_ibfk_1` FOREIGN KEY (`Device`) REFERENCES `Devices` (`MacAddress`)
+  CONSTRAINT `DevicePrivacyFlags_ibfk_1` FOREIGN KEY (`Device`) REFERENCES `Devices` (`GenericDeviceId`)
 ); 
 
 CREATE TABLE `Logs` (
@@ -97,6 +90,7 @@ INSERT INTO Accounts (UserName, Type, Password, NetCategory, LoginAttempts) VALU
 CREATE USER 'account'@'localhost' IDENTIFIED BY 'account';
 GRANT INSERT, SELECT ON test1.Accounts TO 'account'@'localhost';
 GRANT INSERT, SELECT ON test1.Network TO 'account'@'localhost';
+GRANT INSERT, SELECT ON test1.AccountMessages TO 'account'@'localhost';
 FLUSH PRIVILEGES;
 
 
@@ -108,7 +102,7 @@ FLUSH PRIVILEGES;
 CREATE USER 'netadmin'@'localhost' IDENTIFIED BY 'netadmin';
 GRANT INSERT ON test1.AccountMessages TO 'netadmin'@'localhost';
 GRANT UPDATE, SELECT, DELETE ON test1.Accounts TO 'netadmin'@'localhost';
-GRANT UPDATE ON test1.Devices TO 'netadmin'@'localhost';
+GRANT UPDATE, SELECT ON test1.Devices TO 'netadmin'@'localhost';
 GRANT SELECT ON test1.Logs TO 'netadmin'@'localhost';
 FLUSH PRIVILEGES;
 
