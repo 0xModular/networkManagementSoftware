@@ -31,8 +31,8 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
 
     //check if connection is established
     if (con == nullptr){
-		delete con;
-        return -1;
+		this->errorCode = -1;
+        return this->errorCode;
 	}
     
     try {
@@ -48,8 +48,8 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
         if (!res->next()) {
             delete res;
             delete prep_stmt;
-            delete con;
-            return 1;
+            this->errorCode = 1;
+            return this->errorCode;
         } 
         else {
 
@@ -58,8 +58,8 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
             if (loginAttempts > 10) {
                 delete res;
                 delete prep_stmt;
-                delete con;
-                return 3;
+                this->errorCode = 3;
+                return this->errorCode;
             }
 
             //increment LoginAttempts
@@ -78,8 +78,8 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
 
                 delete res;
                 delete prep_stmt;
-                delete con;
-                return 2;
+                this->errorCode = 2;
+                return this->errorCode;
             } 
             else {
 
@@ -91,16 +91,16 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
 
                     delete res;
                     delete prep_stmt;
-                    delete con;
-                    return -1;
+                    this->errorCode = -1;
+                    return this->errorCode;
                 }
                 //check if connected to correct local network
                 else if(Network::GatewayMac().compare(network) != 0){
 
                     delete res;
                     delete prep_stmt;
-                    delete con;
-                    return 5;
+                    this->errorCode = 5;
+                    return this->errorCode;
                 }
 
                 //success \/\/\/
@@ -115,8 +115,8 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
 
                 delete res;
                 delete prep_stmt;
-                delete con;
-                return 0; //return success
+                this->errorCode = 0;
+                return this->errorCode; //return success
             }
         }
     } 

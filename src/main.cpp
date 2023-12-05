@@ -5,6 +5,8 @@
  * Author:
  */
 
+//This program is a fucking monstrosity
+
 #include "GUI.h"
 
 wxIMPLEMENT_APP(App);

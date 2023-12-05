@@ -1,3 +1,10 @@
+/*
+ * Note.h
+ * Created on Oct 31, 2023
+ *
+ * Author: Layne
+ */
+
 
 #include "Note.h"
 

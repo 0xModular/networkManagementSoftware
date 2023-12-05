@@ -1,4 +1,4 @@
--- Author: Layne Burkhead
+-- Author: Layne 
 
 -- Copy and paste all this code and execute it on a fresh sql server to completly set it up for use with the network managment software
 -- As long as you execute all this code in order you shouldn't need to do any other setup on the sql server

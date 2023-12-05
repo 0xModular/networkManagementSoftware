@@ -2,7 +2,7 @@
  * Device.cpp
  * Created on: Oct 24, 2023
  *
- * Author:
+ * Author: Layne
  */
 
 
@@ -461,27 +461,30 @@ bool SeeIfDeviceIsRunningBackgroundProcess(){
 }
 
 //function that handles socket and security for all communication with end device
-std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory){
+std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::string networkCategory) {
+    const int port = 12345;
+    const int timeoutSeconds = 4;  // Timeout in seconds
 
-    //message = new std::string(ReferenceValidationMechanism::encryptString(*message, 3));
-	const int port = 12345;
-
-	 // Create a socket
+    // Create a socket
     int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
         return "error";
     }
 
-	std::cerr << this->localIpv4;
     // Set up server address and port
     struct sockaddr_in serverAddr;
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(port);  // Use the same port as the server
-    serverAddr.sin_addr.s_addr = inet_addr(this->localIpv4.c_str());  // Use the server's IP address
+    serverAddr.sin_port = htons(port);
+    serverAddr.sin_addr.s_addr = inet_addr(this->localIpv4.c_str());
+
+    // Set the receive timeout
+    struct timeval timeout;
+    timeout.tv_sec = timeoutSeconds;
+    timeout.tv_usec = 0;
+    setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
 
     // Connect to the server
     if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
-        //std::cerr << "Error connecting to the server" << std::endl;
         close(clientSocket);
         return "error";
     }
@@ -489,28 +492,24 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::
     std::cout << "Connected to the server" << std::endl;
 
     // Send data to the server
-    std::string toSend = ReferenceValidationMechanism::EncryptString(std::to_string(NewRandomNumber()) + " " + networyCategory + " " + message, 29);
+    std::string toSend = std::to_string(NewRandomNumber()) + " " + networkCategory + " " + message;
+    toSend = ReferenceValidationMechanism::EncryptString(toSend, 29);
     send(clientSocket, toSend.c_str(), strlen(toSend.c_str()), 0);
+
     // Receive and display the echoed data
     char buffer[10000];
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     std::string response;
     std::cout << "bread " << bytesRead << "\n";
     if (bytesRead > 0) {
-    	response.assign(buffer, bytesRead);
+        response.assign(buffer, bytesRead);
         response = ReferenceValidationMechanism::DecryptString(response, 29);
         close(clientSocket);
         std::cout << "m: " << response << "\n";
         return response;
-    }
-    else{
+    } else {
         close(clientSocket);
         return "error";
     }
-
-    close(clientSocket);
-    return "error";
- 
 }
-
 	

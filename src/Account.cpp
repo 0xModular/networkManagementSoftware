@@ -357,10 +357,6 @@ bool Account::NotifyAccount(std::string message, Account a, ReferenceValidationM
     auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
 
     if (con == nullptr){
-
-        std::stringstream logMessage;
-        logMessage << "Attempt to delete account " << this->userName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
         return false;
     }
 
@@ -375,19 +371,9 @@ bool Account::NotifyAccount(std::string message, Account a, ReferenceValidationM
         pstmt->setString(2, message);
         pstmt->executeQuery();
     }
-    catch (sql::SQLException &e)
-    {
-
-        std::stringstream logMessage;
-        logMessage << "Attempt to delete account " << this->userName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+    catch (sql::SQLException &e){
         return false;
     }
-
-    std::stringstream logMessage;
-    logMessage << "Account " << this->userName << " succesfully deleted";
-    if (!Log::CreateNewEventLogInDB(logMessage, r))
-        return false; // if log fails then this function fails
 
     return true;
 }
@@ -521,7 +507,7 @@ bool Account::RetrieveLinkedDevices(ReferenceValidationMechanism *r){
     if (con == nullptr || !r->CheckAuthorization(2)){
 
         std::stringstream logMessage;
-        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        logMessage << "Attempt to retrieve linked devices on account " << this->userName << " failed";
         Log::CreateNewEventLogInDB(logMessage, r);
         return false;
     }
@@ -546,13 +532,13 @@ bool Account::RetrieveLinkedDevices(ReferenceValidationMechanism *r){
     {
 
         std::stringstream logMessage;
-        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        logMessage << "Attempt to retrieve linked devices on account " << this->userName << " failed";
         Log::CreateNewEventLogInDB(logMessage, r);
         return false;
     }
 
     std::stringstream logMessage;
-    logMessage << "Reset login attempts for account " << this->userName << " successfully";
+    logMessage << "Retrieved linked devices on account " << this->userName << " successfully";
     Log::CreateNewEventLogInDB(logMessage, r);
     return true;
 
@@ -567,7 +553,7 @@ bool Account::ResetPassword(std::string newPass1, std::string newPass2, Referenc
     if (con == nullptr || !r->CheckAuthorization(2)){
 
         std::stringstream logMessage;
-        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        logMessage << "Attempt to reset password on account " << this->userName << " failed";
         Log::CreateNewEventLogInDB(logMessage, r);
         return false;
     }
@@ -581,7 +567,7 @@ bool Account::ResetPassword(std::string newPass1, std::string newPass2, Referenc
          sql::PreparedStatement *pstmt;
         sql::ResultSet *result;
         pstmt = con->prepareStatement("UPDATE Accounts SET Password = ? WHERE UserName = ? AND NetCategory = ?");
-        pstmt->setString(1, newPass1);
+        pstmt->setString(1, ReferenceValidationMechanism::EncryptString(newPass1, 34));
         pstmt->setString(2, this->userName);
         pstmt->setString(3, r->GetAccount().GetAccountCat());
         pstmt->executeQuery();
@@ -592,7 +578,7 @@ bool Account::ResetPassword(std::string newPass1, std::string newPass2, Referenc
     {
 
         std::stringstream logMessage;
-        logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
+        logMessage << "Attempt to reset password on account " << this->userName << " failed";
         Log::CreateNewEventLogInDB(logMessage, r);
         return false;
     }
