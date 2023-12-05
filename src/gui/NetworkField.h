@@ -33,9 +33,8 @@ class NetworkField : public wxWindow {
 		int mode;
 
 		inline static const int SELECTION_MODE = 0; //Default
-                inline static const int ADD_DEVICE_MODE = 1;
-                inline static const int TEST_CONNECTION_MODE = 2;
-               	inline static const int ADD_NOTE_MODE = 3;
+                inline static const int TEST_CONNECTION_MODE = 1;
+               	inline static const int ADD_NOTE_MODE = 2;
 		
 
 

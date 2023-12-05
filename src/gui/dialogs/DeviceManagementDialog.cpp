@@ -83,10 +83,12 @@ void DeviceManagementDialog::CreateControls() {
 
 	this->refresh = new wxButton(this, this->ID_REFRESH, _T("Refresh"));
 	this->edit = new wxButton(this, this->ID_EDIT, _T("Edit Selected Device"));
+	this->add = new wxButton(this, this->ID_ADD, _T("Add Device"));
 	this->close = new wxButton(this, wxID_CANCEL, _T("Close"));
 
 	horizontalSizer->Add(this->refresh, 0, wxRIGHT, 0);
 	horizontalSizer->Add(this->edit, 0, wxRIGHT, 0);
+	horizontalSizer->Add(this->add, 0, wxRIGHT, 0);
 	horizontalSizer->Add(this->close, 0, wxRIGHT, 0);
 	
 	mainSizer->Add(horizontalSizer, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10);
@@ -108,6 +110,7 @@ void DeviceManagementDialog::ConnectControls() {
 	this->refresh->Bind(wxEVT_BUTTON, &DeviceManagementDialog::OnRefresh, this);
 	this->close->Bind(wxEVT_BUTTON, &DeviceManagementDialog::OnClose, this);
 	this->edit->Bind(wxEVT_BUTTON, &DeviceManagementDialog::OnEdit, this);
+	this->add->Bind(wxEVT_BUTTON, &DeviceManagementDialog::OnAdd, this);
 
 }
 
@@ -155,6 +158,12 @@ void DeviceManagementDialog::OnClose(wxCommandEvent & event) {
 }
 
 void DeviceManagementDialog::OnEdit(wxCommandEvent & event) {
+
+
+
+}
+
+void DeviceManagementDialog::OnAdd(wxCommandEvent & event) {
 
 
 

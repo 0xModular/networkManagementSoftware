@@ -94,13 +94,11 @@ class MainFrame : public wxFrame {
 
 		//--TOOLBAR IDS--//
 		inline static const int ID_SELECT = 7;
-		inline static const int ID_ADDDEVICE = 8;
-		inline static const int ID_TESTCONNECTION = 9;
-		inline static const int ID_NOTE = 10;
-	
-		inline static const int ID_ZOOMIN = 11;
-		inline static const int ID_ZOOMOUT = 12;
-		inline static const int ID_RESETZOOM = 13;
+		inline static const int ID_TESTCONNECTION = 8;
+		inline static const int ID_NOTE = 9;
+		inline static const int ID_ZOOMIN = 10;
+		inline static const int ID_ZOOMOUT = 11;
+		inline static const int ID_RESETZOOM = 12;
 
 		
 		//--TOOLBAR EVENTS--//
@@ -108,7 +106,6 @@ class MainFrame : public wxFrame {
 
                 //---Modes---//
                 void OnSelectionMode(wxCommandEvent & event); //Default Mode of the Program, allows you to select devices
-                void OnAddDeviceMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field prompts Device Addition Menu
                 void OnTestingMode(wxCommandEvent & event); //When in this mode, user selects one device, then another, which triggers tests, where results are shown in Testing Suite Window
                 void OnPlaceNoteMode(wxCommandEvent & event); //When in this mode, clicking on the Network Field add a text note
 
@@ -119,9 +116,8 @@ class MainFrame : public wxFrame {
 
                 //---ToolBar Mode IDs---//
                 inline static const int SELECTION_MODE = 0;
-                inline static const int ADD_DEVICE_MODE = 1;
-                inline static const int TEST_CONNECTION_MODE = 2;
-                inline static const int ADD_NOTE_MODE = 3;
+                inline static const int TEST_CONNECTION_MODE = 1;
+                inline static const int ADD_NOTE_MODE = 2;
 
 
 

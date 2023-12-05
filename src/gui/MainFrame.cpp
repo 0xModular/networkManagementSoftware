@@ -115,7 +115,6 @@ void MainFrame::CreateToolBar() {
 
 	//Create Toolbar Items
         auto tb_SetSelectionMode = this->tb->AddCheckTool(this->ID_SELECT, "Select", *TB_SELECT, wxNullBitmap, "Selection Mode"); //Cursor is in Select Mode
-        auto tb_SetAddDeviceMode = this->tb->AddCheckTool(this->ID_ADDDEVICE, "Add Device", *TB_ADD_DEVICE, wxNullBitmap, "Add Device"); //Cursor will Add Device when clicking on Network Field - Restricted to Network Admin
         auto tb_SetTestConnectionMode = this->tb->AddCheckTool(this->ID_TESTCONNECTION, "Test Connection", *TB_TEST_CONNECTION, wxNullBitmap, "Test Connection"); //Cursor will Select Two Devices to Test
         auto tb_SetAddNoteMode = this->tb->AddCheckTool(this->ID_NOTE, "Place Note", *TB_ADD_NOTE, wxNullBitmap, "Add Note"); //Cursor will Place Note when clicking on Network Field
 
@@ -176,7 +175,6 @@ void MainFrame::BindMainMenu() {
 void MainFrame::BindToolBar() {
 
 	this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnSelectionMode, this, this->ID_SELECT);
-        this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnAddDeviceMode, this, this->ID_ADDDEVICE);
         this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnTestingMode, this, this->ID_TESTCONNECTION);
         this->tb->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnPlaceNoteMode, this, this->ID_NOTE);
 
@@ -270,9 +268,6 @@ void MainFrame::OnSelectionMode(wxCommandEvent & event) {
 	if (this-tb->GetToolEnabled(this->ID_SELECT)) { //If Current Tool Is Toggled
 		
 		//Fix Other Buttons
-		if (this->tb->GetToolEnabled(this->ID_ADDDEVICE))
-			this->tb->ToggleTool(this->ID_ADDDEVICE, false);
-
 		if (this-tb->GetToolEnabled(this->ID_TESTCONNECTION))
 			this->tb->ToggleTool(this->ID_TESTCONNECTION, false);
 
@@ -297,46 +292,11 @@ void MainFrame::OnSelectionMode(wxCommandEvent & event) {
 
 }
                 
-void MainFrame::OnAddDeviceMode(wxCommandEvent & event) {
-	
-        if (this-tb->GetToolEnabled(this->ID_ADDDEVICE)) { //If Current Tool Is Toggled
-
-                //Fix Other Buttons
-                if (this->tb->GetToolEnabled(this->ID_SELECT))
-                        this->tb->ToggleTool(this->ID_SELECT, false);
-
-                if (this-tb->GetToolEnabled(this->ID_TESTCONNECTION))
-                        this->tb->ToggleTool(this->ID_TESTCONNECTION, false);
-
-                if (this-tb->GetToolEnabled(this->ID_NOTE))
-                        this->tb->ToggleTool(this->ID_NOTE, false);
-
-
-
-                //Set Mode
-		this->nf->SetMode(this->ADD_DEVICE_MODE);
-
-
-                //Set Status Bar
-                this->sb->SetStatusText("Adding Device...");
-
-
-
-                //Keep Button Toggle if Clicked Twice
-                this->tb->ToggleTool(this->ID_ADDDEVICE, true);
-
-        }
-
-}
-                
 void MainFrame::OnTestingMode(wxCommandEvent & event) {
 	
         if (this-tb->GetToolEnabled(this->ID_TESTCONNECTION)) { //If Current Tool Is Toggled
 
                 //Fix Other Buttons
-                if (this->tb->GetToolEnabled(this->ID_ADDDEVICE))
-                        this->tb->ToggleTool(this->ID_ADDDEVICE, false);
-
                 if (this-tb->GetToolEnabled(this->ID_SELECT))
                         this->tb->ToggleTool(this->ID_SELECT, false);
 
@@ -366,9 +326,6 @@ void MainFrame::OnPlaceNoteMode(wxCommandEvent & event) {
         if (this-tb->GetToolEnabled(this->ID_NOTE)) { //If Current Tool Is Toggled
 
                 //Fix Other Buttons
-                if (this->tb->GetToolEnabled(this->ID_ADDDEVICE))
-                        this->tb->ToggleTool(this->ID_ADDDEVICE, false);
-
                 if (this-tb->GetToolEnabled(this->ID_TESTCONNECTION))
                         this->tb->ToggleTool(this->ID_TESTCONNECTION, false);
 
