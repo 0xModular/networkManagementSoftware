@@ -18,7 +18,7 @@ std::vector<Log> Log::ReadAllNetworkLogs(ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Logs for network category " << r->GetAccount().GetAccountCat() << " retrieve attempt failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return logVec;
 	}
 
@@ -54,14 +54,14 @@ std::vector<Log> Log::ReadAllNetworkLogs(ReferenceValidationMechanism *r){
     catch (sql::SQLException& e) {
         std::stringstream logMessage;
         logMessage << "Logs for network category " << r->GetAccount().GetAccountCat() << " retrieve attempt failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
 		logVec.clear();
         return logVec; 
     }
 
     std::stringstream logMessage;
     logMessage << "Logs for network category " << r->GetAccount().GetAccountCat() << " retrieved successfully";
-	if(!Log::CreateNewEventLogInDB(logMessage, r))
+	if(!Log::CreateNewEventLogInDB(logMessage.str(), r))
 		logVec.clear(); //if log fails then this function fails
      
 
@@ -77,7 +77,7 @@ bool Log::CreateNewEventLogInDB(std::string event, ReferenceValidationMechanism 
 
 void Log::SetNextLogUrgent(){
 
-    UrgentNext = true;
+    urgentNext = true;
 
 }
 
@@ -88,15 +88,6 @@ Log::Log(std::string event, int Time, Account &User){
     this->user = &User;
     
 }
-
-
-
-Log::~Log(){
-
-    delete this->user;
-
-}
-
 
 std::string Log::GetLogEvent(){
 
@@ -140,7 +131,7 @@ bool Log::CreateNewEventLogInDB(std::string event, Account a) {
     pstmt->setInt(2, currentTime);
     pstmt->setString(3, a.GetAccountName());
     pstmt->setString(4, event);
-    pstmt->setBoolean(4, UrgentNext);
+    pstmt->setBoolean(4, urgentNext);
 
 
     if(!pstmt->execute()){
@@ -164,8 +155,8 @@ bool Log::CreateNewEventLogInDB(std::string event, Account a) {
         return false;
     }
 
-    if(UrgentNext)
-        UrgentNext = false;
+    if(urgentNext)
+        urgentNext = false;
 
 }
 

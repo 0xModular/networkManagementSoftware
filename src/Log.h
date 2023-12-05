@@ -24,8 +24,7 @@ class Account;
 
 class Log{
 
-	public:
-
+	public:	
 		//working
 		static bool CreateNewEventLogInDB(std::string event, ReferenceValidationMechanism *r);
 		static bool CreateNewEventLogInDB(std::string event, Account a);
@@ -44,7 +43,7 @@ class Log{
 		std::string logEvent;
 		int time;
 		Account *user;
-		static bool UrgentNext;
+		inline static bool urgentNext;
 
 };
 

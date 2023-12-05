@@ -18,9 +18,11 @@
 #include "Device.h"
 #include "Note.h"
 #include "ReferenceValidationMechanism.h"
+#include "Log.h"
 
 //class Note;
 class Device;
+class Log;
 class ReferenceValidationMechanism;
 
 class Network{

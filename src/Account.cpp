@@ -22,7 +22,7 @@ std::vector<Account> Account::GetManagableAccounts(ReferenceValidationMechanism 
         delete con;
         std::stringstream logMessage;
         logMessage << "Accounts for network category " << r->GetAccount().GetAccountCat() << " retrieve attempt failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return accountVec;
     }
 
@@ -50,14 +50,14 @@ std::vector<Account> Account::GetManagableAccounts(ReferenceValidationMechanism 
     {
         std::stringstream logMessage;
         logMessage << "Accounts for network category " << r->GetAccount().GetAccountCat() << " retrieve attempt failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         accountVec.clear();
         return accountVec;
     }
 
     std::stringstream logMessage;
     logMessage << "Accounts for network category " << r->GetAccount().GetAccountCat() << " retrieved successfully";
-    if (!Log::CreateNewEventLogInDB(logMessage, r))
+    if (!Log::CreateNewEventLogInDB(logMessage.str(), r))
         accountVec.clear(); // if log fails then this function fails
 
     return accountVec;
@@ -75,7 +75,7 @@ bool Account::RemoveAccount(ReferenceValidationMechanism *r)
         delete con;
         std::stringstream logMessage;
         logMessage << "Attempt to delete account " << this->userName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
@@ -94,13 +94,13 @@ bool Account::RemoveAccount(ReferenceValidationMechanism *r)
 
         std::stringstream logMessage;
         logMessage << "Attempt to delete account " << this->userName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Account " << this->userName << " succesfully deleted";
-    Log::CreateNewEventLogInDB(logMessage, r);
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
     return true; 
 
 } // ON DELETE CASCADE
@@ -117,7 +117,7 @@ bool Account::EditAccountName(std::string newName, ReferenceValidationMechanism 
         delete con;
         std::stringstream logMessage;
         logMessage << "Attempt to update account name for account " << this->userName << " to " << newName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
@@ -135,13 +135,13 @@ bool Account::EditAccountName(std::string newName, ReferenceValidationMechanism 
 
         std::stringstream logMessage;
         logMessage << "Attempt to update account name for account " << this->userName << " to " << newName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Updated account name for account " << this->userName << " to " << newName;
-    Log::CreateNewEventLogInDB(logMessage, r);
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
     NotifyAccount("your account username was updated", *this);
     return true;
 }
@@ -158,7 +158,7 @@ bool Account::LinkDevice(Device d, ReferenceValidationMechanism *r)
         delete con;
         std::stringstream logMessage;
         logMessage << "Attempt to link Device " << d.GetMac() << " to account " << this->userName << "failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
@@ -176,13 +176,13 @@ bool Account::LinkDevice(Device d, ReferenceValidationMechanism *r)
 
         std::stringstream logMessage;
         logMessage << "Attempt to link Device " << d.GetMac() << " to account " << this->userName << "failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Linked Device " << d.GetMac() << " to account " << this->userName;
-    Log::CreateNewEventLogInDB(logMessage, r);
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
     NotifyAccount("A device was linked to your account", *this);
     return true;
 }
@@ -198,7 +198,7 @@ bool Account::UnlinkDevice(Device d, ReferenceValidationMechanism *r)
     {
         std::stringstream logMessage;
         logMessage << "Attempt to unlink Device " << d.GetMac() << " to account " << this->userName << "failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
@@ -217,13 +217,13 @@ bool Account::UnlinkDevice(Device d, ReferenceValidationMechanism *r)
 
         std::stringstream logMessage;
         logMessage << "Attempt to unlink Device " << d.GetMac() << " to account " << this->userName << "failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Unlinked Device " << d.GetMac() << " to account " << this->userName;
-    Log::CreateNewEventLogInDB(logMessage, r);
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
     NotifyAccount("A device was unlinked from your account", *this);
     return true;
 }
@@ -361,7 +361,7 @@ bool Account::SetAccountType(std::string type, ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Attempt to update account " << this->userName << " from type " << this->category << " to " << type << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
@@ -383,13 +383,13 @@ bool Account::SetAccountType(std::string type, ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Attempt to update account " << this->userName << " from type " << this->category << " to " << type << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Updated account " << this->userName << " from type " << this->category << " to " << type << " successfully";
-    Log::CreateNewEventLogInDB(logMessage, r);
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
     NotifyAccount("your account type was reset", *this);
     return true;
 
@@ -404,7 +404,7 @@ bool Account::ResetLoginAttempts(ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
@@ -425,13 +425,13 @@ bool Account::ResetLoginAttempts(ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Attempt to reset login attempts on account " << this->userName << " from type " << this->category << " to " << type << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Reset login attempts for account " << this->userName << " successfully";
-    Log::CreateNewEventLogInDB(logMessage, r);
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
     NotifyAccount("your login attempts were reset", *this);
     return true;
 
@@ -483,7 +483,7 @@ bool Account::RetrieveLinkedDevices(ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Attempt to retrieve linked devices on account " << this->userName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
@@ -508,13 +508,13 @@ bool Account::RetrieveLinkedDevices(ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Attempt to retrieve linked devices on account " << this->userName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Retrieved linked devices on account " << this->userName << " successfully";
-    Log::CreateNewEventLogInDB(logMessage, r);
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
     return true;
 
 
@@ -529,7 +529,7 @@ bool Account::ResetPassword(std::string newPass1, std::string newPass2, Referenc
 
         std::stringstream logMessage;
         logMessage << "Attempt to reset password on account " << this->userName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
@@ -554,13 +554,13 @@ bool Account::ResetPassword(std::string newPass1, std::string newPass2, Referenc
 
         std::stringstream logMessage;
         logMessage << "Attempt to reset password on account " << this->userName << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Reset login attempts for account " << this->userName << " successfully";
-    Log::CreateNewEventLogInDB(logMessage, r);
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
     NotifyAccount("your password was reset", *this);
     return true;
 

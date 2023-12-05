@@ -20,6 +20,7 @@
 
 class Device;
 class ReferenceValidationMechanism;
+class Log;
 
 class Account{
 

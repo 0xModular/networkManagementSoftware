@@ -183,7 +183,7 @@ bool Device::RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to get it's network connections";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return false;
     } 
@@ -192,7 +192,7 @@ bool Device::RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r){
         //make log for success
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully got it's network details";
-        if (!Log::CreateNewEventLogInDB(logMessage, r))
+        if (!Log::CreateNewEventLogInDB(logMessage.str(), r))
             return false; //if log fails then this function fails
 
         ss >> temp;
@@ -235,7 +235,7 @@ bool Device::RetrieveDeviceConnections(ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to get it's network connections";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return false;
     }
@@ -244,7 +244,7 @@ bool Device::RetrieveDeviceConnections(ReferenceValidationMechanism *r){
     //make log for success
     std::stringstream logMessage;
     logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully updated got it's network connections";
-    if (!Log::CreateNewEventLogInDB(logMessage, r))
+    if (!Log::CreateNewEventLogInDB(logMessage.str(), r))
         return false; //if log fails then this function fails
 
     int localPort;
@@ -288,7 +288,7 @@ bool Device::ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to update it's static IP";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return false;
     } 
@@ -319,7 +319,7 @@ bool Device::ChangeToDHCP(ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to set it to use DHCP";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return false;
     } 
@@ -359,7 +359,7 @@ int Device::PingAnotherDevice(std::string ip, ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed ping ip " << ip;
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return -1;
     } 
@@ -398,7 +398,7 @@ bool Device::TerminateConnection(int pid, ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to kill a connection";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return false;
     }
@@ -407,7 +407,7 @@ bool Device::TerminateConnection(int pid, ReferenceValidationMechanism *r){
     //make log for success
     std::stringstream logMessage;
     logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully killed a connections";
-    if (!Log::CreateNewEventLogInDB(logMessage, r))
+    if (!Log::CreateNewEventLogInDB(logMessage.str(), r))
         return false; //if log fails then this function fails
 
     int localPort;

@@ -247,7 +247,7 @@ bool Network::RetrieveAllDevicesFromDB(ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
 	}
 
@@ -291,13 +291,13 @@ bool Network::RetrieveAllDevicesFromDB(ReferenceValidationMechanism *r){
     catch (sql::SQLException& e) {
         std::stringstream logMessage;
         logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
 		return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Retrieved devices for network " << r->GetAccount().GetAccountCat() << " successfully";
-	Log::CreateNewEventLogInDB(logMessage, r);
+	Log::CreateNewEventLogInDB(logMessage.str(), r);
 	
 	return true;
 
@@ -357,7 +357,7 @@ bool Network::RemoveNote(Note n, ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Attempt to delete note with message \"" << n.GetMessage() << "\" failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
 	}
 
@@ -388,7 +388,7 @@ bool Network::RemoveNote(Note n, ReferenceValidationMechanism *r){
 	catch (sql::SQLException& e) {
     std::stringstream logMessage;
     logMessage << "Attempt to delete note with message \"" << n.GetMessage() << "\" failed";
-    Log::CreateNewEventLogInDB(logMessage, r);
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
 	return false;
 	}
 
@@ -407,7 +407,7 @@ bool Network::RetrieveAllNotesFromDB(ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Attempt to retrieve notes for network " << r->GetAccount().GetAccountCat() << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
 	}
 
@@ -434,13 +434,13 @@ bool Network::RetrieveAllNotesFromDB(ReferenceValidationMechanism *r){
     catch (sql::SQLException& e) {
         std::stringstream logMessage;
         logMessage << "Attempt to retrieve notes for network " << r->GetAccount().GetAccountCat() << " failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
 		return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Retrieved notes for network " << r->GetAccount().GetAccountCat() << " successfully";
-	Log::CreateNewEventLogInDB(logMessage, r);
+	Log::CreateNewEventLogInDB(logMessage.str(), r);
 	this->noteList.clear();
 	this->noteList = temp;
 	return true;
@@ -457,7 +457,7 @@ bool Network::RemoveDevice(Device d, ReferenceValidationMechanism *r){
 
         std::stringstream logMessage;
         logMessage << "Attempt to delete device with mac \"" << d.GetMac() << "\" failed";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
 	}
 
@@ -487,13 +487,13 @@ bool Network::RemoveDevice(Device d, ReferenceValidationMechanism *r){
 	catch (sql::SQLException& e) {
     std::stringstream logMessage;
     logMessage << "Attempt to delete device with mac \"" << d.GetMac() << "\" failed";
-    Log::CreateNewEventLogInDB(logMessage, r);
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
 	return false;
 	}
 
 	std::stringstream logMessage;
 	logMessage << "Delete device with mac \"" << d.GetMac() << "\"";
-	Log::CreateNewEventLogInDB(logMessage, r);
+	Log::CreateNewEventLogInDB(logMessage.str(), r);
 	return true;
 	
 }
