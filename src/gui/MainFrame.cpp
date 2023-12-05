@@ -186,6 +186,8 @@ void MainFrame::BindToolBar() {
 //--STANDARD--//
 void MainFrame::OnExit(wxCommandEvent &event) {
 	std::cout << "Exiting" << std::endl; //Temp
+
+	Close(true);
 }
 
 //--Main Menu--//

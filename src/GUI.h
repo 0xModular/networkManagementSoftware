@@ -14,28 +14,22 @@ bool App::OnInit() {
 
 
 
-	//Dialogs
-	this->login = new LoginDialog(NULL, this->rvm);
-	this->tfa = new TwoFactorAuthenticationDialog(NULL, this->rvm);
-	this->rgstr = new RegistrationDialog(NULL, this->rvm);
-
-
-
 	//Frames
-	this->app = new MainFrame("NULL Network Management (alpha)", this->rvm);
+        this->app = new MainFrame("NULL Network Management (alpha)", this->rvm);
+
+
+
+	//Dialogs
+	this->login = new LoginDialog(this->app, this->rvm);
+	this->tfa = new TwoFactorAuthenticationDialog(this->app, this->rvm);
+	this->rgstr = new RegistrationDialog(this->app, this->rvm);
 
 
 
 	//Start Main Program Loop
 	Login();
-	
+
 	return true;
-
-}
-
-int App::OnExit() {
-
-	return this->wxApp::OnExit();
 
 }
 
@@ -57,13 +51,12 @@ void App::Login() {
 
 		case wxID_CANCEL:
 		default:
-
+			
 			//Handle Errors
-			break;
+			this->app->Close();
+			return;
 	
 	}
-
-	return;
 
 }
 
@@ -86,11 +79,10 @@ void App::TwoFactorAuthentication() {
 		default:
 
 			//Handle Errors
-			break;
+			return;
 	
 	}
 
-	return;
 }
 
 void App::Register() {
