@@ -8,7 +8,7 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/statline.h>
-#include <wx/radiobut.h>
+#include <wx/listctrl.h>
 
 #include <string>
 
@@ -20,7 +20,7 @@ class EditDeviceDialog : public wxDialog {
 
         public:
 
-                EditDeviceDialog(wxWindow* parent, ReferenceValidationMechanism* rvm); //Constructor
+                EditDeviceDialog(wxWindow* parent, ReferenceValidationMechanism* rvm, Device* device); //Constructor
                 ~EditDeviceDialog() noexcept {}; //Destructor
 
         private:
@@ -28,27 +28,47 @@ class EditDeviceDialog : public wxDialog {
                 //Constructor Functions
                 void CreateControls();
                 void ConnectControls();
+		void Populate();
 
 
-
-                //RVM
+                //RVM + Device
                 ReferenceValidationMechanism* rvm;
+		Device* device;
+
+
+
+	 	//Components
+		wxScrolledWindow* connectionsArea;
+		wxListView* connections;
 
 
 
                 //Control Variables
-		wxButton* submit;
-		wxButton* cancel;
+		wxButton* sortByLocalPort;
+		wxButton* sortByRemotePort;
+		wxButton* sortByRemoteIP;
+		wxButton* sortByPID;
+
+		wxButton* terminateConnection;
+		wxButton* close;
 
 		wxCheckBox* staticDynamic;
 
-		wxButton* manageConnections;
+		//--Button IDs--//
+		inline static const int ID_SORTLOCALPORT = 0;
+		inline static const int ID_SORTREMOTEPORT = 1;
+		inline static const int ID_SORTREMOTEIP = 2;
+		inline static const int ID_SORTPID = 3;
+		inline static const int ID_TERMINATE = 4;
 
 
 
 		//Event Handler Functions
-		void OnSubmit(wxCommandEvent & event);
-		void OnCancel(wxCommandEvent & event);
-		void OnManageConnections(wxCommandEvent & event);
+		void OnSortByLocalPort(wxCommandEvent & event);
+		void OnSortByRemotePort(wxCommandEvent & event);
+		void OnSortByRemoteIP(wxCommandEvent & event);
+		void OnSortByPID(wxCommandEvent & event);
+		void OnTerminateConnection(wxCommandEvent & event);
+		void OnClose(wxCommandEvent & event);
 
 };

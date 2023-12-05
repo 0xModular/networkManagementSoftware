@@ -20,7 +20,7 @@ class EditUserDialog : public wxDialog {
 
         public:
 
-                EditUserDialog(wxWindow* parent, ReferenceValidationMechanism* rvm); //Constructor
+                EditUserDialog(wxWindow* parent, ReferenceValidationMechanism* rvm, Account* user); //Constructor
                 ~EditUserDialog() noexcept {}; //Destructor
 
         private:
@@ -31,15 +31,13 @@ class EditUserDialog : public wxDialog {
 
 
 
-                //RVM
+                //RVM and User
                 ReferenceValidationMechanism* rvm;
+		Account* user;
 
 
 
                 //Control Variables
-		wxStaticText* currentUsername;
-		wxStaticText* currentPassword;
-
 		wxButton* changeUsername;
 		wxButton* changePassword;
 
@@ -47,6 +45,10 @@ class EditUserDialog : public wxDialog {
 		wxButton* cancel;
 
 		wxRadioBox* access;
+
+		//--Button IDs--//
+		inline static const int ID_USER = 0;
+		inline static const int ID_PASS = 1;
 
 
 
