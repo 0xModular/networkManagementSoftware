@@ -237,7 +237,7 @@ bool Device::RetrieveDeviceConnections(ReferenceValidationMechanism *r){
     std::stringstream ss(response);
     std::string temp;
 
-    if (response.compare("error") == 0){  // Correcting the condition
+    if (response.compare("error") == 0){  
         
         //log failure
         std::stringstream logMessage;
@@ -290,13 +290,12 @@ bool Device::ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r){
     std::stringstream ss(response.c_str());
     std::string temp;
 
-    if (response.compare("error") == 0){  // Correcting the condition
+    if (response.compare("error") == 0){ 
         
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to update it's static IP";
         Log::CreateNewEventLogInDB(logMessage.str(), r);
-         
         return false;
     } 
     else{
@@ -304,7 +303,6 @@ bool Device::ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r){
         //make log for success
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully updated it's static IP to " << newIP;
-
         this->RetrieveMoreDeviceDetails(r);
         return true;
     }  
@@ -400,7 +398,7 @@ bool Device::TerminateConnection(int pid, ReferenceValidationMechanism *r){
     std::stringstream ss(response);
     std::string temp;
 
-    if (response.compare("error") == 0){  // Correcting the condition
+    if (response.compare("error") == 0){  
         
         //log failure
         std::stringstream logMessage;
@@ -460,16 +458,9 @@ int Device::NewRandomNumber(){
 
 }
 
-//wip
-bool SeeIfDeviceIsRunningBackgroundProcess(){
-
-    return true;
-
-}
-
 //function that handles socket and security for all communication with end device
 std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::string networkCategory) {
-    const int port = 12345;
+    const int port = 12345; //port number
     const int timeoutSeconds = 4;  // Timeout in seconds
 
     // Create a socket
@@ -507,7 +498,7 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::
     char buffer[10000];
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     std::string response;
-    //std::cout << "bread " << bytesRead << "\n";
+    //std::cout << "b read " << bytesRead << "\n";
     if (bytesRead > 0) {
         response.assign(buffer, bytesRead);
         response = ReferenceValidationMechanism::DecryptString(response, 29);

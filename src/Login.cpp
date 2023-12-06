@@ -36,12 +36,10 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
 	}
     
     try {
-
         
         sql::PreparedStatement *prep_stmt;
         prep_stmt = con->prepareStatement("SELECT LoginAttempts FROM Accounts WHERE UserName = ?");
         prep_stmt->setString(1, this->username);
-
         sql::ResultSet *res = prep_stmt->executeQuery();
 
         //check if account exists
@@ -99,7 +97,7 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
 
                     delete res;
                     delete prep_stmt;
-                    this->errorCode = 5;
+                    this->errorCode = 4;
                     return this->errorCode;
                 }
 
@@ -121,49 +119,6 @@ int Login::SendInfoAndGetResponseStatus(Account *&a) {
         }
     } 
 	catch (sql::SQLException &e) {
-
         return -1;  // Return error code
     }
 }
-
-        
-    
- /*
-	auto con = DatabaseConnection::GetSecureConnection("sample", "sample");
-
-	if(con == nullptr)
-		return -1;
-
-	sql::PreparedStatement* pstmt;
-	pstmt = con->prepareStatement("SELECT type FROM users WHERE username = ? AND password = ?");
-	pstmt->setString(1, this->username);
-	pstmt->setString(2, this->password);
-
-	sql::ResultSet* result = pstmt->executeQuery();
-
-	if (result->next()) {
-    
-		std::string type;
-		a = new Account(&(this->username), &type, new std::string("1"));
-		delete con;
-		delete result;
-		delete pstmt;
-		return 0; 
-
-	} 
-	else {
-
-		pstmt = con->prepareStatement("SELECT username FROM users WHERE username = ?");
-		pstmt->setString(1, this->username);
-
-		if (result->next())
-			return 1;
-		else
-			return 2;
-
-	}
-
-	
-
-}
-*/

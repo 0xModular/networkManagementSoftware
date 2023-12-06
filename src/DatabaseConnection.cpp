@@ -47,6 +47,5 @@ sql::Connection* DatabaseConnection::GetSecureConnection(std::string sqlUsername
     
 	}
 
-    	// Close the database connection when done.
 
 }

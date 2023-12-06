@@ -118,7 +118,7 @@ void DeviceManagementDialog::Populate() {
 
 	/*
 	 *
-	 * LAYNE
+	 * 
 	 * 
 	 * */
 	
@@ -182,7 +182,7 @@ void DeviceManagementDialog::OnEdit(wxCommandEvent & event) {
 
 	/*
 	 *
-	 * LAYNE
+	 * 
 	 *
 	auto dev = this->net.GetDeviceWithMAC(); 
 	

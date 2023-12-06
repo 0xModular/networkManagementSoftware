@@ -10,6 +10,7 @@
 
 Network::Network(ReferenceValidationMechanism *r) {
 
+
 	if (!r->CheckAuthorization(1)){
 		Log::CreateNewEventLogInDB("Attempt to connect to network and obtained it's details failed", r);
 		return;
@@ -22,6 +23,13 @@ Network::Network(ReferenceValidationMechanism *r) {
 	RetrieveAllDevicesFromDB(r);
 	RetrieveAllNotesFromDB(r);
     GetGeneralNetworkDetails();
+
+	int i;
+	for(i = 0; i < this->deviceList.size(); i++){
+
+		std::cout << deviceList[i].GetMac() << " " << deviceList[i].GetName() << " " << deviceList[i].GetIpv4() << " " << deviceList[i].GetWired() << "\n";
+
+	}
 
 }
 
@@ -39,7 +47,6 @@ void Network::Refresh(ReferenceValidationMechanism *r){
 	RetrieveAllDevicesFromDB(r);
 	RetrieveAllNotesFromDB(r);
     GetGeneralNetworkDetails();
-
 
 }
 
@@ -77,6 +84,7 @@ void Network::GetDevices(){
     
 	while (std::regex_search(it, line.cend(), match, deviceRegex)) {
         
+
 		std::string name = match[1];
         std::string ipv4Address = match[2];
         std::string macAddress = match[3];
@@ -94,12 +102,10 @@ void Network::GetDevices(){
 
 		}
 
-        	Device d(macAddress, ipv4Address, wired, name, true);
+        Device d(macAddress, ipv4Address, wired, name, true);
 
-        	if (name.compare("_gateway") == 0) {
-            
+        if (name.compare("_gateway") == 0) {  
 			gateway = &d;
-
 		}	
 
         	deviceList.push_back(d);
@@ -118,8 +124,6 @@ Device Network::GetGatewayDevice(ReferenceValidationMechanism *r){
 
 void Network::GetGeneralNetworkDetails(){
 
-
-		deviceList.clear();
     	char buffer[128];
     	std::string result = "";
     	FILE* pipe = popen("nmcli dev show", "r");
@@ -218,9 +222,9 @@ bool Network::UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r){
 	catch (sql::SQLException &e) {
 
 		std::cerr << "SQL Exception: ";
-        std::cerr << "Error code: " << e.getErrorCode() << std::endl;
-        std::cerr << "SQL state: " << e.getSQLState() << std::endl;
-        std::cerr << "Error message: " << e.what() << std::endl;
+        std::cerr << "Error code: " << e.getErrorCode() << "\n";
+        std::cerr << "SQL state: " << e.getSQLState() << "\n";
+        std::cerr << "Error message: " << e.what() << "\n";
 
 	    Log::CreateNewEventLogInDB("Attempt to upload all devices from current network failed", r);
 		return false; 
@@ -271,69 +275,78 @@ std::string Network::GatewayMac(){
 
 }
 
-bool Network::RetrieveAllDevicesFromDB(ReferenceValidationMechanism *r){
+bool Network::RetrieveAllDevicesFromDB(ReferenceValidationMechanism *r) {
 
-	auto con = DatabaseConnection::GetSecureConnection("netadmin", "netadmin");
+    auto con = DatabaseConnection::GetSecureConnection("network", "network");
 
+    if (con == nullptr || !r->CheckAuthorization(1)) {
+        std::stringstream logMessage;
+        logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
+        return false;
+    }
 
-    if (con == nullptr || !r->CheckAuthorization(1)){
+    try {
+        sql::PreparedStatement *pstmt;
+        sql::ResultSet *res;
+		bool exists = false;
+
+        pstmt = con->prepareStatement("SELECT MacAddress FROM Devices WHERE Network = ?");
+        pstmt->setString(1, r->GetAccount().GetAccountCat());
+        res = pstmt->executeQuery();
+
+        while (res->next()) {
+            std::string mac = res->getString("MacAddress");
+
+            pstmt = con->prepareStatement("SELECT MacAddress, PositionX, PositionY, Ipv4, DeviceName, Wired FROM Devices WHERE MacAddress = ? AND Network = ?");
+            pstmt->setString(1, mac);
+            pstmt->setString(2, r->GetAccount().GetAccountCat());
+            sql::ResultSet *innerRes = pstmt->executeQuery();
+
+            exists = false;
+            // Temporary variables to store retrieved values
+            std::string innerMac = innerRes->getString("MacAddress");
+            int innerX = innerRes->getInt("PositionX");
+            int innerY = innerRes->getInt("PositionY");
+            std::string innerIpv4 = innerRes->getString("Ipv4");
+            std::string innerDeviceName = innerRes->getString("DeviceName");
+            bool innerWired = innerRes->getBoolean("Wired");
+
+			int i;
+            for (i = 0; i < deviceList.size(); i++) {
+                if (mac.compare(deviceList[i].GetMac()) == 0) {
+                    deviceList[i].SetX(innerX);
+                    deviceList[i].SetY(innerY);
+                    exists = true;
+                }
+            }
+			
+
+            if (!exists) {
+                Device newDeviceFromDB(innerMac, innerIpv4, innerWired, innerDeviceName, innerX, innerY, false);
+                this->deviceList.push_back(newDeviceFromDB);
+            }
+
+            delete innerRes; // Don't forget to delete the inner ResultSet
+        }
+    }
+    catch (sql::SQLException &e) {
+
+		std::cerr << "SQL Exception in retrieve devices: ";
+        std::cerr << "Error code: " << e.getErrorCode() << "\n";
+        std::cerr << "SQL state: " << e.getSQLState() << "\n";
+        std::cerr << "Error message: " << e.what() << "\n";
 
         std::stringstream logMessage;
         logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
         Log::CreateNewEventLogInDB(logMessage.str(), r);
         return false;
-	}
-
-	bool exists = false;
-
-    try {
-
-		sql::PreparedStatement *pstmt;
-		sql::ResultSet *res;
-
-			pstmt = con->prepareStatement("SELECT MacAddress FROM Devices WHERE Network = ?");
-            pstmt->setString(1, r->GetAccount().GetAccountCat());
-            res = pstmt->executeQuery();
-
-
-            while (res->next()) {
-                
-				exists = false;
-                std::string mac = res->getString("MacAddress");
-
-				std::string query = "SELECT MacAddress, PositionX, PositionY, Ipv4, DeviceName, Wired WHERE MacAddress = ? AND Network = ?";
-            	pstmt->setString(1, mac);
-				pstmt->setString(2, r->GetAccount().GetAccountCat());
-				res = pstmt->executeQuery();
-                
-				for(Device &d: this->deviceList){
-
-					if(mac.compare(d.GetMac()) == 0){
-						d.SetX(res->getInt("PositionX"));
-						d.SetY(res->getInt("PositionY"));
-						exists = true;
-					}
-				}
-				if (!exists){
-					Device newDeviceFromDB(res->getString("MacAddress"), res->getString("Ipv4"), res->getBoolean("Wired"), res->getString("DeviceName"), res->getInt("PositionX"), res->getInt("PositionY"), false);
-					this->deviceList.push_back(newDeviceFromDB);
-				}
-            }
-        }
-    
-    catch (sql::SQLException& e) {
-        std::stringstream logMessage;
-        logMessage << "Attempt to retrieve devices for network " << r->GetAccount().GetAccountCat() << " failed";
-        Log::CreateNewEventLogInDB(logMessage.str(), r);
-		return false;
     }
 
     std::stringstream logMessage;
     logMessage << "Retrieved devices for network " << r->GetAccount().GetAccountCat() << " successfully";
-	Log::CreateNewEventLogInDB(logMessage.str(), r);
-	
-	return true;
-
+    Log::CreateNewEventLogInDB(logMessage.str(), r);
+    return true;
 }
 
 //new note alternative

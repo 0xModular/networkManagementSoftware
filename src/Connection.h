@@ -17,8 +17,6 @@ class ReferenceValidationMechanism;
 class Connection{
 	
 	public:
-		
-		bool terminateConnection(ReferenceValidationMechanism *r);
 	
 		Connection(int lPort, int rPort, std::string rAddress, std::string connectionState, int pid); //Constructor
 	    ~Connection(); //Destructor

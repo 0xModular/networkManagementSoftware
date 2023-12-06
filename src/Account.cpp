@@ -262,7 +262,7 @@ bool Account::LinkDevice(Device d, ReferenceValidationMechanism *r)
 
     if (con == nullptr || !r->CheckAuthorization(2))
     {
-        delete con;
+
         std::stringstream logMessage;
         logMessage << "Attempt to link Device " << d.GetMac() << " to account " << this->userName << "failed";
         Log::CreateNewEventLogInDB(logMessage.str(), r);
