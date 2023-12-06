@@ -1,3 +1,0 @@
-#!/bin/bash
-
-#Place your compile command for the client files here...
