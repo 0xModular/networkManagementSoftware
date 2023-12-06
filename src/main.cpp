@@ -11,6 +11,7 @@ wxIMPLEMENT_APP(App);
 
 
 /*
+GUI bypass for testing
 #include "Device.h"
 #include "ReferenceValidationMechanism.h"
 
