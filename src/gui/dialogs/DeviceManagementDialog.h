@@ -19,7 +19,7 @@ class DeviceManagementDialog : public wxDialog {
 
         public:
 
-                DeviceManagementDialog(wxWindow* parent, ReferenceValidationMechanism* rvm ); //Constructor
+                DeviceManagementDialog(wxWindow* parent, Network* net); //Constructor
 		~DeviceManagementDialog() noexcept {}; //Destructor
 
         private:
@@ -31,8 +31,8 @@ class DeviceManagementDialog : public wxDialog {
 
 
 
-		//RVM
-		ReferenceValidationMechanism* rvm;
+		//Network
+		Network* net;
 
 
 
