@@ -20,8 +20,8 @@ class NetworkInformationDialog : public wxDialog {
 
 	public:
 
-		NetworkInformationDialog(wxWindow* parent, ReferenceValidationMechanism* rvm); //Constructor
-                ~NetworkInformationDeviceDialog() noexcept {}; //Destructor
+		NetworkInformationDialog(wxWindow* parent, Network* net); //Constructor
+                ~NetworkInformationDialog() noexcept {}; //Destructor
 
 	private:
 
@@ -31,8 +31,13 @@ class NetworkInformationDialog : public wxDialog {
 
 
 
-		//RVM
-		ReferenceValidationMechanism* rvm;
+		//Network
+		Network* net;
+
+
+
+		//Panels
+		wxScrolledWindow* infoPanel;
 
 
 
@@ -44,4 +49,5 @@ class NetworkInformationDialog : public wxDialog {
 
 		//Event Handler Functions
 		void OnOk(wxCommandEvent & event);
+
 };

@@ -40,9 +40,6 @@ MainFrame::MainFrame(const wxString& title, ReferenceValidationMechanism* rvm) :
 	wxCommandEvent defaultMode(wxEVT_COMMAND_MENU_SELECTED, this->ID_SELECT);
         MainFrame::OnSelectionMode(defaultMode);
 
-	//Prepare Dialogs
-	this->deviceManagementDialog = new DeviceManagementDialog(this, this->rvm);
-	this->userManagementDialog = new UserManagementDialog(this, this->rvm);
 }
 
 //Construction Functions
@@ -216,21 +213,28 @@ void MainFrame::OnRedo(wxCommandEvent & event) {
 
 //---Network---//
 void MainFrame::OnManageDevices(wxCommandEvent & event) {
-        std::cout << "Managing Devices" << std::endl; //Temp
 	
-	this->deviceManagementDialog->ShowModal();
+	auto deviceManagementDialog = new DeviceManagementDialog(this, this->rvm);
+	deviceManagementDialog->ShowModal();
+	delete deviceManagementDialog;
 	
 }
 
 void MainFrame::OnViewInfo(wxCommandEvent & event) {
         std::cout << "Viewing Account Info" << std::endl; //Temp
+	
+	auto networkInformationDialog = new NetworkInformationDialog(this, this->n);
+	networkInformationDialog->ShowModal();
+	delete networkInformationDialog;
+
 }
 
 //---Users---//
 void MainFrame::OnManageUsers(wxCommandEvent & event) {
-        std::cout << "Managing Users" << std::endl; //Temp
 	
-	this->userManagementDialog->ShowModal();
+	auto userManagementDialog = new UserManagementDialog(this, this->rvm);
+        userManagementDialog->ShowModal();
+        delete userManagementDialog;
 
 }
                 
