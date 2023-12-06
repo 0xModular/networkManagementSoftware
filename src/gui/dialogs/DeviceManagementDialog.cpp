@@ -131,7 +131,9 @@ void DeviceManagementDialog::Populate() {
 		this->devices->InsertItem(i, device.GetName());
 		this->devices->SetItem(i, 1, device.GetMac());
 		this->devices->SetItem(i, 2, device.GetIpv4());
-	
+		
+		i++;
+
 	}	
 
 }
