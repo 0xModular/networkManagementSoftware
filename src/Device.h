@@ -64,30 +64,33 @@ class Device{
 		void SetOnlineStatus(bool on);
 
 
-		//ignore for now \/\/\/
+
 		std::vector<std::string> SetPrivacyFlags(std::vector<std::string> newFlags);	
 		void ResetPrivacyFlags();
 		
 	private:
 
-		//working
+		//used by class for end device communication
 		std::string SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory);
 		static int NewRandomNumber();
 		
-		//members
+		//avaliable to all devices
 		std::string macAddress;
 		std::string localIpv4;
-		std::string localIpv6;
 		std::string name;
-		std::string defaultGateway;
-		std::vector<Connection> connections;
-		bool staticIp;
 		bool wired;
 		bool online;
 		int posX;
 		int posY;
 
-		//dont worry about
+		//must connect to background process
+		std::string localIpv6;
+		std::string defaultGateway;
+		std::vector<Connection> connections;
+		bool staticIp;
+
+
+		//dont worry about, just used by class
 		bool limitedMembers;
 		std::string adapter;
 		std::vector<std::string> privacyFlags;

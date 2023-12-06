@@ -131,7 +131,7 @@ bool Log::CreateNewEventLogInDB(std::string event, Account a) {
     pstmt->setInt(2, currentTime);
     pstmt->setString(3, a.GetAccountName());
     pstmt->setString(4, event);
-    pstmt->setBoolean(4, urgentNext);
+    pstmt->setBoolean(5, urgentNext);
 
 
     if(!pstmt->execute()){

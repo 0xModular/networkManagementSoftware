@@ -43,7 +43,7 @@ class Log{
 		std::string logEvent;
 		int time;
 		Account *user;
-		inline static bool urgentNext;
+		inline static bool urgentNext = false;
 
 };
 

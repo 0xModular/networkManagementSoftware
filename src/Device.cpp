@@ -16,7 +16,11 @@ Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::str
 	this->macAddress = mac;
 	this->limitedMembers = true; 
     this->connections = *new std::vector<Connection>;
+    this->posX = 0;
+    this->posY = 0;
     this->online = false;
+    this->localIpv6 = "not available";
+    this->defaultGateway = "not available";
 
 }
 
@@ -28,7 +32,11 @@ Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::str
 	this->macAddress = mac;
 	this->limitedMembers = true; 
     this->connections = *new std::vector<Connection>;
+    this->posX = 0;
+    this->posY = 0;
     this->online = on;
+    this->localIpv6 = "not available";
+    this->defaultGateway = "not available";
 
 }
 
@@ -43,6 +51,9 @@ Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::str
     this->posX = x;
     this->posY = y;
     this->online = false;
+    this->localIpv6 = "not available";
+    this->defaultGateway = "not available";
+
 
 }
 
@@ -57,6 +68,8 @@ Device::Device(std::string mac, std::string IPv4, bool wiredConnection, std::str
     this->posX = x;
     this->posY = y;
     this->online = on;
+    this->localIpv6 = "not available";
+    this->defaultGateway = "not available";
 
 }
 
@@ -69,19 +82,13 @@ std::string Device::GetIpv4(){
 
 int Device::GetX(){
 
-    if(this->posX)
-	    return this->posX;
-    else
-        return 0;
+	return this->posX;
 
 }
 
 int Device::GetY(){
 
-    if(this->posY)
-	    return this->posY;
-    else
-        return 0;
+	return this->posY;
 
 }
 
