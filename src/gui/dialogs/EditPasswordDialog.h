@@ -20,7 +20,7 @@ class EditPasswordDialog : public wxDialog {
 
         public:
 
-                EditPasswordDialog(wxWindow* parent, ReferenceValidationMechanism* rvm); //Constructor
+                EditPasswordDialog(wxWindow* parent, ReferenceValidationMechanism* rvm, Account* user); //Constructor
                 ~EditPasswordDialog() noexcept {}; //Destructor
 
         private:
@@ -31,8 +31,9 @@ class EditPasswordDialog : public wxDialog {
 
 
 
-                //RVM
+                //RVM and User
                 ReferenceValidationMechanism* rvm;
+		Account* user;
 
 
 
@@ -42,12 +43,14 @@ class EditPasswordDialog : public wxDialog {
                 wxTextCtrl* newPasswordEntry;
                 wxTextCtrl* newPasswordReentry;
 
+		wxCheckBox* showPassword;
                 wxButton* submit;
                 wxButton* cancel;
 
 
 
                 //Event Handler Functions
+		void OnShowPassword(wxCommandEvent & event);
                 void OnSubmit(wxCommandEvent & event);
                 void OnCancel(wxCommandEvent & event);
 

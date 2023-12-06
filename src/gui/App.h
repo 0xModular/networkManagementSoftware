@@ -22,7 +22,6 @@ class App : public wxApp {
 
 		//Main Event Handlers
 		bool OnInit() override;
-		int OnExit() override;
 		
 
 

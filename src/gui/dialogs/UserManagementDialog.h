@@ -26,8 +26,7 @@ class UserManagementDialog : public wxDialog {
                 //Construction Functions
 		void CreateControls();
 		void ConnectControls();
-		void PopulateUsers();
-		void PopulateQueue();
+		void Populate();
 
 
 
@@ -38,9 +37,7 @@ class UserManagementDialog : public wxDialog {
 
 		//Components
 		wxScrolledWindow* userArea;
-		wxScrolledWindow* queueArea;
 		wxListView* users;
-		wxListView* actionQueue; //Queue of actions (e.g. new account created) waiting to be approved by Network Admin
 
 
 
@@ -55,22 +52,12 @@ class UserManagementDialog : public wxDialog {
 		wxButton* sortByDate;
 		wxButton* editUser;
 
-		//--Queue--//
-		wxButton* approve;
-		wxButton* reject;
-		wxButton* approveAll;
-		wxButton* rejectAll;
-
 		//--Button IDs--//
 		inline static const int ID_REFRESH = 0;
 		inline static const int ID_SORTUSERNAME = 1;
 		inline static const int ID_SORTACCESS = 2;
 		inline static const int ID_SORTDATE= 3;
 		inline static const int ID_EDITUSER = 4;
-		inline static const int ID_APPROVE = 5;
-		inline static const int ID_REJECT = 6;
-		inline static const int ID_APPROVEALL = 7;
-		inline static const int ID_REJECTALL = 8;
 
 
 
@@ -82,11 +69,6 @@ class UserManagementDialog : public wxDialog {
 		void OnSortByAccess(wxCommandEvent & event);
 		void OnSortByDate(wxCommandEvent & event);
 		void OnEditUser(wxCommandEvent & event);
-
-		void OnApprove(wxCommandEvent & event);
-		void OnReject(wxCommandEvent & event);
-		void OnApproveAll(wxCommandEvent & event);
-		void OnRejectAll(wxCommandEvent & event);
 
 };
 

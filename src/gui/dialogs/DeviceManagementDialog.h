@@ -52,6 +52,7 @@ class DeviceManagementDialog : public wxDialog {
 		wxButton* refresh;
 		wxButton* close;
 		wxButton* edit;
+		wxButton* add;
 
 		//--Button IDs--//
 		inline static const int ID_SORTNAME = 0;
@@ -59,7 +60,7 @@ class DeviceManagementDialog : public wxDialog {
 		inline static const int ID_SORTIP = 2;
 		inline static const int ID_REFRESH = 3;
 		inline static const int ID_EDIT = 4;
-
+		inline static const int ID_ADD = 5;
 
 		//Event Handlers
 		void OnSortByName(wxCommandEvent & event);
@@ -68,6 +69,7 @@ class DeviceManagementDialog : public wxDialog {
 		void OnRefresh(wxCommandEvent & event);
 		void OnClose(wxCommandEvent & event);
 		void OnEdit(wxCommandEvent & event);
+		void OnAdd(wxCommandEvent & event);
 
 };
 

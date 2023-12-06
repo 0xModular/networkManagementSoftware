@@ -24,8 +24,7 @@ class Account;
 
 class Log{
 
-	public:
-
+	public:	
 		//working
 		static bool CreateNewEventLogInDB(std::string event, ReferenceValidationMechanism *r);
 		static bool CreateNewEventLogInDB(std::string event, Account a);
@@ -35,15 +34,16 @@ class Log{
 		int GetLogTime();
 		Account GetLogAccount();
 		~Log() noexcept {};
-
-		//wip
+		static void SetNextLogUrgent();
 		static std::vector<Log> ReadAllNetworkLogs(ReferenceValidationMechanism *r);
+		
 
 	private:
 
 		std::string logEvent;
 		int time;
 		Account *user;
+		inline static bool urgentNext;
 
 };
 

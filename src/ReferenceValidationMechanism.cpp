@@ -2,7 +2,7 @@
  * ReferenceValidationMechanism.cpp
  * Created on: Oct 24, 2023
  *
- * Author:
+ * Author: Layne
  */
 
 #include "ReferenceValidationMechanism.h"
@@ -116,17 +116,17 @@ bool ReferenceValidationMechanism::CheckAuthorization(int level){
         
 		return true;
     
-	} else if (level == 2 && this->activeAccount->GetAccountType().compare("admin") == 0){
+	} 
+	else if (level == 2 && this->activeAccount->GetAccountType().compare("admin") == 0){
         
 		return true;
     
 	}
-    
 	else {
-        
-		std::cerr << "Authorization Error, Exiting...";
-        exit(1);
-    }
+		Account::SendMessageToAdmins("Attempt to use tool not authorized to use made on your network. Review logs for abnormalities");
+		Log::SetNextLogUrgent();
+		return false;	
+	}
     
 	return false;
 
@@ -140,7 +140,8 @@ bool ReferenceValidationMechanism::CheckAuthorization(int level){
 
 ReferenceValidationMechanism::ReferenceValidationMechanism(bool b){ //will be removed
 
-	this->activeAccount = new Account("wow", "admin", "wow");
+	std::string s = Network::GatewayMac();
+	this->activeAccount = new Account("t1", "admin", s);
 
 
 }

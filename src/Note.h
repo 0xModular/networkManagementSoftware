@@ -1,3 +1,9 @@
+/*
+ * Note.cpp
+ * Created on Oct 31, 2023
+ *
+ * Author: Layne
+ */
 
 #pragma once
 #include <string>
@@ -8,7 +14,7 @@ class Note{
     
     //constructors and deconstructor
     Note();
-    Note(std::string m, int x, int y);
+    Note(std::string m, int x, int y); //USE CreateNewNote in network instead!
     ~Note();
 
     //getters

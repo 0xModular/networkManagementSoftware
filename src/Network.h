@@ -2,7 +2,7 @@
  * Network.h
  * Created on Oct 24, 2023
  *
- * Author:
+ * Author: Layne
  */
 
 #pragma once
@@ -18,9 +18,11 @@
 #include "Device.h"
 #include "Note.h"
 #include "ReferenceValidationMechanism.h"
+#include "Log.h"
 
 //class Note;
 class Device;
+class Log;
 class ReferenceValidationMechanism;
 
 class Network{
@@ -40,11 +42,13 @@ class Network{
 
 		//interact with database for devices
 		bool UploadAllCurrentDevicesToDB(ReferenceValidationMechanism *r);
+		bool AddNewDevice(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, ReferenceValidationMechanism *r); //finish
+		bool RemoveDevice(Device d, ReferenceValidationMechanism *r); //finish
 		
 		//interact with database for notes
-		bool enterNewNoteToList(Note n, ReferenceValidationMechanism *r);
-		bool enterNewNoteToList(std::string message, int x, int y, ReferenceValidationMechanism *r); //finish log message
-		bool removeNote(Note n, ReferenceValidationMechanism *r); //finish log message
+		bool EnterNewNoteToList(Note n, ReferenceValidationMechanism *r);
+		bool EnterNewNoteToList(std::string message, int x, int y, ReferenceValidationMechanism *r); //finish log message
+		bool RemoveNote(Note n, ReferenceValidationMechanism *r); //finish log message
 		bool RetrieveAllNotesFromDB(ReferenceValidationMechanism *r); //finish log message
 
 		//used for login. Dont worry about it. Use the normal getter
@@ -65,6 +69,7 @@ class Network{
 
 		//members
 		std::string defaultDNS;
+		std::string subnetMask;
 		std::vector<Device> deviceList;
 		std::vector<Note> noteList;
 		Device *gateway;

@@ -2,7 +2,7 @@
  * Device.h
  * Created on: Oct 24, 2023
  *
- * Author:
+ * Author: Layne
  */
 
 #pragma once
@@ -27,15 +27,12 @@ class Device{
 
 	public:
 
-		//constructors and deconstructor
+		//constructors and deconstructor     Use AddNewDevice in Network for manually adding devices
 		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName); 
 		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, bool on); 
 		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, int x, int y); 
 		Device(std::string mac, std::string IPv4, bool wiredConnection, std::string deviceName, int x, int y, bool on);
 		~Device(); 
-
-		//used to see if functions below can be used (not yet implimented, only returns true)
-		bool SeeIfDeviceIsRunningBackgroundProcess();
 
 		//usable for end devices that are running the Network Manager background process. Bool false if task failed
 		bool RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r);
@@ -53,10 +50,10 @@ class Device{
 		std::string GetMac();
 		bool GetWired();
 		std::string GetName();
-		std::string GetIpv6(); //!!! WILL NOT RETURN ANYTHING IF ConnectToUpdateDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
-		std::string GetDefaultGateway(); //!!! WILL NOT RETURN ANYTHING IF ConnectToUpdateDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
-		bool GetIsStaticIp(); //!!! WILL NOT RETURN ANYTHING IF ConnectToUpdateDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
-		std::vector<Connection> GetConnectionVector(); //!!! WILL RETURN EMPTY VECTOR IF GetDeviceConnections HASNT COMPLETED SUCCESFULLY YET !!!
+		std::string GetIpv6(); //!!! WILL NOT RETURN ANYTHING IF RetrieveMoreDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
+		std::string GetDefaultGateway(); //!!! WILL NOT RETURN ANYTHING IF RetrieveMoreDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
+		bool GetIsStaticIp(); //!!! WILL NOT RETURN ANYTHING IF RetrieveMoreDeviceDetails HASNT COMPLETED SUCCESFULLY YET !!!
+		std::vector<Connection> GetConnectionVector(); //!!! WILL RETURN EMPTY VECTOR IF RetrieveDeviceConnections HASNT COMPLETED SUCCESFULLY YET !!!
 		int GetX();
 		int GetY();
 		bool GetOnlineStatus();

@@ -2,7 +2,7 @@
  * Device.cpp
  * Created on: Oct 24, 2023
  *
- * Author:
+ * Author: Layne
  */
 
 
@@ -169,6 +169,8 @@ void Device::ResetPrivacyFlags(){
 
 }
 
+
+//connect to background process and get more device details
 bool Device::RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("init", r->GetAccount().GetAccountCat());
@@ -181,7 +183,7 @@ bool Device::RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to get it's network connections";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return false;
     } 
@@ -190,7 +192,7 @@ bool Device::RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r){
         //make log for success
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully got it's network details";
-        if (!Log::CreateNewEventLogInDB(logMessage, r))
+        if (!Log::CreateNewEventLogInDB(logMessage.str(), r))
             return false; //if log fails then this function fails
 
         ss >> temp;
@@ -220,6 +222,7 @@ bool Device::RetrieveMoreDeviceDetails(ReferenceValidationMechanism *r){
 
 }
 
+//connect to background process and get device connections. Returns success
 bool Device::RetrieveDeviceConnections(ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("connection", r->GetAccount().GetAccountCat());
@@ -232,7 +235,7 @@ bool Device::RetrieveDeviceConnections(ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to get it's network connections";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return false;
     }
@@ -241,7 +244,7 @@ bool Device::RetrieveDeviceConnections(ReferenceValidationMechanism *r){
     //make log for success
     std::stringstream logMessage;
     logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully updated got it's network connections";
-    if (!Log::CreateNewEventLogInDB(logMessage, r))
+    if (!Log::CreateNewEventLogInDB(logMessage.str(), r))
         return false; //if log fails then this function fails
 
     int localPort;
@@ -270,6 +273,7 @@ bool Device::RetrieveDeviceConnections(ReferenceValidationMechanism *r){
 
 }
 
+//connect to background process and set static IP. Returns success
 bool Device::ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r){
 
     std::string message;
@@ -284,7 +288,7 @@ bool Device::ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to update it's static IP";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return false;
     } 
@@ -302,6 +306,7 @@ bool Device::ChangeStaticIp(std::string newIP, ReferenceValidationMechanism *r){
 
 }
 
+//connect to background process and reset DHCP. Returns success
 bool Device::ChangeToDHCP(ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("dhcp", r->GetAccount().GetAccountCat());
@@ -314,7 +319,7 @@ bool Device::ChangeToDHCP(ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to set it to use DHCP";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return false;
     } 
@@ -332,12 +337,14 @@ bool Device::ChangeToDHCP(ReferenceValidationMechanism *r){
 
 }
 
+//Ping another device alternate
 int Device::PingAnotherDevice(Device d, ReferenceValidationMechanism *r){
 
     return PingAnotherDevice(d.localIpv4, r);
 
 }
 
+//connect to background process and have device ping another ip. Returns -1 for fail, otherwise returns average RTT value
 int Device::PingAnotherDevice(std::string ip, ReferenceValidationMechanism *r){
 
     std::string message;
@@ -352,7 +359,7 @@ int Device::PingAnotherDevice(std::string ip, ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed ping ip " << ip;
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return -1;
     } 
@@ -371,13 +378,14 @@ int Device::PingAnotherDevice(std::string ip, ReferenceValidationMechanism *r){
 
 }
 
+//terminate connection alternate
 bool Device::TerminateConnection(Connection c, ReferenceValidationMechanism *r){
 
     return TerminateConnection(c.PID, r);
 
 }
 
-
+//connect to background process and terminate connection. Returns success
 bool Device::TerminateConnection(int pid, ReferenceValidationMechanism *r){
 
     std::string response = SendMessageToDeviceAndGetResponse("terminate " + std::to_string(pid), r->GetAccount().GetAccountCat());
@@ -390,7 +398,7 @@ bool Device::TerminateConnection(int pid, ReferenceValidationMechanism *r){
         //log failure
         std::stringstream logMessage;
         logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and failed to kill a connection";
-        Log::CreateNewEventLogInDB(logMessage, r);
+        Log::CreateNewEventLogInDB(logMessage.str(), r);
          
         return false;
     }
@@ -399,7 +407,7 @@ bool Device::TerminateConnection(int pid, ReferenceValidationMechanism *r){
     //make log for success
     std::stringstream logMessage;
     logMessage << "contacted device with MAC " << this->macAddress << " using Ip " << this->localIpv4 << " and succesfully killed a connections";
-    if (!Log::CreateNewEventLogInDB(logMessage, r))
+    if (!Log::CreateNewEventLogInDB(logMessage.str(), r))
         return false; //if log fails then this function fails
 
     int localPort;
@@ -428,6 +436,7 @@ bool Device::TerminateConnection(int pid, ReferenceValidationMechanism *r){
 
 }
 
+//used in SendMessageToDeviceAndGetResponse
 int Device::NewRandomNumber(){
 
     static std::unordered_set<int> usedNumbers;
@@ -444,33 +453,38 @@ int Device::NewRandomNumber(){
 
 }
 
+//wip
 bool SeeIfDeviceIsRunningBackgroundProcess(){
 
     return true;
 
 }
 
-std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::string networyCategory){
+//function that handles socket and security for all communication with end device
+std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::string networkCategory) {
+    const int port = 12345;
+    const int timeoutSeconds = 4;  // Timeout in seconds
 
-    //message = new std::string(ReferenceValidationMechanism::encryptString(*message, 3));
-	const int port = 12345;
-
-	 // Create a socket
+    // Create a socket
     int clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
         return "error";
     }
 
-	std::cerr << this->localIpv4;
     // Set up server address and port
     struct sockaddr_in serverAddr;
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(port);  // Use the same port as the server
-    serverAddr.sin_addr.s_addr = inet_addr(this->localIpv4.c_str());  // Use the server's IP address
+    serverAddr.sin_port = htons(port);
+    serverAddr.sin_addr.s_addr = inet_addr(this->localIpv4.c_str());
+
+    // Set the receive timeout
+    struct timeval timeout;
+    timeout.tv_sec = timeoutSeconds;
+    timeout.tv_usec = 0;
+    setsockopt(clientSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
 
     // Connect to the server
     if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
-        //std::cerr << "Error connecting to the server" << std::endl;
         close(clientSocket);
         return "error";
     }
@@ -478,28 +492,24 @@ std::string Device::SendMessageToDeviceAndGetResponse(std::string message, std::
     std::cout << "Connected to the server" << std::endl;
 
     // Send data to the server
-    std::string toSend = ReferenceValidationMechanism::EncryptString(std::to_string(NewRandomNumber()) + " " + networyCategory + " " + message, 29);
+    std::string toSend = std::to_string(NewRandomNumber()) + " " + networkCategory + " " + message;
+    toSend = ReferenceValidationMechanism::EncryptString(toSend, 29);
     send(clientSocket, toSend.c_str(), strlen(toSend.c_str()), 0);
+
     // Receive and display the echoed data
     char buffer[10000];
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     std::string response;
-    std::cout << "bread " << bytesRead << "\n";
+    //std::cout << "bread " << bytesRead << "\n";
     if (bytesRead > 0) {
-    	response.assign(buffer, bytesRead);
+        response.assign(buffer, bytesRead);
         response = ReferenceValidationMechanism::DecryptString(response, 29);
         close(clientSocket);
         std::cout << "m: " << response << "\n";
         return response;
-    }
-    else{
+    } else {
         close(clientSocket);
         return "error";
     }
-
-    close(clientSocket);
-    return "error";
- 
 }
-
 	
