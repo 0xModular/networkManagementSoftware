@@ -15,6 +15,11 @@
 
 #include "../../ReferenceValidationMechanism.h"
 
+//Dialogs
+#include "EditDeviceDialog.h"
+#include "AddDeviceDialog.h"
+
+
 class DeviceManagementDialog : public wxDialog {
 
         public:
@@ -38,6 +43,7 @@ class DeviceManagementDialog : public wxDialog {
 
 		//Components
 		wxScrolledWindow* devicesArea;
+		std::vector<Device> devicesVector;
 		wxListView* devices;
 	
 

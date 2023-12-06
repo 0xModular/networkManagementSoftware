@@ -20,7 +20,7 @@ class EditDeviceDialog : public wxDialog {
 
         public:
 
-                EditDeviceDialog(wxWindow* parent, ReferenceValidationMechanism* rvm, Device* device); //Constructor
+                EditDeviceDialog(wxWindow* parent, Device* device); //Constructor
                 ~EditDeviceDialog() noexcept {}; //Destructor
 
         private:
@@ -31,8 +31,7 @@ class EditDeviceDialog : public wxDialog {
 		void Populate();
 
 
-                //RVM + Device
-                ReferenceValidationMechanism* rvm;
+                //Device
 		Device* device;
 
 

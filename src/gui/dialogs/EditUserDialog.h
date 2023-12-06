@@ -14,6 +14,9 @@
 
 #include "../../ReferenceValidationMechanism.h"
 
+#include "EditUsernameDialog.h"
+#include "EditPasswordDialog.h"
+
 class ReferenceValidationMechanism;
 
 class EditUserDialog : public wxDialog {

@@ -163,6 +163,7 @@ void UserManagementDialog::OnSortByDate(wxCommandEvent & event) {
                 
 void UserManagementDialog::OnEditUser(wxCommandEvent & event) {
 
-
+	//Get List of Accounts
+	//(new EditUserDialog(this, account))->ShowModal();
 
 }

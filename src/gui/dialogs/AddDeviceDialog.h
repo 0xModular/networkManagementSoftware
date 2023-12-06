@@ -20,7 +20,7 @@ class AddDeviceDialog : public wxDialog {
 
 	public:
 
-		AddDeviceDialog(wxWindow* parent, ReferenceValidationMechanism* rvm); //Constructor
+		AddDeviceDialog(wxWindow* parent, Network* net); //Constructor
 		~AddDeviceDialog() noexcept {}; //Destructor
 	
 	private:
@@ -31,8 +31,8 @@ class AddDeviceDialog : public wxDialog {
 
 
 
-		//RVM
-		ReferenceValidationMechanism* rvm;
+		//Network
+		Network* net;
 
 
 

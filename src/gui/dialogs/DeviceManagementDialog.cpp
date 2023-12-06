@@ -115,15 +115,15 @@ void DeviceManagementDialog::ConnectControls() {
 }
 
 void DeviceManagementDialog::Populate() {
-/*
-	Network* network = this->rvm->GetNetwork();
 
-	std::vector<Device> devices = network->GetDeviceList(this->rvm);
-
-	//Iterate Through Device Vector, fill appropriate info to each column
-*/
-
-	std::vector<Device> devicesVector = net->GetDeviceList();
+	/*
+	 *
+	 * LAYNE
+	 * 
+	 * */
+	
+	
+	this->devicesVector = this->net->GetDeviceList();
 	int i = 0;
 	
 	for (auto &device : devicesVector) {
@@ -173,12 +173,26 @@ void DeviceManagementDialog::OnClose(wxCommandEvent & event) {
 
 void DeviceManagementDialog::OnEdit(wxCommandEvent & event) {
 
+	auto index = this->devices->GetFirstSelected();
+	
+	wxListItem* item;	
+	//this->devices->GetItem(*index, 1, item); 
+	
+	//std::string MAC = (item->GetText())::ToStdString();	
 
+	/*
+	 *
+	 * LAYNE
+	 *
+	auto dev = this->net.GetDeviceWithMAC(); 
+	
+	(new EditDeviceDialog(this, this->net))->ShowModal();
+	*/
 
 }
 
 void DeviceManagementDialog::OnAdd(wxCommandEvent & event) {
 
-
+	(new AddDeviceDialog(this, this->net))->ShowModal();
 
 }

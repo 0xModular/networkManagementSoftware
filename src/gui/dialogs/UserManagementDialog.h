@@ -14,6 +14,8 @@
 
 #include "../../ReferenceValidationMechanism.h"
 
+#include "EditUserDialog.h"
+
 class UserManagementDialog : public wxDialog {
 
         public:

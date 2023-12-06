@@ -7,10 +7,9 @@
 
 #include "EditDeviceDialog.h"
 
-EditDeviceDialog::EditDeviceDialog(wxWindow* parent, ReferenceValidationMechanism* rvm, Device* device) : wxDialog(parent, -1, _T("Edit Device")) {
+EditDeviceDialog::EditDeviceDialog(wxWindow* parent, Device* device) : wxDialog(parent, -1, _T("Edit Device")) {
 
-	//Set RVM and Device
-	this->rvm = rvm;
+	//Set Device
 	this->device = device;
 
 	CreateControls();
@@ -122,7 +121,27 @@ void EditDeviceDialog::ConnectControls() {
 
 void EditDeviceDialog::Populate() {
 
+	/*
+	 *
+	 * LAYNE
+	 *
+	 * 
 
+	std::vector<Connection> connectionsVector = this->device->GetConnectionVector();
+        int i = 0;
+
+        for (auto &con : connectionsVector) {
+
+                this->connections->InsertItem(i, con.localPort);
+                this->connections->SetItem(i, 1, con.remotePort);
+                this->connections->SetItem(i, 2, con.remoteIp);
+		this->connections->SetItem(i, 3, con.status);
+		this->connections->SetItem(i, 4, con.PID);
+
+                i++;
+
+        }
+	*/
 
 }
 

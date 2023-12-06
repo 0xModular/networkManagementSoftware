@@ -72,24 +72,24 @@ void EditUserDialog::ConnectControls() {
 //Event Handler Functions
 void EditUserDialog::OnChangeUsername(wxCommandEvent & event) {
 
-
+	//(new EditUsernameDialog(this, account))->ShowModal();
 
 }
 
 void EditUserDialog::OnChangePassword(wxCommandEvent & event) {
 
-
+	//(new EditPasswordDialog(this, account))->ShowModal();
 
 }
 
 void EditUserDialog::OnCancel(wxCommandEvent & event) {
 
-
+	this->EndModal(wxID_CANCEL);
 
 }
 
 void EditUserDialog::OnSubmit(wxCommandEvent & event) {
 
-
+	this->EndModal(wxID_OK);
 
 }

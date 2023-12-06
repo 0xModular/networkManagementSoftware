@@ -7,10 +7,10 @@
 
 #include "AddDeviceDialog.h"
 
-AddDeviceDialog::AddDeviceDialog(wxWindow* parent, ReferenceValidationMechanism* rvm) : wxDialog(parent, -1, _T("Add Device")) {
+AddDeviceDialog::AddDeviceDialog(wxWindow* parent, Network* net) : wxDialog(parent, -1, _T("Add Device")) {
 
-	//Set RVM
-	this->rvm = rvm;
+	//Set Network
+	this->net = net;
 
 	CreateControls();
 	ConnectControls();
