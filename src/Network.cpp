@@ -57,9 +57,7 @@ void Network::GetDevices(){
     	FILE* pipe = popen("arp -a", "r");
     
 	if (!pipe) {
-
-        std::cerr << "error";	
-    
+		return;
 	}
     
 	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
@@ -120,6 +118,41 @@ Device Network::GetGatewayDevice(ReferenceValidationMechanism *r){
 
 void Network::GetGeneralNetworkDetails(){
 
+
+		deviceList.clear();
+    	char buffer[128];
+    	std::string result = "";
+    	FILE* pipe = popen("nmcli dev show", "r");
+    
+	if (!pipe) {
+		this->defaultDNS = "error";
+		this->subnetMask = "error";
+		return;
+	}
+    
+	while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+		result += buffer;
+	}
+    
+	pclose(pipe);
+
+    	std::string line(result);
+    	std::string regex;
+    	std::regex deviceRegex(R"(IP4.ADDRESS\[1\]:[\s]+[0-9.]+\/([0-9]+)[0-9a-zA-Z\[\]:\s\,\/\=\>\.]+IP4.DNS\[1\]:[\s]+([0-9.]+))");
+
+    	std::smatch match;
+    	auto it = line.cbegin();
+    
+	if (std::regex_search(it, line.cend(), match, deviceRegex)) {
+		this->defaultDNS = match[1];
+		this->subnetMask = match[2];
+		return;
+	}
+	else{
+		this->defaultDNS = "error";
+		this->subnetMask = "error";
+		return;
+	}
 
 
 }
