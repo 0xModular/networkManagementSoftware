@@ -23,10 +23,10 @@
 #include "NetworkField.h"
 #include "../ReferenceValidationMechanism.h"
 
+//Dialogs
 #include "dialogs/DeviceManagementDialog.h"
 #include "dialogs/UserManagementDialog.h"
-
-
+#include "dialogs/NetworkInformationDialog.h"
 
 class MainFrame : public wxFrame {
 	
@@ -162,11 +162,6 @@ class MainFrame : public wxFrame {
 
 		//--TOOLBAR--// --SEE PROTECTED
 
-
-
-		//Dialogs
-		DeviceManagementDialog* deviceManagementDialog;
-		UserManagementDialog* userManagementDialog;
 };
 
 
