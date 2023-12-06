@@ -8,10 +8,10 @@
 #include "DeviceManagementDialog.h"
 
 //Constructor
-DeviceManagementDialog::DeviceManagementDialog(wxWindow *parent, ReferenceValidationMechanism *rvm) : wxDialog(parent, -1, _T("Device Management")) {
+DeviceManagementDialog::DeviceManagementDialog(wxWindow *parent, Network* net) : wxDialog(parent, -1, _T("Device Management")) {
 
-	//Set RVM
-	this->rvm = rvm;
+	//Set Network
+	this->net = net;
 
 	CreateControls();
 	ConnectControls();
@@ -122,6 +122,18 @@ void DeviceManagementDialog::Populate() {
 
 	//Iterate Through Device Vector, fill appropriate info to each column
 */
+
+	std::vector<Device> devicesVector = net->GetDeviceList();
+	int i = 0;
+	
+	for (auto &device : devicesVector) {
+	
+		this->devices->InsertItem(i, device.GetName());
+		this->devices->SetItem(i, 1, device.GetMac());
+		this->devices->SetItem(i, 2, device.GetIpv4());
+	
+	}	
+
 }
 
 

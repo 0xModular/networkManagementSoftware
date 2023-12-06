@@ -214,7 +214,7 @@ void MainFrame::OnRedo(wxCommandEvent & event) {
 //---Network---//
 void MainFrame::OnManageDevices(wxCommandEvent & event) {
 	
-	auto deviceManagementDialog = new DeviceManagementDialog(this, this->rvm);
+	auto deviceManagementDialog = new DeviceManagementDialog(this, this->n);
 	deviceManagementDialog->ShowModal();
 	delete deviceManagementDialog;
 	
